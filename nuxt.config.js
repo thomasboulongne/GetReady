@@ -1,7 +1,7 @@
 const configFile = require('./config.json');
 
 let config;
-if(process.env.NODE_ENV == 'production') {
+if (process.env.NODE_ENV == 'production') {
 	config = configFile.prod;
 } else {
 	config = configFile.prev;
@@ -66,7 +66,7 @@ module.exports = {
 		extend(config, ctx) {
 			config.resolve.alias['~core'] = path.resolve(__dirname, 'core/');
 
-			if(ctx.isClient) {
+			if (ctx.isClient) {
 				config.module.rules.push({
 					enforce: 'pre',
 					test: /\.(js|vue)$/,

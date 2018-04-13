@@ -17,7 +17,6 @@ export const getPages = function(Store, locale) {
 				page.body = marked(page.body);
 				Store.dispatch('addPage', page);
 			});
-
 			resolve();
 		});
 	});
@@ -41,15 +40,15 @@ export const getTranslations = function(Store, locale) {
 export const getAll = function(store, isServer, req, res) {
 	let locale = 'en-US';
 
-	if(isServer) {
-		if(req) {
+	if (isServer) {
+		if (req) {
 			acceptLanguage.languages(['en-US', 'fr-FR']);
 			locale = acceptLanguage.get(req.headers['accept-language']);
 
-			if(req.headers.cookie) {
+			if (req.headers.cookie) {
 				const cookies = CookiesServ.parse(req.headers.cookie);
 
-				if(cookies[process.env.SLUG + '_locale']) {
+				if (cookies[process.env.SLUG + '_locale']) {
 					locale = cookies[process.env.SLUG + '_locale'];
 				}
 			}
@@ -62,7 +61,7 @@ export const getAll = function(store, isServer, req, res) {
 
 	store.dispatch('setLang', locale);
 
-	if(!store.getters.loaded) {
+	if (!store.getters.loaded) {
 		let promises = [
 			getPages(store, locale),
 			getTranslations(store, locale)

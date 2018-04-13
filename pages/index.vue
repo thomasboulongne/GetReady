@@ -1,22 +1,57 @@
 <template>
 	<section class="container">
-		<example-comp></example-comp>
+		<menu-comp :items="items"></menu-comp>
 	</section>
 </template>
 
 <script>
-import Example from '~components/Example';
+import Menu from '~/components/Menu';
 
-import { getAll } from '~core/Contentful';
+// import { getAll } from '~/core/Contentful';
 
 export default {
 
-	async fetch({store, isServer, req, res}) {
-		await getAll(store, isServer, req, res);
+	// async fetch({store, isServer, req, res}) {
+	// 	await getAll(store, isServer, req, res);
+	// },
+
+	data() {
+		return {
+			items: [
+				{
+					title: 'Be positive',
+					subtitle: 'like Serena Williams',
+					img: '/images/serena.png',
+					color: '#FF6F5A'
+				},
+				{
+					title: 'Be positive',
+					subtitle: 'like Serena Williams',
+					img: '/images/serena.png',
+					color: '#809DF7'
+				},
+				{
+					title: 'Be positive',
+					subtitle: 'like Serena Williams',
+					img: '/images/serena.png',
+					color: '#60b247'
+				}
+			]
+		};
+	},
+
+	mounted() {
+		window.addEventListener('mousemove', this.mouseMove);
+	},
+
+	methods: {
+		mouseMove(e) {
+			console.log(e);
+		}
 	},
 
 	components: {
-		'example-comp': Example
+		'menu-comp': Menu
 	}
 };
 
@@ -24,8 +59,6 @@ export default {
 
 <style lang="scss">
 @import '~assets/scss/variables.scss';
-
-.container
-{
+.container {
 }
 </style>

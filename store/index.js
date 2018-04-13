@@ -73,9 +73,9 @@ const store = () => new Vuex.Store({
 		page: state => slug => state.pages.find(p => p.slug == slug),
 		list: state => (identifier, number = 0) => {
 			const list = state.lists.find(list => list.identifier == identifier);
-			if(list && number > 0) {
+			if (list && number > 0) {
 				return list.elements.slice(0, number);
-			} else if(list && number == 0) {
+			} else if (list && number == 0) {
 				return list.elements;
 			}
 			return [];

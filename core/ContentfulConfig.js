@@ -4,7 +4,7 @@ import * as contentful from 'contentful';
 let host = 'preview.contentful.com';
 let accessToken = '';
 
-if(process.env.__PROD__) {
+if (process.env.__PROD__) {
 	// Content API
 	host = 'cdn.contentful.com';
 	accessToken = '';

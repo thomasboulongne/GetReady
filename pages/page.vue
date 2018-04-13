@@ -5,9 +5,9 @@
 </template>
 
 <script>
-import Example from '~components/Example';
+import Example from '~/components/Example';
 
-import { getAll } from '~core/Contentful';
+import { getAll } from '~/core/Contentful';
 
 export default {
 
