@@ -40,16 +40,6 @@ export default {
 		};
 	},
 
-	mounted() {
-		window.addEventListener('mousemove', this.mouseMove);
-	},
-
-	methods: {
-		mouseMove(e) {
-			console.log(e);
-		}
-	},
-
 	components: {
 		'menu-comp': Menu
 	}
