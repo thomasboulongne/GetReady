@@ -23,7 +23,7 @@
     "style-loader": "^0.18.2"
   },
   "scripts": {
-    "dev": "nuxt",
+    "dev": "PORT=3010 nuxt",
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate",
