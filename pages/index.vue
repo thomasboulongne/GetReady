@@ -41,12 +41,6 @@ export default {
 					subtitle: 'like Serena Williams',
 					img: '/images/serena.png',
 					color: 'crimson'
-				},
-				{
-					title: 'Be positive',
-					subtitle: 'like Serena Williams',
-					img: '/images/serena.png',
-					color: 'azure'
 				}
 			]
 		};
