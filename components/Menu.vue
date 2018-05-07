@@ -1,8 +1,7 @@
 <template>
 	<div class="menu" @mousemove="mouseMove" :style="{'--x-percent': xPercent + '%', '--y-percent': yPercent + '%', '--x': xPercent, '--y': yPercent, '--numberOfItems': numberOfItems }">
-		<ul class="items" :style="{width: itemWidth, '--computedDegree': computedDegree, '--apothem': apothem + 'px'}">
+		<ul class="items" :style="{width: itemWidth, '--computedDegree': computedDegree, '--apothem': apothem + 'px', backgroundColor: items[currentSlide].color}">
 			<li v-for="(item, i) in items" :key="item.color" class="item" :style="{
-				'--color': item.color,
 				'--index': i,
 				'--selfAngle': -(i * (360 / numberOfItems) + computedDegree) + 'deg',
 				'--self-x': (apothem * Math.sin(i * Math.PI * 2 / numberOfItems + computedRadian)) + 'px',
@@ -38,11 +37,16 @@ export default {
 
 	computed: {
 		xPercent: function() {
-			// return 10;
-			return this.position.x * 100 / (this.$store.getters.viewportSize.width || 1);
+			return (this.position.x * 100 / (this.$store.getters.viewportSize.width || 1)) * (100 / this.numberOfItems) * (this.numberOfItems - 1) / 100;
 		},
 		yPercent: function() {
 			return this.position.y * 100 / (this.$store.getters.viewportSize.height || 1);
+		},
+		step: function() {
+			return 100 / this.numberOfItems;
+		},
+		currentSlide: function() {
+			return Math.floor((this.xPercent - this.step / 2) / this.step) + 1;
 		},
 		itemWidth: function() {
 			return this.$store.getters.viewportSize.width ? this.$store.getters.viewportSize.width : process.browser ? window.innerWidth : 1;
@@ -112,11 +116,11 @@ export default {
 		white-space: nowrap;
 		perspective: 300px;
 		position: relative;
+		transition: background-color 0.4s;
 		.item {
 			position: absolute;
 			top: 0;
 			left: 0;
-			background: var(--color);
 			display: inline-block;
 			overflow: hidden;
 			backface-visibility: hidden;
