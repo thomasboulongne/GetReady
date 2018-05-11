@@ -69,12 +69,6 @@ export default {
 		}
 	},
 
-	watch: {
-		currentSlide: function(val) {
-			console.log(val);
-		}
-	},
-
 	methods: {
 		mouseMove(e) {
 			this.position.x = e.clientX;
@@ -89,36 +83,10 @@ export default {
 @import '~assets/scss/variables.scss';
 
 .menu {
-	// &:after {
-	// 	content: '';
-	// 	position: absolute;
-	// 	display: block;
-	// 	background-color: seagreen;
-	// 	height: 1em;
-	// 	width: 1em;
-	// 	transform: translate(-50%, -50%);
-	// 	border-radius: 50%;
-	// 	top: var(--y-percent);
-	// 	left: var(--x-percent);
-	// 	z-index: 99999999999999;
-	// }
 	height: 100vh;
 	width: 100vw;
 	overflow: hidden;
 	.items {
-		// &:after {
-		// 	content: '';
-		// 	position: absolute;
-		// 	display: block;
-		// 	background-color: aqua;
-		// 	height: 1em;
-		// 	width: 1em;
-		// 	transform: translate(-50%, -50%);
-		// 	border-radius: 50%;
-		// 	top: 50%;
-		// 	left: 50%;
-		// 	z-index: 99999999999999;
-		// }
 		width: 100vw;
 		height: 100vh;
 		display: inline-block;
@@ -188,6 +156,8 @@ export default {
 									transform-style: preserve-3d;
 									backface-visibility: hidden;
 									display: inline-block;
+									-webkit-font-smoothing: antialiased;
+  									-moz-osx-font-smoothing: grayscale;
 									transform: translateY(random($limit: 10%) - 5%) translateZ(random($limit: 2px) - 1px); // rotateY(calc(((45deg * var(--x) / 100) - 22.5deg))) rotateX(calc(((45deg * var(--y) / 100) - 22.5deg)))
 								}
 							}

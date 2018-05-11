@@ -25,19 +25,19 @@ export default {
 					color: '#FF6F5A'
 				},
 				{
-					title: 'Be positive',
+					title: 'Relax',
 					subtitle: 'like Serena Williams',
 					img: '/images/serena.png',
 					color: '#809DF7'
 				},
 				{
-					title: 'Be positive',
+					title: 'Visualize',
 					subtitle: 'like Serena Williams',
 					img: '/images/serena.png',
 					color: '#60b247'
 				},
 				{
-					title: 'Be positive',
+					title: 'Have a goal',
 					subtitle: 'like Serena Williams',
 					img: '/images/serena.png',
 					color: 'crimson'
@@ -55,6 +55,4 @@ export default {
 
 <style lang="scss">
 @import '~assets/scss/variables.scss';
-.container {
-}
 </style>
