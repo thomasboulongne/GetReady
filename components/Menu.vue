@@ -1,5 +1,15 @@
 <template>
-	<div class="menu" :style="{backgroundColor: backgroundColor}" @mousemove="mouseMove">
+	<div class="menu" @mousemove="mouseMove" :style="{backgroundColor: backgroundColor, '--transition-speed': transitionSpeed * 0.75 + 's'}">
+		<ul class="hiddenMenu">
+			<li v-for="(item, i) in items" :key="item.color + i">
+				<div class="itemWrapper">
+					<div class="imgWrapper">
+						<img :src="item.img" alt="">
+					</div>
+					<div class="letterWrapper" v-html="item.title"></div>
+				</div>
+			</li>
+		</ul>
 	</div>
 </template>
 
@@ -19,7 +29,10 @@ export default {
 				x: 0,
 				y: 0
 			},
-			backgroundColor: this.items[0].color
+			backgroundColor: this.items[0].color,
+			canSlide: true,
+			transitionSpeed: 1,
+			mouseControl: false
 		};
 	},
 
@@ -55,8 +68,13 @@ export default {
 	},
 
 	watch: {
-		currentSlide: function(index) {
+		'currentSlide': function(index) {
 			this.backgroundColor = this.items[index].color;
+			const elementsArray = Array.from(this.$el.querySelectorAll('.menuItem'));
+			elementsArray.forEach(elt => {
+				elt.classList.remove('currentSlide');
+			});
+			elementsArray[index].classList.add('currentSlide');
 		},
 		'$store.getters.viewportSize': function() {
 			this.onWindowResize();
@@ -64,7 +82,7 @@ export default {
 	},
 
 	mounted() {
-		this.camera = new THREE.PerspectiveCamera(55.3, window.innerWidth / window.innerHeight, 1, 5000);
+		this.camera = new THREE.PerspectiveCamera(55.3, window.innerWidth / window.innerHeight, 1, 1000);
 		this.camera.position.set(0, 0, this.apothem);
 		this.scene = new THREE.Scene();
 		this.group = new THREE.Group();
@@ -82,12 +100,67 @@ export default {
 
 		this.$el.appendChild(this.renderer.domElement);
 		this.animate();
+
+		this.$el.querySelector('.menuItem').classList.add('currentSlide');
+
+		this.addEventListeners();
+	},
+
+	beforeDestroy() {
+		this.removeEventListeners();
 	},
 
 	methods: {
+		addEventListeners() {
+			window.addEventListener('keydown', this.keyboardEvent);
+		},
+		removeEventListeners() {
+			window.removeEventListener('keydown', this.keyboardEvent);
+		},
+		keyboardEvent(event) {
+			switch (event.key) {
+				case 'ArrowLeft':
+					this.prev();
+					break;
+				case 'ArrowRight':
+					this.next();
+					break;
+			}
+		},
 		mouseMove(e) {
-			this.position.x = e.clientX;
-			this.position.y = e.clientY;
+			if (this.mouseControl) {
+				this.position.x = e.clientX;
+				this.position.y = e.clientY;
+			}
+		},
+		prev() {
+			if (this.position.x > 0 && this.canSlide) {
+				this.canSlide = false;
+				const newX = this.position.x - this.$store.getters.viewportSize.width / (this.numberOfItems - 1);
+				this.slide(newX);
+			}
+		},
+		next() {
+			if (this.position.x < this.$store.getters.viewportSize.width && this.canSlide) {
+				this.canSlide = false;
+				const newX = this.position.x + this.$store.getters.viewportSize.width / (this.numberOfItems - 1);
+				this.slide(newX);
+			}
+		},
+		slide(to) {
+			const tl = new TimelineMax({
+				paused: true,
+				onComplete: () => {
+					this.canSlide = true;
+				}
+			});
+			tl
+			.to(this.position, this.transitionSpeed, {
+				ease: Power4.easeOut,
+				x: to
+			})
+			;
+			tl.play();
 		},
 		onWindowResize() {
 			this.camera.aspect = window.innerWidth / window.innerHeight;
@@ -108,9 +181,28 @@ export default {
 			div.classList.add('menuItem');
 			div.style.width = '100vw';
 			div.style.height = '100vh';
+
+			// Image
+			const img = document.createElement('img');
+			img.src = item.img;
+			div.appendChild(img);
+
+			// Title
+			const titleWrapper = document.createElement('div');
+			titleWrapper.classList.add('titleWrapper');
 			const title = document.createElement('h2');
-			title.innerHTML = item.title;
-			div.appendChild(title);
+			const letters = item.title.replace(' ', ' ').split('');
+			letters.forEach(letter => {
+				const letterWrapperElement = document.createElement('div');
+				const letterElement = document.createElement('span');
+				letterElement.classList.add('letter');
+				letterElement.innerHTML = letter;
+				letterWrapperElement.innerHTML = letterElement.outerHTML;
+				title.appendChild(letterWrapperElement);
+			});
+			titleWrapper.appendChild(title);
+			div.appendChild(titleWrapper);
+
 			const object = new THREE.CSS3DObject(div);
 			object.position.set(x, y, z);
 			object.rotation.y = ry;
@@ -137,17 +229,69 @@ export default {
 	width: 100vw;
 	overflow: hidden;
 	transition: background-color 0.4s;
+	.hiddenMenu {
+		visibility: hidden;
+		position: absolute;
+		pointer-events: none;
+	}
 	.menuItem {
-		h2 {
+		position: relative;
+		img {
 			position: absolute;
 			top: 50%;
 			left: 50%;
 			transform: translate(-50%, -50%);
-			font-family: 'Oswald';
-			color: white;
-			font-size: 15vmin;
-			text-transform: uppercase;
-			margin: 0;
+			z-index: 1;
+			height: 70%;
+			width: 50%;
+			object-fit: contain;
+			display: block;
+		}
+		.titleWrapper {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			--margin: 33%;
+			height: calc(100% - var(--margin));
+			top: var(--margin);
+			position: relative;
+			h2 {
+				font-family: 'Oswald';
+				color: white;
+				font-size: 15vmin;
+				text-transform: uppercase;
+				margin: 0;
+				clip-path: polygon(0% 0, 100% 0%, 100% 75%, 0 100%);
+				white-space: nowrap;
+				position: relative;
+				display: block;
+				div {
+					display: inline-block;
+					position: relative;
+					span {
+						display: inline-block;
+						transition: margin var(--transition-speed) cubic-bezier(0.165, 0.84, 0.44, 1);
+						margin: 0 30px;
+					}
+					@for $i from 1 to 100 {
+						&:nth-child(#{$i}) {
+							z-index: random($limit: 3) - 1;
+							span {
+								transform: translateY(random($limit: 15%) - 5%);
+							}
+						}
+					}
+				}
+			}
+		}
+		&.currentSlide {
+			.titleWrapper {
+				h2 {
+					span {
+						margin: 0;
+					}
+				}
+			}
 		}
 	}
 }
