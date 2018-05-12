@@ -16,10 +16,10 @@ export default {
 	data() {
 		return {
 			position: {
-				x: process.browser ? window.innerWidth / 2 : 0,
-				y: process.browser ? window.innerHeight / 2 : 0
+				x: 0,
+				y: 0
 			},
-			backgroundColor: 'white'
+			backgroundColor: this.items[0].color
 		};
 	},
 
@@ -57,6 +57,9 @@ export default {
 	watch: {
 		currentSlide: function(index) {
 			this.backgroundColor = this.items[index].color;
+		},
+		'$store.getters.viewportSize': function() {
+			this.onWindowResize();
 		}
 	},
 
@@ -89,14 +92,22 @@ export default {
 		onWindowResize() {
 			this.camera.aspect = window.innerWidth / window.innerHeight;
 			this.camera.updateProjectionMatrix();
+			this.camera.position.set(0, 0, this.apothem);
 			this.renderer.setSize(window.innerWidth, window.innerHeight);
+			this.group.children.forEach((object, i) => {
+				const x = this.apothem * Math.sin(i * Math.PI * 2 / this.numberOfItems);
+				const y = 0;
+				const z = -(this.apothem * Math.cos(i * Math.PI * 2 / this.numberOfItems) - this.apothem);
+				object.position.set(x, y, z);
+			});
+
 			this.render();
 		},
 		createElement(item, x, y, z, ry) {
 			const div = document.createElement('div');
 			div.classList.add('menuItem');
-			div.style.width = this.itemWidth + 'px';
-			div.style.height = window.innerHeight + 'px';
+			div.style.width = '100vw';
+			div.style.height = '100vh';
 			const title = document.createElement('h2');
 			title.innerHTML = item.title;
 			div.appendChild(title);
@@ -134,7 +145,7 @@ export default {
 			transform: translate(-50%, -50%);
 			font-family: 'Oswald';
 			color: white;
-			font-size: 10rem;
+			font-size: 15vmin;
 			text-transform: uppercase;
 			margin: 0;
 		}
