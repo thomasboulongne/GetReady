@@ -10,11 +10,20 @@ if (process.env.NODE_ENV == 'production') {
 const path = require('path');
 let FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 
+const webpack = require('webpack');
+
 process.on('unhandledRejection', (reason, p) => {
 	console.log('Unhandled Rejection at: Promise', p, 'reason:', reason);
 });
 
+const routerBase = process.env.DEPLOY_ENV === 'GH_PAGES' ? {
+	router: {
+		base: '/taack/'
+	}
+} : {};
+
 module.exports = {
+	...routerBase,
 	/*
 	** Headers of the page
 	*/
@@ -24,7 +33,7 @@ module.exports = {
 		__PROD__: process.env.NODE_ENV == 'production'
 	},
 	head: {
-		title: 'Spill.net project',
+		title: 'Reach your goal!',
 		meta: [
 			{ charset: 'utf-8' },
 			{ name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -76,11 +85,16 @@ module.exports = {
 			}
 		},
 		plugins: [
-			new FaviconsWebpackPlugin('static/favicon.png')
+			new FaviconsWebpackPlugin('static/favicon.png'),
+			new webpack.ProvidePlugin({
+				'THREE': 'three'
+			})
 		],
 		vendor: [
 			'gsap',
-			'marked'
+			'marked',
+			'three',
+			'three/examples/js/renderers/CSS3DRenderer'
 		]
 	}
 };

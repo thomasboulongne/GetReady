@@ -7,13 +7,13 @@
 <script>
 import Example from '~/components/Example';
 
-import { getAll } from '~/core/Contentful';
+// import { getAll } from '~/core/Contentful';
 
 export default {
 
-	async fetch({store, isServer, req, res}) {
-		await getAll(store, isServer, req, res);
-	},
+	// async fetch({store, isServer, req, res}) {
+	// 	await getAll(store, isServer, req, res);
+	// },
 
 	head() {
 		return {
@@ -27,9 +27,9 @@ export default {
 	},
 
 	computed: {
-		page: function() {
-			return this.$store.getters.page(this.$route.params.query);
-		}
+		// page: function() {
+		// 	return this.$store.getters.page(this.$route.params.query);
+		// }
 	},
 
 	components: {

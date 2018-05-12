@@ -1,21 +1,5 @@
 <template>
-	<div class="menu" @mousemove="mouseMove" :style="{'--x-percent': xPercent + '%', '--y-percent': yPercent + '%', '--x': xPercent, '--y': yPercent, '--numberOfItems': numberOfItems }">
-		<ul class="items" :style="{width: itemWidth, '--computedDegree': computedDegree, '--apothem': apothem + 'px', backgroundColor: items[currentSlide] ? items[currentSlide].color : 'white'}">
-			<li v-for="(item, i) in items" :key="item.color + i" class="item" :style="{
-				'--index': i,
-				'--selfAngle': -(i * (360 / numberOfItems) + computedDegree) + 'deg',
-				'--self-x': (apothem * Math.sin(i * Math.PI * 2 / numberOfItems + computedRadian)) + 'px',
-				'--self-z': -(apothem * Math.cos(i * Math.PI * 2 / numberOfItems + computedRadian) - apothem) + 'px',
-				'visibility': i !== currentSlide ? 'hidden' : 'visible'
-			}">
-				<div class="perspectiveWrapper">
-					<div class="imgWrapper">
-						<img :src="item.img" alt="">
-					</div>
-					<div class="letterWrapper" v-html="'<div><span>' + item.title.replace(' ', ' ').split('').join('</span></div><div><span>') + '</span></div>'"></div>
-				</div>
-			</li>
-		</ul>
+	<div class="menu" :style="{backgroundColor: backgroundColor}" @mousemove="mouseMove">
 	</div>
 </template>
 
@@ -34,7 +18,8 @@ export default {
 			position: {
 				x: process.browser ? window.innerWidth / 2 : 0,
 				y: process.browser ? window.innerHeight / 2 : 0
-			}
+			},
+			backgroundColor: 'white'
 		};
 	},
 
@@ -49,8 +34,11 @@ export default {
 			return 100 / this.numberOfItems;
 		},
 		currentSlide: function() {
-			const i = (this.numberOfItems - 1) - (Math.floor((this.xPercent - this.step / 2) / this.step));
+			const i = Math.floor((this.xPercent - this.step / 2) / this.step) + 1;
 			return i === this.numberOfItems ? 0 : i === -1 ? this.numberOfItems - 1 : i;
+		},
+		numberOfItems: function() {
+			return this.items.length;
 		},
 		itemWidth: function() {
 			return this.$store.getters.viewportSize.width ? this.$store.getters.viewportSize.width : process.browser ? window.innerWidth : 1;
@@ -58,21 +46,72 @@ export default {
 		apothem: function() {
 			return this.itemWidth / (2 * Math.tan(Math.PI / this.items.length));
 		},
-		numberOfItems: function() {
-			return this.items.length;
-		},
 		computedDegree: function() {
-			return (this.xPercent * 360 / 100);
+			return -(this.xPercent * 360 / 100);
 		},
 		computedRadian: function() {
 			return this.computedDegree * Math.PI / 180;
 		}
 	},
 
+	watch: {
+		currentSlide: function(index) {
+			this.backgroundColor = this.items[index].color;
+		}
+	},
+
+	mounted() {
+		this.camera = new THREE.PerspectiveCamera(55.3, window.innerWidth / window.innerHeight, 1, 5000);
+		this.camera.position.set(0, 0, this.apothem);
+		this.scene = new THREE.Scene();
+		this.group = new THREE.Group();
+		this.scene.add(this.group);
+		this.renderer = new THREE.CSS3DRenderer();
+		this.renderer.setSize(window.innerWidth, window.innerHeight);
+
+		this.items.forEach((item, i) => {
+			const x = this.apothem * Math.sin(i * Math.PI * 2 / this.numberOfItems);
+			const y = 0;
+			const z = -(this.apothem * Math.cos(i * Math.PI * 2 / this.numberOfItems) - this.apothem);
+			const ry = -i * (Math.PI * 2 / this.numberOfItems);
+			this.group.add(this.createElement(item, x, y, z, ry));
+		});
+
+		this.$el.appendChild(this.renderer.domElement);
+		this.animate();
+	},
+
 	methods: {
 		mouseMove(e) {
 			this.position.x = e.clientX;
 			this.position.y = e.clientY;
+		},
+		onWindowResize() {
+			this.camera.aspect = window.innerWidth / window.innerHeight;
+			this.camera.updateProjectionMatrix();
+			this.renderer.setSize(window.innerWidth, window.innerHeight);
+			this.render();
+		},
+		createElement(item, x, y, z, ry) {
+			const div = document.createElement('div');
+			div.classList.add('menuItem');
+			div.style.width = this.itemWidth + 'px';
+			div.style.height = window.innerHeight + 'px';
+			const title = document.createElement('h2');
+			title.innerHTML = item.title;
+			div.appendChild(title);
+			const object = new THREE.CSS3DObject(div);
+			object.position.set(x, y, z);
+			object.rotation.y = ry;
+			return object;
+		},
+		animate() {
+			requestAnimationFrame(this.animate);
+			this.camera.rotation.y = this.computedRadian;
+			this.render();
+		},
+		render() {
+			this.renderer.render(this.scene, this.camera);
 		}
 	}
 };
@@ -86,85 +125,18 @@ export default {
 	height: 100vh;
 	width: 100vw;
 	overflow: hidden;
-	.items {
-		width: 100vw;
-		height: 100vh;
-		display: inline-block;
-		overflow: auto;
-		white-space: nowrap;
-		perspective: 900px;
-		position: relative;
-		transition: background-color 0.4s;
-		.item {
+	transition: background-color 0.4s;
+	.menuItem {
+		h2 {
 			position: absolute;
-			top: 0;
-			left: 0;
-			display: inline-block;
-			overflow: hidden;
-			width: 100%;
-			height: 100%;
-			transform: rotateY(var(--selfAngle)) translate3d(var(--self-x), 0, calc(var(--self-z)));
-			perspective: 300px;
-			.perspectiveWrapper {
-				perspective: 15px;
-				transform-style: preserve-3d;
-				position: absolute;
-				top: 0;
-				left: 0;
-				width: 100%;
-				height: 100%;
-				.imgWrapper {
-					position: absolute;
-					top: 0;
-					left: 0;
-					width: 100%;
-					height: 100%;
-					z-index: 1;
-					img {
-						backface-visibility: hidden;
-						position: absolute;
-						width: 50vw;
-						max-height: 80vh;
-						top: 50%;
-						left: 50%;
-						transform-style: preserve-3d;
-						transform: translate3d(-50%, -50%, 0); // rotateY(calc(((20deg * var(--x) / 100) - 10deg))) rotateX(calc(((20deg * var(--y) / 100) - 10deg)))
-						filter: grayscale(1);
-					}
-				}
-				.letterWrapper {
-					font-family: 'Oswald';
-					color: white;
-					font-size: 10rem;
-					text-transform: uppercase;
-					position: relative;
-					width: 100%;
-					height: 100% ;
-					display: flex;
-					justify-content: center;
-					align-items: center;
-					padding-top: 7%;
-					top: 0;
-					left: 0;
-					div {
-						display: inline-block;
-						position: relative;
-						@for $i from 1 to 100 {
-							&:nth-child(#{$i}) {
-								z-index: random($limit: 3) - 1;
-								span {
-									transform-style: preserve-3d;
-									backface-visibility: hidden;
-									display: inline-block;
-									-webkit-font-smoothing: antialiased;
-  									-moz-osx-font-smoothing: grayscale;
-									transform: translateY(random($limit: 10%) - 5%) translateZ(random($limit: 2px) - 1px); // rotateY(calc(((45deg * var(--x) / 100) - 22.5deg))) rotateX(calc(((45deg * var(--y) / 100) - 22.5deg)))
-								}
-							}
-						}
-					}
-				}
-			}
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			font-family: 'Oswald';
+			color: white;
+			font-size: 10rem;
+			text-transform: uppercase;
+			margin: 0;
 		}
 	}
 }

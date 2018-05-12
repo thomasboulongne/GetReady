@@ -19,8 +19,10 @@
     "node-sass": "^4.5.3",
     "normalize.css": "^7.0.0",
     "nuxt": "latest",
+    "push-dir": "^0.4.1",
     "sass-loader": "^6.0.6",
-    "style-loader": "^0.18.2"
+    "style-loader": "^0.18.2",
+    "three": "^0.92.0"
   },
   "scripts": {
     "dev": "PORT=3010 nuxt",
@@ -28,7 +30,10 @@
     "start": "nuxt start",
     "generate": "nuxt generate",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
-    "precommit": "npm run lint"
+    "precommit": "npm run lint",
+    "build:gh-pages": "DEPLOY_ENV=GH_PAGES nuxt build",
+    "generate:gh-pages": "DEPLOY_ENV=GH_PAGES PORT=3005 nuxt generate",
+    "deploy:gh-pages": "push-dir --dir=dist --branch=gh-pages --cleanup"
   },
   "devDependencies": {
     "babel-eslint": "^7.1.1",
