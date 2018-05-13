@@ -191,6 +191,7 @@ export default {
 			const titleWrapper = document.createElement('div');
 			titleWrapper.classList.add('titleWrapper');
 			const title = document.createElement('h2');
+			title.style.setProperty('--backgroundColor', item.color);
 			const letters = item.title.replace(' ', ' ').split('');
 			letters.forEach(letter => {
 				const letterWrapperElement = document.createElement('div');
@@ -254,17 +255,29 @@ export default {
 			--margin: 33%;
 			height: calc(100% - var(--margin));
 			top: var(--margin);
-			position: relative;
+			position: absolute;
+			left: 0;
+			width: 100%;
 			h2 {
 				font-family: 'Oswald';
 				color: white;
-				font-size: 15vmin;
+				font-size: 18vmin;
 				text-transform: uppercase;
 				margin: 0;
-				clip-path: polygon(0% 0, 100% 0%, 100% 75%, 0 100%);
 				white-space: nowrap;
 				position: relative;
 				display: block;
+				&:after {
+					// content: '';
+					position: absolute;
+					top: 0;
+					left: 0;
+					right: 0;
+					bottom: 0;
+					background-color: var(--backgroundColor);
+					clip-path: polygon(0% 100%, 100% 75%, 100% 100%);
+					z-index: 3;
+				}
 				div {
 					display: inline-block;
 					position: relative;
