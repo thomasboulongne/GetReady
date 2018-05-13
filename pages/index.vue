@@ -21,25 +21,25 @@ export default {
 				{
 					title: 'Be positive',
 					subtitle: 'like Jessica Ennis',
-					img: '/images/ennis.png',
+					img: 'https://imgur.com/S7fuWDW',
 					color: '#FF6F5A'
 				},
 				{
 					title: 'Relax',
 					subtitle: 'like Kyrie Irving',
-					img: '/images/irving.png',
+					img: 'https://imgur.com/xYXoTYa',
 					color: '#809DF7'
 				},
 				{
 					title: 'Visualize',
 					subtitle: 'like Wayne Rooney',
-					img: '/images/rooney.png',
+					img: 'https://imgur.com/5tFRnka',
 					color: '#60b247'
 				},
 				{
 					title: 'Have a goal',
 					subtitle: 'like Michael Phelps',
-					img: '/images/phelps.png',
+					img: 'https://imgur.com/4grZkDG',
 					color: 'crimson'
 				}
 			]
