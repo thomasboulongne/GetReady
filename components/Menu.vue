@@ -288,11 +288,49 @@ export default {
 					}
 					@for $i from 1 to 100 {
 						&:nth-child(#{$i}) {
-							z-index: random($limit: 3) - 1;
 							span {
 								transform: translateY(random($limit: 15%) - 5%);
 							}
 						}
+					}
+					&:nth-child(1) {
+						z-index: 1;
+					}
+					&:nth-child(2) {
+						z-index: 2;
+					}
+					&:nth-child(3) {
+						z-index: 0;
+					}
+					&:nth-child(4) {
+						z-index: 1;
+					}
+					&:nth-child(5) {
+						z-index: 0;
+					}
+					&:nth-child(6) {
+						z-index: 1;
+					}
+					&:nth-child(7) {
+						z-index: 0;
+					}
+					&:nth-child(8) {
+						z-index: 1;
+					}
+					&:nth-child(9) {
+						z-index: 1;
+					}
+					&:nth-child(10) {
+						z-index: 1;
+					}
+					&:nth-child(11) {
+						z-index: 1;
+					}
+					&:nth-child(12) {
+						z-index: 1;
+					}
+					&:nth-child(13) {
+						z-index: 1;
 					}
 				}
 			}
