@@ -19,28 +19,36 @@ export default {
 		return {
 			items: [
 				{
-					title: 'Be positive',
+					title: 'Be positive',
 					subtitle: 'like Jessica Ennis',
 					img: 'https://i.imgur.com/S7fuWDW.png',
-					color: '#FF6F5A'
+					color: '#FF6F5A',
+					x: 2,
+					y: -1
 				},
 				{
 					title: 'Relax',
 					subtitle: 'like Kyrie Irving',
 					img: 'https://i.imgur.com/xYXoTYa.png',
-					color: '#809DF7'
+					color: 'crimson',
+					x: 2,
+					y: 1
+				},
+				{
+					title: 'Have a goal',
+					subtitle: 'like Michael Phelps',
+					img: 'https://i.imgur.com/4grZkDG.png',
+					color: '#799cff',
+					x: 5,
+					y: 10
 				},
 				{
 					title: 'Visualize',
 					subtitle: 'like Wayne Rooney',
 					img: 'https://i.imgur.com/5tFRnka.png',
-					color: '#60b247'
-				},
-				{
-					title: 'Have a goal',
-					subtitle: 'like Michael Phelps',
-					img: 'https://i.imgur.com/4grZkDG.png',
-					color: 'crimson'
+					color: '#60b247',
+					x: 2,
+					y: 1
 				}
 			]
 		};
