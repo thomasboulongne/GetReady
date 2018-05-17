@@ -1,5 +1,5 @@
 <template>
-	<div class="menu" @mousemove="mouseMove" :style="{backgroundColor: backgroundColor, '--transition-speed': transitionSpeed * 0.75 + 's', '--xPercent': xPercent, '--yPercent': yPercent, '--vw': vw + 'px', '--vh': vh + 'px'}">
+	<div class="menu" @mousemove="mouseMove" :style="{backgroundColor: backgroundColor, '--transition-speed': transitionSpeed * 0.75 + 's', '--xPercent': xPercent, '--yPercent': yPercent, '--vw': vw + 'px', '--vh': vh + 'px', '--ratio': vh / vw}">
 		<ul class="hiddenMenu">
 			<li v-for="(item, i) in items" :key="item.color + i">
 				<div class="menuItem" ref="items" :style="{'--backgroundColor': item.color, '--xOffset': item.x + '%', '--yOffset': item.y + '%'}">
@@ -11,6 +11,9 @@
 								<span class="letter">{{ letter }}</span>
 							</div>
 						</h2>
+					</div>
+					<div class="button">
+						<span v-t="'discover'"></span>
 					</div>
 				</div>
 			</li>
@@ -102,7 +105,11 @@ export default {
 	},
 
 	mounted() {
-		this.camera = new THREE.PerspectiveCamera(55.3, window.innerWidth / window.innerHeight, 1, 1000);
+		const aspect = window.innerWidth / window.innerHeight;
+		const fov = -36.85 * aspect + 125.5;
+		this.camera = new THREE.PerspectiveCamera(fov, window.innerWidth / window.innerHeight, 1, 1000);
+		console.log(this.camera.fov, window.innerWidth / window.innerHeight);
+
 		this.camera.position.set(0, 0, this.apothem);
 		this.scene = new THREE.Scene();
 		this.group = new THREE.Group();
@@ -150,21 +157,21 @@ export default {
 			}
 		},
 		mouseMove(e) {
-			TweenMax.to(this.position, 10, {
+			TweenMax.to(this.position, 5, {
 				x: e.clientX,
 				y: e.clientY,
 				ease: Elastic.easeOut.config(1.75, 1)
 			});
 		},
 		prev() {
-			if (this.canSlide) { // this.progression > 0
+			if (this.canSlide) {
 				this.canSlide = false;
 				const newX = this.progression - this.step;
 				this.slide(newX);
 			}
 		},
 		next() {
-			if (this.canSlide) { // this.progression < this.step * (this.numberOfItems - 1)
+			if (this.canSlide) {
 				this.canSlide = false;
 				const newX = this.progression + this.step;
 				this.slide(newX);
@@ -187,6 +194,9 @@ export default {
 		},
 		onWindowResize() {
 			this.camera.aspect = window.innerWidth / window.innerHeight;
+			const fov = -36.85 * this.camera.aspect + 125.5;
+			this.camera.fov = fov;
+
 			this.camera.updateProjectionMatrix();
 			this.camera.position.set(0, 0, this.apothem);
 			this.renderer.setSize(this.vw, this.vh);
@@ -229,11 +239,20 @@ export default {
 		display: none;
 	}
 	.menuItem {
-		perspective: 0;
 		position: relative;
 		height: 100vh;
 		width: 100vw;
 		--ease: cubic-bezier(0.165, 0.84, 0.44, 1);
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
+		&:before {
+			content: '';
+			display: block;
+			height: 50%;
+			width: 100%;
+		}
 		img {
 			position: absolute;
 			top: 50%;
@@ -241,8 +260,10 @@ export default {
 			transform: translate(calc(-50% + var(--xPercent) * 0.01%), calc(-50% + var(--yPercent) * 0.01%));
 			z-index: 1;
 			height: auto;
-			width: 30vw;
-			height: 30vw;
+			width: calc(70vw * var(--ratio));
+			height: calc(70vw * var(--ratio));
+			width: 50vw;
+			height: 50vw;
 			object-fit: contain;
 			display: block;
 			filter: grayscale(1);
@@ -250,26 +271,17 @@ export default {
 				top: calc(50% + var(--yOffset));
 				left: calc(50% + var(--xOffset));
 				filter: grayscale(1) brightness(0);
-				opacity: 0.3;
+				opacity: 0.15;
 				transform: translate(calc(-50% + var(--xPercent) * 0.02%), calc(-50% + var(--yPercent) * 0.02%)) scale(1.02);
 			}
 		}
 		.titleWrapper {
 			display: flex;
 			justify-content: center;
-			align-items: center;
-			height: 100%;
+			align-items: flex-end;
 			flex-direction: column;
-			position: absolute;
-			left: 0;
-			width: 100%;
-			&:before {
-				content: '';
-				height: 33%;
-			}
+			color: white;
 			h2 {
-				font-family: 'Oswald';
-				color: white;
 				font-size: 10vw;
 				text-transform: uppercase;
 				margin: 0;
@@ -279,6 +291,7 @@ export default {
 				div {
 					display: inline-block;
 					position: relative;
+					z-index: 2;
 					span {
 						display: inline-block;
 						transition: margin var(--transition-speed) var(--ease);
@@ -287,71 +300,84 @@ export default {
 					@for $i from 1 to 100 {
 						&:nth-child(#{$i}) {
 							span {
-								transform: translateY(calc(#{random($limit: 15%) - 5%} + var(--yPercent) * 0.001em)) translateX(calc(var(--xPercent) * 0.001em));
+								transform: translateY(calc(#{$i} * -0.04em + var(--yPercent) * 0.001em)) translateX(calc(var(--xPercent) * 0.001em));
 							}
 						}
 					}
-					& {
-						&:nth-child(1) {
-							z-index: 1;
-						}
-						&:nth-child(2) {
-							z-index: 2;
-						}
-						&:nth-child(3) {
-							z-index: 0;
-						}
-						&:nth-child(4) {
-							z-index: 1;
-						}
-						&:nth-child(5) {
-							z-index: 0;
-						}
-						&:nth-child(6) {
-							z-index: 1;
-						}
-						&:nth-child(7) {
-							z-index: 0;
-						}
-						&:nth-child(8) {
-							z-index: 1;
-						}
-						&:nth-child(9) {
-							z-index: 1;
-						}
-						&:nth-child(10) {
-							z-index: 1;
-						}
-						&:nth-child(11) {
-							z-index: 1;
-						}
-						&:nth-child(12) {
-							z-index: 1;
-						}
-						&:nth-child(13) {
-							z-index: 1;
-						}
-					}
+					// & {
+					// 	&:nth-child(1) {
+					// 		z-index: 1;
+					// 	}
+					// 	&:nth-child(2) {
+					// 		z-index: 2;
+					// 	}
+					// 	&:nth-child(3) {
+					// 		z-index: 0;
+					// 	}
+					// 	&:nth-child(4) {
+					// 		z-index: 1;
+					// 	}
+					// 	&:nth-child(5) {
+					// 		z-index: 0;
+					// 	}
+					// 	&:nth-child(6) {
+					// 		z-index: 1;
+					// 	}
+					// 	&:nth-child(7) {
+					// 		z-index: 0;
+					// 	}
+					// 	&:nth-child(8) {
+					// 		z-index: 1;
+					// 	}
+					// 	&:nth-child(9) {
+					// 		z-index: 1;
+					// 	}
+					// 	&:nth-child(10) {
+					// 		z-index: 1;
+					// 	}
+					// 	&:nth-child(11) {
+					// 		z-index: 1;
+					// 	}
+					// 	&:nth-child(12) {
+					// 		z-index: 1;
+					// 	}
+					// 	&:nth-child(13) {
+					// 		z-index: 1;
+					// 	}
+					// }
+				}
+			}
+			h3 {
+				z-index: 2;
+				.bigger {
+					margin-left: 0.2em;
+					font-size: 1.8em;
 				}
 			}
 		}
-		&:before {
-			content: '';
-			width: 30vw;
-			height: 30vw;
-			border-radius: 50%;
-			box-shadow: 0 0 2vw 0 rgba(0, 0, 0, 0.2);
-			background-color: var(--backgroundColor);
-			position: absolute;
-			left: 55%;
-			top: 33%;
-			transform: translate(-50%, -50%) scale(0.6);
-			transition: transform var(--transition-speed) var(--ease);
+
+		.button {
+			height: 10%;
+			color: white;
+			text-transform: capitalize;
+			display: flex;
+			justify-content: center;
+			align-items: center;
 		}
+		// &:before {
+		// 	content: '';
+		// 	width: 30vw;
+		// 	height: 30vw;
+		// 	border-radius: 50%;
+		// 	box-shadow: 0 0 2vw 0 rgba(0, 0, 0, 0.2);
+		// 	background-color: var(--backgroundColor);
+		// 	position: absolute;
+		// 	left: 55%;
+		// 	top: 33%;
+		// 	transform: translate(-50%, -50%) scale(0.6);
+		// 	transition: transform var(--transition-speed) var(--ease);
+		// }
 		&.currentSlide {
-			&:before {
-				transform: translate(-50%, -50%) scale(1);
-			}
 			.titleWrapper {
 				h2 {
 					span {

@@ -3,10 +3,21 @@
 html, body, #__nuxt {
 	width: 100%;
 	height: 100%;
+	font-family: 'Din';
+	font-weight: normal;
 }
 
 ul {
 	list-style-type: none;
 	padding: 0;
 	margin: 0;
+}
+
+h2 {
+	font-family: 'Oswald';
+	font-size: 10vw;
+}
+
+h3 {
+	font-size: 1.4vw;
 }
