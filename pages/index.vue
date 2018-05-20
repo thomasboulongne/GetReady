@@ -1,11 +1,11 @@
 <template>
 	<section class="container">
-		<menu-comp :items="items"></menu-comp>
+		<selector-comp :items="items"></selector-comp>
 	</section>
 </template>
 
 <script>
-import Menu from '~/components/Menu';
+import Selector from '~/components/Selector';
 
 // import { getAll } from '~/core/Contentful';
 
@@ -25,14 +25,6 @@ export default {
 					color: '#ff6f5a',
 					x: 2,
 					y: -1
-				},
-				{
-					title: 'Relax',
-					subtitle: 'like <span class="bigger">Kyrie Irving</span>',
-					img: 'https://i.imgur.com/xYXoTYa.png',
-					color: '#385ad8',
-					x: 2,
-					y: 1
 				},
 				{
 					title: 'Have a goal',
@@ -55,7 +47,7 @@ export default {
 	},
 
 	components: {
-		'menu-comp': Menu
+		'selector-comp': Selector
 	}
 };
 

@@ -1,5 +1,6 @@
 <template>
 	<div>
+		<menu-comp :item="menuItems"></menu-comp>
 		<nuxt/>
 	</div>
 </template>
@@ -7,8 +8,24 @@
 <script>
 
 import throttle from 'lodash/throttle';
+import MenuComp from '~/components/Menu';
 
 export default {
+	data() {
+		return {
+			menuItems: [
+				{
+					title: 'Concentrate'
+				},
+				{
+					title: 'Have a goal'
+				},
+				{
+					title: 'Visualize'
+				}
+			]
+		};
+	},
 	mounted() {
 		this.updateViewportSize();
 		this.addEventListeners();
@@ -31,7 +48,16 @@ export default {
 		addEventListeners() {
 			window.addEventListener('resize', throttle(this.updateViewportSize, 50));
 			window.addEventListener('scroll', throttle(this.updateScrollPosition, 50));
+		},
+
+		removeEventListeners() {
+			window.removeEventListener('resize', throttle(this.updateViewportSize, 50));
+			window.removeEventListener('scroll', throttle(this.updateScrollPosition, 50));
 		}
+	},
+
+	components: {
+		MenuComp
 	}
 };
 </script>
