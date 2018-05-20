@@ -13,7 +13,9 @@
 						</h2>
 					</div>
 					<div class="button">
-						<span v-t="'discover'"></span>
+						<div class="textWrapper">
+							<span v-for="(letter, i) in $t('discover').split('')" :key="i">{{ i === 0 ? letter.toUpperCase() : letter }}</span>
+						</div>
 					</div>
 				</div>
 			</li>
@@ -79,9 +81,8 @@ export default {
 			return this.$store.getters.viewportSize.height;
 		},
 		fov: function() {
-			const aspect = this.vw / (this.vh != 0 ? this.vh : 1);
-			let fov = 10.56 * Math.pow(aspect, 2) - 69.56 * aspect + 149.6;
-			fov = 5.8 * Math.pow(aspect, 2) - 50 * aspect + 135;
+			const aspect = process.browser ? window.innerWidth / window.innerHeight : 1;
+			let fov = (1 / (Math.pow(2.21, aspect - 6.3)) + 23) * (this.vw / this.vw); // Hacky way to trigger recalculation on vw change
 			return fov;
 		}
 	},
@@ -133,7 +134,6 @@ export default {
 		this.animate();
 
 		this.$el.querySelector('.threeDmenu .menuItem').classList.add('currentSlide');
-
 		this.addEventListeners();
 	},
 
@@ -251,12 +251,13 @@ export default {
 		&:before {
 			content: '';
 			display: block;
-			height: 50%;
+			height: 33%;
 			width: 100%;
 		}
 		img {
 			position: absolute;
-			top: 50%;
+			--imgTop: 45%;
+			top: var(--imgTop);
 			left: 50%;
 			transform: translate(calc(-50% + var(--xPercent) * 0.01%), calc(-50% + var(--yPercent) * 0.01%));
 			z-index: 1;
@@ -267,7 +268,7 @@ export default {
 			display: block;
 			filter: grayscale(1);
 			&.shadow {
-				top: calc(50% + var(--yOffset));
+				top: calc(var(--imgTop) + var(--yOffset));
 				left: calc(50% + var(--xOffset));
 				filter: grayscale(1) brightness(0);
 				opacity: 0.15;
@@ -280,6 +281,7 @@ export default {
 			align-items: flex-end;
 			flex-direction: column;
 			color: white;
+			height: 50%;
 			h2 {
 				font-size: 10vw;
 				text-transform: uppercase;
@@ -294,7 +296,7 @@ export default {
 					span {
 						display: inline-block;
 						transition: margin var(--transition-speed) var(--ease);
-						--extraMargin: calc((var(--ratio) * 1.05 * var(--vw) * 0.1 + 1));
+						--extraMargin: calc((var(--ratio) * 1.05 + 1) * 1vw);
 						margin: 0 var(--extraMargin);
 					}
 					@for $i from 1 to 100 {
@@ -357,31 +359,59 @@ export default {
 		}
 
 		.button {
-			height: 10%;
+			flex-grow: 1;
 			color: white;
-			text-transform: capitalize;
 			display: flex;
 			justify-content: center;
 			align-items: center;
+			font-size: 2rem;
+			position: relative;
+			z-index: 2;
+			.textWrapper {
+				position: relative;
+				&:after {
+					content: '';
+					position: absolute;
+					top: 110%;
+					left: 50%;
+					height: 0.1em;
+					width: 0;
+					transition: width 0.4s calc(var(--transition-speed) * 1) var(--ease);
+					transform: translate(-50%, -50%);
+					background: rgba(0, 0, 0, 0.2);
+				}
+				span {
+					display: inline-block;
+					opacity: 0;
+					transform: translateY(10%);
+					transition-duration: 0.3s;
+					transition-timing-function: var(--ease);
+					transition-property: opacity, transform;
+					--transition-delay: var(--transition-speed);
+					@for $i from 1 to 20 {
+						&:nth-child(#{$i}) {
+							transition-delay: calc(var(--transition-delay) / 1.5 + (#{$i} * 0.03s));
+						}
+					}
+				}
+			}
 		}
-		// &:before {
-		// 	content: '';
-		// 	width: 30vw;
-		// 	height: 30vw;
-		// 	border-radius: 50%;
-		// 	box-shadow: 0 0 2vw 0 rgba(0, 0, 0, 0.2);
-		// 	background-color: var(--backgroundColor);
-		// 	position: absolute;
-		// 	left: 55%;
-		// 	top: 33%;
-		// 	transform: translate(-50%, -50%) scale(0.6);
-		// 	transition: transform var(--transition-speed) var(--ease);
-		// }
 		&.currentSlide {
 			.titleWrapper {
 				h2 {
 					span {
 						margin: 0;
+					}
+				}
+			}
+			.button {
+				.textWrapper {
+					&:after {
+						width: 33%;
+					}
+					span {
+						opacity: 1;
+						transform: none;
 					}
 				}
 			}

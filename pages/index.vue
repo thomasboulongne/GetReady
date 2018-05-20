@@ -22,7 +22,7 @@ export default {
 					title: 'Concentrate',
 					subtitle: 'like <span class="bigger">Jessica Ennis</span>',
 					img: 'https://i.imgur.com/S7fuWDW.png',
-					color: '#FF6F5A',
+					color: '#ff6f5a',
 					x: 2,
 					y: -1
 				},
@@ -30,7 +30,7 @@ export default {
 					title: 'Relax',
 					subtitle: 'like <span class="bigger">Kyrie Irving</span>',
 					img: 'https://i.imgur.com/xYXoTYa.png',
-					color: 'crimson',
+					color: '#385ad8',
 					x: 2,
 					y: 1
 				},
@@ -38,7 +38,7 @@ export default {
 					title: 'Have a goal',
 					subtitle: 'like <span class="bigger">Michael Phelps</span>',
 					img: 'https://i.imgur.com/4grZkDG.png',
-					color: '#799cff',
+					color: '#ffbe92',
 					x: 3,
 					y: 7
 				},
@@ -46,7 +46,7 @@ export default {
 					title: 'Visualize',
 					subtitle: 'like <span class="bigger">Wayne Rooney</span>',
 					img: 'https://i.imgur.com/5tFRnka.png',
-					color: '#60b247',
+					color: '#05175d',
 					x: 2,
 					y: 1
 				}

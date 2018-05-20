@@ -6,8 +6,8 @@ const store = () => new Vuex.Store({
 		lists: [],
 		uiData: {
 			viewportSize: {
-				width: 0,
-				height: 0
+				width: process.browser ? window.innerWidth : 1,
+				height: process.browser ? window.innerHeight : 1
 			},
 			scrollPosition: {
 				x: 0,
