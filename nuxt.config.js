@@ -61,7 +61,16 @@ module.exports = {
 		['@nuxtjs/google-analytics', { ua: config.analytics }],
 		'@nuxtjs/sitemap',
 		['nuxt-i18n', {
-			locales: ['en', 'fr'],
+			locales: [
+				{
+					code: 'en',
+					iso: 'en-US'
+				},
+				{
+					code: 'fr',
+					iso: 'fr-FR'
+				}
+			],
 			vueI18n: {
 				fallbackLocale: 'en',
 				messages: {

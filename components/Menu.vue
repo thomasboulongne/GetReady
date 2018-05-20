@@ -77,6 +77,12 @@ export default {
 		},
 		vh: function() {
 			return this.$store.getters.viewportSize.height;
+		},
+		fov: function() {
+			const aspect = this.vw / (this.vh != 0 ? this.vh : 1);
+			let fov = 10.56 * Math.pow(aspect, 2) - 69.56 * aspect + 149.6;
+			fov = 5.8 * Math.pow(aspect, 2) - 50 * aspect + 135;
+			return fov;
 		}
 	},
 
@@ -105,11 +111,7 @@ export default {
 	},
 
 	mounted() {
-		const aspect = window.innerWidth / window.innerHeight;
-		const fov = -36.85 * aspect + 125.5;
-		this.camera = new THREE.PerspectiveCamera(fov, window.innerWidth / window.innerHeight, 1, 1000);
-		console.log(this.camera.fov, window.innerWidth / window.innerHeight);
-
+		this.camera = new THREE.PerspectiveCamera(this.fov, window.innerWidth / window.innerHeight, 1, 1000);
 		this.camera.position.set(0, 0, this.apothem);
 		this.scene = new THREE.Scene();
 		this.group = new THREE.Group();
@@ -194,8 +196,7 @@ export default {
 		},
 		onWindowResize() {
 			this.camera.aspect = window.innerWidth / window.innerHeight;
-			const fov = -36.85 * this.camera.aspect + 125.5;
-			this.camera.fov = fov;
+			this.camera.fov = this.fov;
 
 			this.camera.updateProjectionMatrix();
 			this.camera.position.set(0, 0, this.apothem);
@@ -260,10 +261,8 @@ export default {
 			transform: translate(calc(-50% + var(--xPercent) * 0.01%), calc(-50% + var(--yPercent) * 0.01%));
 			z-index: 1;
 			height: auto;
-			width: calc(70vw * var(--ratio));
-			height: calc(70vw * var(--ratio));
-			width: 50vw;
-			height: 50vw;
+			width: 80vmin;
+			height: 80vmin;
 			object-fit: contain;
 			display: block;
 			filter: grayscale(1);
@@ -295,7 +294,8 @@ export default {
 					span {
 						display: inline-block;
 						transition: margin var(--transition-speed) var(--ease);
-						margin: 0 30px;
+						--extraMargin: calc((var(--ratio) * 1.05 * var(--vw) * 0.1 + 1));
+						margin: 0 var(--extraMargin);
 					}
 					@for $i from 1 to 100 {
 						&:nth-child(#{$i}) {
