@@ -20,6 +20,7 @@
 				</div>
 			</li>
 		</ul>
+		<span style="position: fixed; top: 0; left: 0">{{ vw / vh }}</span>
 	</div>
 </template>
 <script>
@@ -82,8 +83,17 @@ export default {
 		},
 		fov: function() {
 			const aspect = process.browser ? window.innerWidth / window.innerHeight : 1;
-			let fov = (1 / (Math.pow(2.21, aspect - 6.3)) + 23) * (this.vw / this.vw); // Hacky way to trigger recalculation on vw change
-			return fov;
+			let fov = 55;
+			switch (this.numberOfItems) {
+				case 3:
+					fov = 1 / (Math.pow(1.7, aspect - 9.5)) + 28.7;
+					break;
+				case 4:
+					fov = (1 / (Math.pow(2.21, aspect - 6.3)) + (-29.2 * this.numberOfItems + 139.8));
+					break;
+			}
+			fov = fov * (this.vw / this.vw); // Hacky way to trigger recalculation on vw change
+			return this.$route.query.fov ? this.$route.query.fov : fov;
 		}
 	},
 
