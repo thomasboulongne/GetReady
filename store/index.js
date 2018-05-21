@@ -13,7 +13,8 @@ const store = () => new Vuex.Store({
 				x: 0,
 				y: 0
 			},
-			locale: 'en-US'
+			locale: 'en-US',
+			menuOpen: false
 		},
 
 		contentLoaded: false,
@@ -42,6 +43,9 @@ const store = () => new Vuex.Store({
 		},
 		ADD_TRANSLATION(state, translation) {
 			state.translations.push(translation);
+		},
+		UPDATE_MENU_OPEN(state, isOpen) {
+			state.uiData.menuOpen = isOpen;
 		}
 	},
 
@@ -66,6 +70,15 @@ const store = () => new Vuex.Store({
 		},
 		setLang({ commit }, lang) {
 			commit('SET_LANG', lang);
+		},
+		openMenu({ commit }) {
+			commit('UPDATE_MENU_OPEN', true);
+		},
+		closeMenu({ commit }) {
+			commit('UPDATE_MENU_OPEN', false);
+		},
+		toggleMenu({ commit, state }) {
+			commit('UPDATE_MENU_OPEN', !state.uiData.menuOpen);
 		}
 	},
 
@@ -82,6 +95,7 @@ const store = () => new Vuex.Store({
 		},
 		viewportSize: state => state.uiData.viewportSize,
 		scrollPosition: state => state.uiData.scrollPosition,
+		menuIsOpen: state => state.uiData.menuOpen,
 		loaded: state => state.contentLoaded,
 		translation: state => identifier => {
 			return state.translations.find(t => t.identifier == identifier) ? state.translations.find(t => t.identifier == identifier).translations : identifier;

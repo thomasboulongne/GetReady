@@ -1,7 +1,9 @@
 <template>
 	<div>
-		<menu-comp :item="menuItems"></menu-comp>
-		<nuxt/>
+		<menu-comp :items="menuItems"></menu-comp>
+		<main :class="[menuIsOpen ? 'menuOpen' : '']">
+			<nuxt/>
+		</main>
 	</div>
 </template>
 
@@ -15,6 +17,9 @@ export default {
 		return {
 			menuItems: [
 				{
+					title: 'Gallery'
+				},
+				{
 					title: 'Concentrate'
 				},
 				{
@@ -26,6 +31,13 @@ export default {
 			]
 		};
 	},
+
+	computed: {
+		menuIsOpen: function() {
+			return this.$store.getters.menuIsOpen;
+		}
+	},
+
 	mounted() {
 		this.updateViewportSize();
 		this.addEventListeners();
@@ -48,6 +60,7 @@ export default {
 		addEventListeners() {
 			window.addEventListener('resize', throttle(this.updateViewportSize, 50));
 			window.addEventListener('scroll', throttle(this.updateScrollPosition, 50));
+			window.addEventListener('click', () => { this.$store.dispatch('toggleMenu'); });
 		},
 
 		removeEventListeners() {
@@ -61,3 +74,17 @@ export default {
 	}
 };
 </script>
+
+<style lang="scss">
+@import '~assets/scss/variables.scss';
+main {
+	transition: filter var(--menuTransitionSpeed), transform var(--menuTransitionSpeed);
+	transform: scale(1) translate3d(0, 0, 0);
+	backface-visibility: hidden;
+	transform-style: preserve-3d;
+	&.menuOpen {
+		filter: blur(4px) brightness(0.5);
+		transform: scale(1.02) translate3d(0, 0, 0);
+	}
+}
+</style>

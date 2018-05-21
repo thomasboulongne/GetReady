@@ -20,7 +20,7 @@
 				</div>
 			</li>
 		</ul>
-		<span style="position: fixed; top: 0; left: 0">{{ vw / vh }}</span>
+		<!-- <span style="position: fixed; top: 0; left: 0">{{ vw / vh }}</span> -->
 	</div>
 </template>
 <script>
@@ -89,7 +89,7 @@ export default {
 					fov = 1 / (Math.pow(1.7, aspect - 9.5)) + 28.7;
 					break;
 				case 4:
-					fov = (1 / (Math.pow(2.21, aspect - 6.3)) + (-29.2 * this.numberOfItems + 139.8));
+					fov = (1 / (Math.pow(2.21, aspect - 6.3)) + 23);
 					break;
 			}
 			fov = fov * (this.vw / this.vw); // Hacky way to trigger recalculation on vw change
@@ -245,6 +245,7 @@ export default {
 	width: 100vw;
 	overflow: hidden;
 	transition: background-color 0.4s;
+	backface-visibility: hidden;
 	.hiddenSelector {
 		display: none;
 	}

@@ -1,3 +1,7 @@
 @import '~assets/scss/breakpoints.scss';
 
 $color: #f00;
+
+:root {
+    --menuTransitionSpeed: 0.2s;
+}
