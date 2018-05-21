@@ -29,7 +29,7 @@
  */
 
 /*!
- * vue-i18n v7.6.0 
+ * vue-i18n v7.7.0 
  * (c) 2018 kazuya kawaguchi
  * Released under the MIT License.
  */
@@ -53,10 +53,3 @@ object-assign
 (c) Sindre Sorhus
 @license MIT
 */
-
-/*!
- * cookie
- * Copyright(c) 2012-2014 Roman Shtylman
- * Copyright(c) 2015 Douglas Christopher Wilson
- * MIT Licensed
- */
