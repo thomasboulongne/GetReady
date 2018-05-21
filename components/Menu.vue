@@ -21,25 +21,10 @@ export default {
 		}
 	},
 
-	data() {
-		return {
-		};
-	},
-
 	computed: {
 		menuIsOpen: function() {
 			return this.$store.getters.menuIsOpen;
 		}
-	},
-
-	mounted() {
-		this.$store.dispatch('openMenu');
-	},
-
-	beforeDestroy() {
-	},
-
-	methods: {
 	}
 };
 </script>
