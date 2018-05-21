@@ -82,7 +82,7 @@ main {
 	transform: scale(1) translate3d(0, 0, 0);
 	backface-visibility: hidden;
 	transform-style: preserve-3d;
-	filter: blur(0.3px);
+	filter: blur(0.1px);
 	&.menuOpen {
 		filter: blur(4px) brightness(0.5);
 		transform: scale(1.02) translate3d(0, 0, 0);
