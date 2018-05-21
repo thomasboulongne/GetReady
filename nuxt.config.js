@@ -59,26 +59,10 @@ module.exports = {
 	],
 	modules: [
 		['@nuxtjs/google-analytics', { ua: config.analytics }],
-		'@nuxtjs/sitemap',
-		['nuxt-i18n', {
-			locales: [
-				{
-					code: 'en',
-					iso: 'en-US'
-				},
-				{
-					code: 'fr',
-					iso: 'fr-FR'
-				}
-			],
-			vueI18n: {
-				fallbackLocale: 'en',
-				messages: {
-					en: require('./localization/en.json'),
-					fr: require('./localization/fr.json')
-				}
-			}
-		}]
+		'@nuxtjs/sitemap'
+	],
+	plugins: [
+		'~/plugins/i18n.js'
 	],
 	/*
 	** Customize the progress-bar color
