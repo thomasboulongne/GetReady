@@ -29,6 +29,12 @@
  */
 
 /*!
+ * vue-i18n v7.6.0 
+ * (c) 2018 kazuya kawaguchi
+ * Released under the MIT License.
+ */
+
+/*!
  * @overview es6-promise - a tiny implementation of Promises/A+.
  * @copyright Copyright (c) 2014 Yehuda Katz, Tom Dale, Stefan Penner and contributors (Conversion to ES6 API by Jake Archibald)
  * @license   Licensed under MIT license
@@ -47,3 +53,10 @@ object-assign
 (c) Sindre Sorhus
 @license MIT
 */
+
+/*!
+ * cookie
+ * Copyright(c) 2012-2014 Roman Shtylman
+ * Copyright(c) 2015 Douglas Christopher Wilson
+ * MIT Licensed
+ */
