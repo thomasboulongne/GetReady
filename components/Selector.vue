@@ -294,7 +294,10 @@ export default {
 			flex-direction: column;
 			color: white;
 			height: 50%;
-			transform-style: preserve-3d;
+			@-moz-document url-prefix() { 
+				transform-style: preserve-3d;
+			}
+			z-index: 2;
 			h2 {
 				font-size: 10vw;
 				text-transform: uppercase;
@@ -302,7 +305,9 @@ export default {
 				white-space: nowrap;
 				position: relative;
 				display: block;
-				transform-style: preserve-3d;
+				@-moz-document url-prefix() { 
+					transform-style: preserve-3d;
+				}
 				div {
 					display: inline-block;
 					position: relative;
