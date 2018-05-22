@@ -1,8 +1,8 @@
 <template>
-	<div class="selector" @mousemove="mouseMove" :style="{backgroundColor: backgroundColor, '--transition-speed': transitionSpeed * 0.75 + 's', '--xPercent': xPercent, '--yPercent': yPercent, '--vw': vw + 'px', '--vh': vh + 'px', '--ratio': vh / vw}">
+	<div class="selector" @mousemove="mouseMove" :style="{backgroundColor: backgroundColor, '--transition-speed': transitionSpeed * 0.75 + 's', '--xPercent': xPercent.toFixed(2), '--yPercent': yPercent.toFixed(2), '--vw': vw + 'px', '--vh': vh + 'px', '--ratio': (vh / vw).toFixed(2)}">
 		<ul class="hiddenSelector">
 			<li v-for="(item, i) in items" :key="item.color + i">
-				<div class="selectorItem" ref="items" :style="{'--backgroundColor': item.color, '--xOffset': item.x + '%', '--yOffset': item.y + '%'}">
+				<div class="selectorItem" ref="items" :style="{'--backgroundColor': item.color, '--xOffset': item.x.toFixed(2) + '%', '--yOffset': item.y.toFixed(2) + '%'}">
 					<img :src="item.img" class="shadow">
 					<img :src="item.img">
 					<div class="titleWrapper">
@@ -258,6 +258,7 @@ export default {
 		justify-content: center;
 		align-items: center;
 		flex-direction: column;
+		transform-style: preserve-3d;
 		&:before {
 			content: '';
 			display: block;
@@ -277,6 +278,7 @@ export default {
 			object-fit: contain;
 			display: block;
 			filter: grayscale(1);
+			transform-style: preserve-3d;
 			&.shadow {
 				top: calc(var(--imgTop) + var(--yOffset));
 				left: calc(50% + var(--xOffset));
@@ -292,6 +294,7 @@ export default {
 			flex-direction: column;
 			color: white;
 			height: 50%;
+			transform-style: preserve-3d;
 			h2 {
 				font-size: 10vw;
 				text-transform: uppercase;
@@ -299,20 +302,23 @@ export default {
 				white-space: nowrap;
 				position: relative;
 				display: block;
+				transform-style: preserve-3d;
 				div {
 					display: inline-block;
 					position: relative;
 					z-index: 2;
+					transform-style: preserve-3d;
 					span {
 						display: inline-block;
+						transform-style: preserve-3d;
 						transition: margin var(--transition-speed) var(--ease);
 						--extraMargin: calc((var(--ratio) * 1.05 + 1) * 1vw);
 						margin: 0 var(--extraMargin);
 					}
-					@for $i from 1 to 100 {
+					@for $i from 1 to 30 {
 						&:nth-child(#{$i}) {
 							span {
-								transform: translateY(calc(#{$i} * -0.04em + var(--yPercent) * 0.001em)) translateX(calc(var(--xPercent) * 0.001em));
+								transform: translateY(calc(#{$i} * -0.04em));
 							}
 						}
 					}
@@ -377,7 +383,9 @@ export default {
 			font-size: 2rem;
 			position: relative;
 			z-index: 2;
+			transform-style: preserve-3d;
 			.textWrapper {
+				transform-style: preserve-3d;
 				position: relative;
 				&:after {
 					content: '';
@@ -409,8 +417,17 @@ export default {
 		&.currentSlide {
 			.titleWrapper {
 				h2 {
-					span {
-						margin: 0;
+					div {
+						span {
+							margin: 0;
+						}
+						@for $i from 1 to 30 {
+							&:nth-child(#{$i}) {
+								span {
+									transform: translateY(calc(#{$i} * -0.04em + var(--yPercent) * 0.001em)) translateX(calc(var(--xPercent) * 0.001em));
+								}
+							}
+						}
 					}
 				}
 			}
