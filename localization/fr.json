@@ -1,3 +1,15 @@
 {
-    "discover": "découvrir"
+    "discover": "découvrir",
+    "Gallery": "Galerie",
+    "categories": {
+        "item1": {
+            "title": "S'organiser"
+        },
+        "item2": {
+            "title": "Se concentrer"
+        },
+        "item3": {
+            "title": "Se visualiser"
+        }
+    }
 }

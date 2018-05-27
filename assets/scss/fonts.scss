@@ -1,8 +1,16 @@
-@import url('https://fonts.googleapis.com/css?family=Oswald:700');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+
+// @font-face {
+//     font-family: 'Din';
+//     src: url('~/assets/fonts/DINNextLTPro-Regular.otf') format('TrueType');
+//     font-weight: normal;
+//     font-style: normal;
+// }
 
 @font-face {
-    font-family: 'Din';
-    src: url('~/assets/fonts/DINNextLTPro-Regular.otf') format('TrueType');
-    font-weight: normal;
+    font-family: 'MTKnox';
+    src: url('~/assets/fonts/MTKnox-bold.otf') format('TrueType');
+    font-weight: bold;
     font-style: normal;
+    letter-spacing: 0.01em;
 }

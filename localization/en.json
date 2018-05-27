@@ -1,3 +1,15 @@
 {
-    "discover": "discover"
+    "discover": "discover",
+    "Gallery": "Gallery",
+    "categories": {
+        "item1": {
+            "title": "Be organized"
+        },
+        "item2": {
+            "title": "Focus"
+        },
+        "item3": {
+            "title": "Visualize"
+        }
+    }
 }

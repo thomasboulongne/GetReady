@@ -17,16 +17,16 @@ export default {
 		return {
 			menuItems: [
 				{
-					title: 'Gallery'
+					title: this.$t('Gallery')
 				},
 				{
-					title: 'Concentrate'
+					title: this.$t('categories.item1.title')
 				},
 				{
-					title: 'Have a goal'
+					title: this.$t('categories.item2.title')
 				},
 				{
-					title: 'Visualize'
+					title: this.$t('categories.item3.title')
 				}
 			]
 		};
@@ -60,7 +60,6 @@ export default {
 		addEventListeners() {
 			window.addEventListener('resize', throttle(this.updateViewportSize, 50));
 			window.addEventListener('scroll', throttle(this.updateScrollPosition, 50));
-			window.addEventListener('click', () => { this.$store.dispatch('toggleMenu'); });
 		},
 
 		removeEventListeners() {
@@ -76,7 +75,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import '~assets/scss/variables.scss';
 main {
 	transition: filter var(--menuTransitionSpeed), transform var(--menuTransitionSpeed);
 	transform: scale(1) translate3d(0, 0, 0);

@@ -53,6 +53,7 @@ module.exports = {
 		]
 	},
 	css: [
+		'~assets/scss/variables.scss',
 		'~assets/scss/main.scss',
 		'~assets/scss/fonts.scss',
 		'normalize.css'
@@ -93,6 +94,20 @@ module.exports = {
 				'THREE': 'three'
 			})
 		],
+		postcss: {
+			plugins: {
+				'postcss-cssnext': {
+					features: {
+						customProperties: {
+							variables: {
+								spacing: '1.5rem',
+								menuTransitionSpeed: '0.2s'
+							}
+						}
+					}
+				}
+			}
+		},
 		vendor: [
 			'gsap',
 			'marked',

@@ -13,7 +13,7 @@ const store = () => new Vuex.Store({
 				x: 0,
 				y: 0
 			},
-			locale: 'en',
+			locale: 'fr',
 			menuOpen: false
 		},
 

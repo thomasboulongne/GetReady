@@ -5,7 +5,7 @@
 				<div class="selectorItem" ref="items" :style="{'--backgroundColor': item.color, '--xOffset': item.x.toFixed(2) + '%', '--yOffset': item.y.toFixed(2) + '%'}">
 					<img :src="item.img" class="shadow">
 					<img :src="item.img">
-					<div class="titleWrapper">
+					<div class="titleWrapper MTKnox">
 						<h2>
 							<div v-for="(letter, i) in item.title" :key="letter + i">
 								<span class="letter">{{ letter }}</span>
@@ -239,7 +239,6 @@ export default {
 
 
 <style lang="scss">
-@import '~assets/scss/variables.scss';
 .selector {
 	height: 100vh;
 	width: 100vw;
@@ -294,18 +293,17 @@ export default {
 			flex-direction: column;
 			color: white;
 			height: 50%;
-			@-moz-document url-prefix() { 
+			@-moz-document url-prefix() {
 				transform-style: preserve-3d;
 			}
-			z-index: 2;
 			h2 {
-				font-size: 10vw;
-				text-transform: uppercase;
+				font-size: 12vw;
 				margin: 0;
 				white-space: nowrap;
 				position: relative;
 				display: block;
-				@-moz-document url-prefix() { 
+				--yOffset: -0.019em;
+				@-moz-document url-prefix() {
 					transform-style: preserve-3d;
 				}
 				div {
@@ -323,51 +321,51 @@ export default {
 					@for $i from 1 to 30 {
 						&:nth-child(#{$i}) {
 							span {
-								transform: translateY(calc(#{$i} * -0.04em));
+								transform: translateY(calc(#{$i} * var(--yOffset)));
 							}
 						}
 					}
-					// & {
-					// 	&:nth-child(1) {
-					// 		z-index: 1;
-					// 	}
-					// 	&:nth-child(2) {
-					// 		z-index: 2;
-					// 	}
-					// 	&:nth-child(3) {
-					// 		z-index: 0;
-					// 	}
-					// 	&:nth-child(4) {
-					// 		z-index: 1;
-					// 	}
-					// 	&:nth-child(5) {
-					// 		z-index: 0;
-					// 	}
-					// 	&:nth-child(6) {
-					// 		z-index: 1;
-					// 	}
-					// 	&:nth-child(7) {
-					// 		z-index: 0;
-					// 	}
-					// 	&:nth-child(8) {
-					// 		z-index: 1;
-					// 	}
-					// 	&:nth-child(9) {
-					// 		z-index: 1;
-					// 	}
-					// 	&:nth-child(10) {
-					// 		z-index: 1;
-					// 	}
-					// 	&:nth-child(11) {
-					// 		z-index: 1;
-					// 	}
-					// 	&:nth-child(12) {
-					// 		z-index: 1;
-					// 	}
-					// 	&:nth-child(13) {
-					// 		z-index: 1;
-					// 	}
-					// }
+					& {
+						&:nth-child(1) {
+							z-index: 1;
+						}
+						&:nth-child(2) {
+							z-index: 2;
+						}
+						&:nth-child(3) {
+							z-index: 0;
+						}
+						&:nth-child(4) {
+							z-index: 1;
+						}
+						&:nth-child(5) {
+							z-index: 0;
+						}
+						&:nth-child(6) {
+							z-index: 1;
+						}
+						&:nth-child(7) {
+							z-index: 0;
+						}
+						&:nth-child(8) {
+							z-index: 1;
+						}
+						&:nth-child(9) {
+							z-index: 1;
+						}
+						&:nth-child(10) {
+							z-index: 1;
+						}
+						&:nth-child(11) {
+							z-index: 1;
+						}
+						&:nth-child(12) {
+							z-index: 1;
+						}
+						&:nth-child(13) {
+							z-index: 1;
+						}
+					}
 				}
 			}
 			h3 {
@@ -385,9 +383,10 @@ export default {
 			display: flex;
 			justify-content: center;
 			align-items: center;
-			font-size: 2rem;
+			font-size: 1.5rem;
 			position: relative;
 			z-index: 2;
+			text-transform: uppercase;
 			transform-style: preserve-3d;
 			.textWrapper {
 				transform-style: preserve-3d;
@@ -395,7 +394,7 @@ export default {
 				&:after {
 					content: '';
 					position: absolute;
-					top: 110%;
+					top: 150%;
 					left: 50%;
 					height: 0.1em;
 					width: 0;
@@ -429,7 +428,7 @@ export default {
 						@for $i from 1 to 30 {
 							&:nth-child(#{$i}) {
 								span {
-									transform: translateY(calc(#{$i} * -0.04em + var(--yPercent) * 0.001em)) translateX(calc(var(--xPercent) * 0.001em));
+									transform: translateY(calc(#{$i} * var(--yOffset) + var(--yPercent) * 0.001em)) translateX(calc(var(--xPercent) * 0.001em));
 								}
 							}
 						}
