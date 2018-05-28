@@ -1,6 +1,7 @@
 {
     "discover": "discover",
     "Gallery": "Gallery",
+    "next": "next",
     "categories": {
         "item1": {
             "title": "Be organized"

@@ -85,10 +85,10 @@ main {
 		filter: none;
 	}
 	&.menuOpen {
-		filter: blur(4px) brightness(0.5);
+		filter: blur(6px) brightness(0.2);
 		transform: scale(1.02) translate3d(0, 0, 0);
 		@-moz-document url-prefix() { 
-			filter: brightness(0.5);
+			filter: brightness(0.2);
 		}
 	}
 }

@@ -102,7 +102,11 @@ module.exports = {
 							variables: {
 								spacing: '1.5rem',
 								menuTransitionSpeed: '0.2s',
-								ease: 'cubic-bezier(0.165, 0.84, 0.44, 1)'
+								ease: 'cubic-bezier(0.165, 0.84, 0.44, 1)',
+								darkOrange: '#f16955',
+								lightOrange: '#ff6f5a',
+								black: '#494949',
+								blue: '#5781f8'
 							}
 						}
 					}

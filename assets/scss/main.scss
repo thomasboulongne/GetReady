@@ -4,6 +4,8 @@ html, body, #__nuxt {
 	font-family: 'Open Sans', 'sans-serif';
 	font-weight: normal;
 	overflow: hidden;
+	line-height: 1.5;
+	color: var(--black);
 }
 
 .MTKnox {
@@ -20,11 +22,7 @@ ul {
 	margin: 0;
 }
 
-h2 {
-	font-size: 10vw;
-	@extend .MTKnox;
-}
-
-h3 {
-	font-size: 1.4vw;
+h2, h3, h4 {
+	font-weight: normal;
+	font-family: 'Fjalla One', sans-serif;
 }

@@ -9,14 +9,7 @@
 import selectorComp from '~/components/Selector';
 import introComp from '~/components/Intro';
 
-// import { getAll } from '~/core/Contentful';
-
 export default {
-
-	// async fetch({store, isServer, req, res}) {
-	// 	await getAll(store, isServer, req, res);
-	// },
-
 	data() {
 		return {
 			items: [

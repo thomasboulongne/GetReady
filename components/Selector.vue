@@ -6,7 +6,7 @@
 					<img :src="item.img" class="shadow">
 					<img :src="item.img">
 					<div class="titleWrapper MTKnox">
-						<h2>
+						<h2 class="MTKnox">
 							<div v-for="(letter, i) in item.title" :key="letter + i">
 								<span class="letter">{{ letter }}</span>
 							</div>
@@ -296,7 +296,7 @@ export default {
 				transform-style: preserve-3d;
 			}
 			h2 {
-				font-size: 12vw;
+				font-size: 16vmax;
 				margin: 0;
 				white-space: nowrap;
 				position: relative;
