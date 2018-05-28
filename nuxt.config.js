@@ -101,7 +101,8 @@ module.exports = {
 						customProperties: {
 							variables: {
 								spacing: '1.5rem',
-								menuTransitionSpeed: '0.2s'
+								menuTransitionSpeed: '0.2s',
+								ease: 'cubic-bezier(0.165, 0.84, 0.44, 1)'
 							}
 						}
 					}

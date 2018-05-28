@@ -252,7 +252,6 @@ export default {
 		position: relative;
 		height: 100vh;
 		width: 100vw;
-		--ease: cubic-bezier(0.165, 0.84, 0.44, 1);
 		display: flex;
 		justify-content: center;
 		align-items: center;

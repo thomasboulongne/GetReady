@@ -69,13 +69,13 @@ export default {
 					margin: 0.5em;
 					font-family: 'MTKnox';
 					font-weight: bold;
-					font-size: 3vw;
+					font-size: 4vw;
 					color: white;
 					cursor: pointer;
 					position: relative;
 					&:after {
 						content: '';
-						transition: all 0.2s !important;
+						transition: all 0.4s var(--ease);
 						position: absolute;
 						top: 100%;
 						height: 0.05em;
@@ -120,12 +120,12 @@ export default {
 			.menuItem {
 				@for $i from 1 to 6 {
 					&:nth-child(#{$i}) {
-						--menuItemTransitionDelay: calc((#{$i} - 1) * 0.15s);
+						--menuItemTransitionDelay: calc((#{$i} - 1) * 0.07s);
 					}
 				}
 				@for $j from 1 to 30 {
 					.letterWrapper:nth-child(#{$j}) {
-						transition: transform var(--menuLetterTransitionSpeed) var(--ease) calc(var(--menuItemTransitionDelay) + (#{$j} - 1) * 0.02s), opacity var(--menuLetterTransitionSpeed) var(--ease) calc((#{$j} - 1) * 0.02s);
+						transition: transform var(--menuLetterTransitionSpeed) var(--ease) calc(var(--menuItemTransitionDelay) + (#{$j} - 1) * 0.01s), opacity var(--menuLetterTransitionSpeed) var(--ease) calc((#{$j} - 1) * 0.03s);
 						opacity: 0.65;
 						transform: translateY(0);
 					}
