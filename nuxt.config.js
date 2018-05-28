@@ -43,7 +43,7 @@ module.exports = {
 			{ name: 'twitter:card', content: 'summary' },
 			{ name: 'twitter:site', content: config.url },
 			{ name: 'og:url', content: config.url },
-			{ hid: 'og:title', name: 'og:title', content: 'Spill.net project' },
+			{ hid: 'og:title', name: 'og:title', content: 'Reach your goal!' },
 			{ name: 'og:image', content: config.url + '/background.jpg' },
 			{ hid: 'og:description', name: 'og:description', content: 'Description' }
 		],

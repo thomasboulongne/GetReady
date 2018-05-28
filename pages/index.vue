@@ -1,11 +1,13 @@
 <template>
 	<section class="container">
-		<selector-comp :items="items"></selector-comp>
+		<intro-comp></intro-comp>
+		<!-- <selector-comp :items="items"></selector-comp> -->
 	</section>
 </template>
 
 <script>
-import Selector from '~/components/Selector';
+import selectorComp from '~/components/Selector';
+import introComp from '~/components/Intro';
 
 // import { getAll } from '~/core/Contentful';
 
@@ -44,7 +46,8 @@ export default {
 	},
 
 	components: {
-		'selector-comp': Selector
+		introComp,
+		selectorComp
 	}
 };
 
