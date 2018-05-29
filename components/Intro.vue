@@ -14,7 +14,7 @@
 		<div :class="['step', 'step2', cardsStatus]" :style="{'--cardsTranslationDuration': cardsTranslationDuration + 'ms', '--singleCardTranslationDuration': cardsTranslationDuration / cards.length + 'ms'}">
 			<h3 class="heading" v-t="'intro.step2.sidePanel.heading'"></h3>
 			<div :class="['cards',]">
-				<div :class="['card', i === currentCardIndex ? 'selected': '']" v-for="(card, i) in cards" ref="cards" :style="{zIndex: getCardZIndex(i)}" :key="card.title + i">
+				<div :class="['card', (cards.length - 1 - i) === currentCardIndex ? 'selected': '']" v-for="(card, i) in cards.slice().reverse()" ref="cards" :style="{zIndex: getCardZIndex(cards.length - 1 - i)}" :key="card.title + (cards.length - 1 - i)">
 					<div class="illustration">
 						<img :src="card.img" alt="" class="shadow">
 						<img :src="card.img" alt="">
@@ -112,7 +112,7 @@ export default {
 		}
 	},
 	created() {
-		this.currentCardIndex = this.cards.length - 1;
+		// this.currentCardIndex = this.cards.length - 1;
 	},
 	mounted() {
 		const step1animation = new Promise(resolve => {
@@ -172,7 +172,7 @@ export default {
 		},
 
 		getCardZIndex(i) {
-			const value = i + (this.cards.length - this.currentCardIndex) - 1;
+			const value = (this.cards.length - i) + (this.currentCardIndex) - 1;
 			const zIndex = value % this.cards.length;
 			return zIndex;
 		}
@@ -352,11 +352,13 @@ export default {
 			transform: translate(0);
 			text-transform: uppercase;
 			ul {
+				display: flex;
+				flex-direction: column;
 				li {
-					margin: 2em 0;
+					margin: 1em 0;
 					span {
 						opacity: 0.6;
-						transition: all 0.4s;
+						transition: opacity 0.4s;
 						cursor: pointer;
 						&.selected {
 							cursor: default;
@@ -381,6 +383,8 @@ export default {
 				width: 100%;
 				max-width: 66%;
 				text-align: left;
+				opacity: 0;
+				transform: scale(0.97);
 				p {
 					display: inline-block;
 					width: 66%;
@@ -456,10 +460,50 @@ export default {
 				left: 50%;
 				transform: translateX(-50%);
 			}
+			.sidePanel {
+				ul {
+					li {
+						span {
+							opacity: 0;
+						}
+					}
+				}
+			}
+		}
+		&.onEnter {
+			.sidePanel {
+				ul {
+					li {
+						span {
+							opacity: 0;
+						}
+					}
+				}
+			}
+		}
+		&.afterEnter {
+			.sidePanel {
+				ul {
+					li {
+						@for $i from 0 to 10 {
+							&:nth-child(#{$i + 1}) {
+								span {
+									transition: all 0.4s var(--ease) calc(#{$i} * 0.2s);
+								}
+							}
+						}
+					}
+				}
+			}
 		}
 		&.finish {
 			.formPanel {
 				width: 66%;
+				.wrapper {
+					transition: all calc(var(--cardsTranslationDuration)) var(--ease) calc(var(--cardsTranslationDelay) * 1.5);
+					opacity: 1;
+					transform: none;
+				}
 			}
 			.cards {
 				.card {
