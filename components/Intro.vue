@@ -11,10 +11,10 @@
 				<img src="~/assets/images/arrow@3x.png"/>
 			</div>
 		</div>
-		<div class="step step2">
+		<div :class="['step', 'step2', cardsStatus]">
 			<span class="heading">Un bon objectif devrait être :</span>
-			<div class="cards">
-				<div :class="['card', cardBeforeEnter ? 'beforeEnter' : '']" v-for="(card, i) in cards" ref="cards" :key="card.title + i">
+			<div :class="['cards',]" :style="{'--cardsTranslationDuration': cardsTranslationDuration + 'ms', '--singleCardTranslationDuration': cardsTranslationDuration / cards.length + 'ms'}">
+				<div :class="['card']" v-for="(card, i) in cards" ref="cards" :key="card.title + i">
 					<div class="illustration">
 						<img :src="card.img" alt="" class="shadow">
 						<img :src="card.img" alt="">
@@ -28,69 +28,12 @@
 </template>
 <script>
 export default {
-	i18n: {
-		messages: {
-			en: {
-				sentences: {
-					1: 'Nous avons tous un objectif à atteindre.',
-					2: 'Qu\'il soit sportif, personnel ou encore professionnel...',
-					3: 'Et vous, quel est le votre ?'
-				},
-				cards: {
-					1: {
-						title: 'Mesurable',
-						img: '~/assets/images/cards/mesurable.png',
-						text: 'Il peut avoir un indicateur de résultat, ou à défaut, nos sens doivent nous permettre de déterminer précisément à quel moment l’objectif sera atteint.'
-					},
-					2: {
-						title: 'Specific',
-						img: '~/assets/images/cards/specific.png',
-						text: 'Suffisamment précis, présenter des caractéristiques propres.'
-					},
-					3: {
-						title: 'Mesurable',
-						img: '~/assets/images/cards/mesurable.png',
-						text: 'Il peut avoir un indicateur de résultat, ou à défaut, nos sens doivent nous permettre de déterminer précisément à quel moment l’objectif sera atteint.'
-					},
-					4: {
-						title: 'Specific',
-						img: '~/assets/images/cards/specific.png',
-						text: 'Suffisamment préci, présenter des caractéristiques propres.'
-					}
-				}
-			},
-			fr: {
-				sentences: {
-					1: 'Nous avons tous un objectif à atteindre.',
-					2: 'Qu\'il soit sportif, personnel ou encore professionnel...',
-					3: 'Et vous, quel est le votre ?'
-				},
-				cards: {
-					1: {
-						title: 'Mesurable',
-						text: 'Il peut avoir un indicateur de résultat, ou à défaut, nos sens doivent nous permettre de déterminer précisément à quel moment l’objectif sera atteint.'
-					},
-					2: {
-						title: 'Spécifique',
-						text: 'Suffisamment précis, présenter des caractéristiques propres.'
-					},
-					3: {
-						title: 'Mesurable',
-						text: 'Il peut avoir un indicateur de résultat, ou à défaut, nos sens doivent nous permettre de déterminer précisément à quel moment l’objectif sera atteint.'
-					},
-					4: {
-						title: 'Spécifique',
-						text: 'Suffisamment préci, présenter des caractéristiques propres.'
-					}
-				}
-			}
-		}
-	},
 	data() {
 		return {
 			showNextButton: false,
 			step: 1,
-			cardBeforeEnter: true,
+			cardsStatus: 'beforeEnter',
+			cardsTranslationDuration: '1000',
 			cards: [
 				{
 					title: this.$t('cards.1.title'),
@@ -115,6 +58,20 @@ export default {
 			]
 		};
 	},
+	watch: {
+		'step': function(step) {
+			switch (step) {
+				case 2:
+					this.animateStep2()
+					.then(() => {
+						console.log('yo adele step 2 ok');
+					});
+					break;
+				default:
+					break;
+			}
+		}
+	},
 	mounted() {
 		const step1animation = new Promise(resolve => {
 			this.$refs.sentences.forEach((sentence, i) => {
@@ -135,20 +92,51 @@ export default {
 	},
 	methods: {
 		goToStep(index) {
+			let promise;
 			switch (index) {
 				case 2:
 					this.step = 2;
-					setTimeout(() => {
-						this.cardBeforeEnter = false;
-					}, 1500);
 					break;
 				default:
 					break;
 			}
+			return promise;
+		},
+
+		animateStep2() {
+			this.cardsStatus = 'beforeEnter';
+			return new Promise(resolve => {
+				setTimeout(() => {
+					this.cardsStatus = 'onEnter';
+					setTimeout(() => {
+						this.cardsStatus = 'afterEnter';
+						setTimeout(() => {
+							this.cardsStatus = 'finish';
+							setTimeout(() => {
+								resolve();
+							}, this.cardsTranslationDuration / 2);
+						}, this.cardsTranslationDuration / 5);
+					}, this.cardsTranslationDuration);
+				}, this.cardsTranslationDuration);
+			});
 		},
 
 		toggleCards() {
-			this.cardBeforeEnter = !this.cardBeforeEnter;
+			// switch (this.cardsStatus) {
+			// 	case 'beforeEnter':
+			// 		this.cardsStatus = 'onEnter';
+			// 		break;
+			// 	case 'onEnter':
+			// 		this.cardsStatus = 'afterEnter';
+			// 		break;
+			// 	case 'afterEnter':
+			// 		this.cardsStatus = 'finish';
+			// 		break;
+			// 	default:
+			// 		this.cardsStatus = 'beforeEnter';
+			// 		break;
+			// }
+			this.goToStep(2);
 		}
 	}
 };
@@ -156,6 +144,10 @@ export default {
 
 
 <style lang="scss">
+@keyframes lateSlide {
+	from { --cardX: -50%}
+	to { --cardX: 0%}
+}
 .intro {
 	height: 100vh;
 	width: 100vw;
@@ -241,13 +233,16 @@ export default {
 			left: 50%;
 			transform: translateX(-50%);
 			font-size: 2rem;
+			transition: all 0.4s var(--ease) 1.5s;
 		}
 		.cards {
 			display: block;
 			position: absolute;
 			top: 50%;
 			left: 50%;
-			transform: translate(-50%, -50%);
+			--cardsTranslationDelay: var(--cardsTranslationDuration);
+			transition: transform var(--cardsTranslationDuration) var(--ease) var(--cardsTranslationDelay);
+			transform: translate(calc(50% - 25vw), -50%);
 			.card {
 				--cardWidth: 22rem;
 				width: var(--cardWidth);
@@ -258,7 +253,10 @@ export default {
 				left: 50%;
 				right: 50%;
 				border-radius: calc(var(--cardWidth) / 15);
-				transform: translate(-50%, -50%);
+				--cardX: -50%;
+				--cardY: -50%;
+				--cardRotate: 0deg;
+				transform: translate(var(--cardX), var(--cardY)) rotate(var(--cardRotate));
 				box-shadow: 0 calc(var(--cardWidth) * 0.03) calc(var(--cardWidth) * 0.07) rgba(0, 0, 0, 0.05);
 				padding: calc(var(--cardWidth) * 0.1);
 				box-sizing: border-box;
@@ -266,7 +264,7 @@ export default {
 				opacity: 1;
 				@for $j from 1 to 30 {
 					&:nth-child(#{$j}) {
-						transition: transform 0.5s var(--ease) calc((#{$j} - 0.5) * 0.1s), opacity 0.2s calc((#{$j} - 0.5) * 0.1s);
+						transition: transform calc(var(--cardsTranslationDuration) / 2) var(--ease) calc((#{$j} - 0.5) * 0.1s), opacity 0.2s calc((#{$j} - 0.5) * 0.1s);
 					}
 				}
 				.illustration {
@@ -297,21 +295,36 @@ export default {
 					margin: 0;
 				}
 				&:nth-child(1) {
-					transform: translate(-50%, -50%) rotate(3deg);
+					--cardRotate: 3deg;
 				}
 				&:nth-child(2) {
-					transform: translate(-50%, -50%) rotate(-2deg);
+					--cardRotate: -2deg;
 				}
 				&:nth-child(3) {
-					transform: translate(-50%, -50%) rotate(2deg);
+					--cardRotate: 2deg;
 				}
 				&:nth-child(4) {
-					transform: translate(-50%, -50%) rotate(0deg);
+					--cardRotate: 0deg;
 				}
-				&.beforeEnter {
+			}
+		}
+		&.beforeEnter {
+			.cards {
+				transform: translate(-50%, -50%);
+				.card {
 					opacity: 0;
-					transform: translate(calc(-50% + 50vw), -20%) rotate(20deg);
+					--cardX: calc(-50% + 50vw);
+					--cardY: -20%;
+					--cardRotate: 20deg;
 				}
+			}
+		}
+		&.afterEnter {
+		}
+		&.finish {
+			.heading {
+				transform: translate(-50%, -50%);
+				opacity: 0;
 			}
 		}
 	}

@@ -12,5 +12,28 @@
         "item3": {
             "title": "Visualize"
         }
+    },
+    "sentences": {
+        "1": "We all have a goal in mind.",
+        "2": "Wether it is a sport goal, a personal goal, or even a work goal...",
+        "3": "So, what about yours?"
+    },
+    "cards": {
+        "1": {
+            "title": "Mesurable",
+            "text": "Il peut avoir un indicateur de résultat, ou à défaut, nos sens doivent nous permettre de déterminer précisément à quel moment l’objectif sera atteint."
+        },
+        "2": {
+            "title": "Specific",
+            "text": "Suffisamment précis, présenter des caractéristiques propres."
+        },
+        "3": {
+            "title": "Mesurable",
+            "text": "Il peut avoir un indicateur de résultat, ou à défaut, nos sens doivent nous permettre de déterminer précisément à quel moment l’objectif sera atteint."
+        },
+        "4": {
+            "title": "Specific",
+            "text": "Suffisamment préci, présenter des caractéristiques propres."
+        }
     }
 }

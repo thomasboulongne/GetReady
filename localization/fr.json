@@ -12,5 +12,28 @@
         "item3": {
             "title": "Se visualiser"
         }
+    },
+    "sentences": {
+        "1": "Nous avons tous un objectif à atteindre.",
+        "2": "Qu'il soit sportif, personnel ou encore professionnel...",
+        "3": "Et vous, quel est le votre ?"
+    },
+    "cards": {
+        "1": {
+            "title": "Mesurable",
+            "text": "Il peut avoir un indicateur de résultat, ou à défaut, nos sens doivent nous permettre de déterminer précisément à quel moment l’objectif sera atteint."
+        },
+        "2": {
+            "title": "Spécifique",
+            "text": "Suffisamment précis, présenter des caractéristiques propres."
+        },
+        "3": {
+            "title": "Mesurable",
+            "text": "Il peut avoir un indicateur de résultat, ou à défaut, nos sens doivent nous permettre de déterminer précisément à quel moment l’objectif sera atteint."
+        },
+        "4": {
+            "title": "Spécifique",
+            "text": "Suffisamment préci, présenter des caractéristiques propres."
+        }
     }
 }
