@@ -1,7 +1,7 @@
 <template>
-	<section class="container">
+	<section :class="['container', 'home', $store.getters.goal === null ? 'introLayout' : 'selectorLayout']">
 		<intro-comp></intro-comp>
-		<!-- <selector-comp :items="items"></selector-comp> -->
+		<selector-comp :items="items"></selector-comp>
 	</section>
 </template>
 
@@ -47,4 +47,36 @@ export default {
 </script>
 
 <style lang="scss">
+.home {
+	--transitionDuration: 1.5s;
+	background: var(--lightOrange);
+	height: 100vh;
+	width: 100%;
+	.intro {
+		position: absolute;
+		top: 0;
+		left: 0;
+		transition: opacity var(--transitionDuration), visibility 0s linear var(--transitionDuration), transform var(--transitionDuration) var(--ease) 0s;
+	}
+	.selector {
+		position: absolute;
+		top: 0;
+		left: 0;
+		transition: opacity 0.4s var(--ease) calc(var(--transitionDuration) / 2), transform var(--transitionDuration) var(--ease);
+	}
+	&.introLayout {
+		.selector {
+			visibility: hidden;
+			opacity: 0;
+			transform: scale(0.97);
+		}
+	}
+	&.selectorLayout {
+		.intro {
+			opacity: 0;
+			transform: scale(0.97);
+			visibility: hidden;
+		}
+	}
+}
 </style>

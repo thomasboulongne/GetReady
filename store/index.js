@@ -16,6 +16,7 @@ const store = () => new Vuex.Store({
 			locale: 'fr',
 			menuOpen: false
 		},
+		goal: null,
 
 		contentLoaded: false,
 
@@ -46,6 +47,9 @@ const store = () => new Vuex.Store({
 		},
 		UPDATE_MENU_OPEN(state, isOpen) {
 			state.uiData.menuOpen = isOpen;
+		},
+		SET_GOAL(state, goal) {
+			state.goal = goal;
 		}
 	},
 
@@ -79,6 +83,9 @@ const store = () => new Vuex.Store({
 		},
 		toggleMenu({ commit, state }) {
 			commit('UPDATE_MENU_OPEN', !state.uiData.menuOpen);
+		},
+		setGoal({ commit, state }, goal) {
+			commit('SET_GOAL', goal);
 		}
 	},
 
@@ -100,7 +107,8 @@ const store = () => new Vuex.Store({
 		translation: state => identifier => {
 			return state.translations.find(t => t.identifier == identifier) ? state.translations.find(t => t.identifier == identifier).translations : identifier;
 		},
-		lang: state => state.uiData.lang
+		lang: state => state.uiData.lang,
+		goal: state => state.goal
 	}
 });
 

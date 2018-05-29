@@ -34,8 +34,8 @@
 				<div class="wrapper">
 					<h2 v-t="'intro.step2.formPanel.heading'"></h2>
 					<p v-t="'intro.step2.formPanel.text'"></p>
-					<form>
-						<input type="text" :placeholder="$t('intro.step2.formPanel.placeholder')">
+					<form @submit="validate">
+						<input type="text" :placeholder="$t('intro.step2.formPanel.placeholder')" ref="goalInput">
 						<div class="examples">
 							<span v-t="'intro.step2.formPanel.Example'"></span>
 							<div class="wrapper">
@@ -43,6 +43,10 @@
 									<li v-for="(example, i) in examples" v-html="example" :key="i"></li>
 								</ul>
 							</div>
+						</div>
+						<div class="buttons">
+							<input type="submit" class="validate" :value="$t('intro.step2.formPanel.submit')"/>
+							<input type="submit" class="noValidate" :value="$t('intro.step2.formPanel.noSubmit')"/>
 						</div>
 					</form>
 				</div>
@@ -111,9 +115,6 @@ export default {
 			}
 		}
 	},
-	created() {
-		// this.currentCardIndex = this.cards.length - 1;
-	},
 	mounted() {
 		const step1animation = new Promise(resolve => {
 			this.$refs.sentences.forEach((sentence, i) => {
@@ -175,6 +176,11 @@ export default {
 			const value = (this.cards.length - i) + (this.currentCardIndex) - 1;
 			const zIndex = value % this.cards.length;
 			return zIndex;
+		},
+
+		validate(event) {
+			event.preventDefault();
+			this.$store.dispatch('setGoal', this.$refs.goalInput.value);
 		}
 	}
 };
@@ -298,7 +304,7 @@ export default {
 				--cardRotate: 0deg;
 				transform: translate(var(--cardX), var(--cardY)) rotate(var(--cardRotate));
 				box-shadow: 0 calc(var(--cardWidth) * 0.03) calc(var(--cardWidth) * 0.07) rgba(0, 0, 0, 0.05);
-				border: solid 1px rgba(0, 0, 0, 0.09);
+				border: solid 1px rgba(0, 0, 0, 0.07);
 				padding: calc(var(--cardWidth) * 0.1);
 				box-sizing: border-box;
 				text-align: center;
@@ -392,7 +398,7 @@ export default {
 				}
 				form {
 					position: relative;
-					input {
+					input[type=text] {
 						font-size: 2.5rem;
 						width: 100%;
 						font-family: inherit;
@@ -408,12 +414,10 @@ export default {
 							font-weight: 100;
 						}
 					}
-
 					.examples {
 						display: inline-block;
 						margin: 2rem 0;
-						color: black;
-						opacity: 0.35;
+						color: #A64034;
 						font-weight: bold;
 						width: 100%;
 						span {
@@ -439,9 +443,27 @@ export default {
 									font-size: 1.35em;
 									font-style: italic;
 									white-space: nowrap;
+									color: #A64034;
 								}
 							}
 						}
+					}
+					input.validate {
+						border-radius: 3em;
+						text-transform: uppercase;
+						padding: 1em 3.5em;
+						background: white;
+						color: var(--lightOrange);
+						font-family: 'Open Sans', sans-serif;
+						border: none;
+					}
+					input.noValidate {
+						border: none;
+						background: none;
+						font-family: 'Open Sans', sans-serif;
+						margin-left: 2em;
+						text-decoration: underline;
+						color: #A64034;
 					}
 				}
 			}
