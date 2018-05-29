@@ -9,7 +9,7 @@ html, body, #__nuxt {
 }
 
 .MTKnox {
-	font-family: 'MTKnox';
+	font-family: 'MT Knox';
 	letter-spacing: 0.1em;
 	font-weight: bold;
 	text-transform: uppercase;
@@ -25,4 +25,9 @@ ul {
 h2, h3, h4 {
 	font-weight: normal;
 	font-family: 'Fjalla One', sans-serif;
+}
+
+h2 {
+	text-transform: uppercase;
+	font-size: 3rem;
 }

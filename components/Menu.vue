@@ -67,7 +67,6 @@ export default {
 			.menuItem {
 				.titleWrapper {
 					margin: 0.5em;
-					font-family: 'MTKnox';
 					font-weight: bold;
 					font-size: 4vw;
 					color: white;

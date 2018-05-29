@@ -2,6 +2,30 @@
     "discover": "découvrir",
     "Gallery": "Galerie",
     "next": "suivant",
+    "intro": {
+        "step1": {
+            "sentences": {
+                "1": "Nous avons tous un objectif à atteindre.",
+                "2": "Qu'il soit sportif, personnel ou encore professionnel...",
+                "3": "Et vous, quel est le votre ?"
+            }
+        },
+        "step2": {
+            "sidePanel": {
+                "heading": "Un bon objectif devrait être :"
+            },
+            "formPanel": {
+                "heading": "Formule ton objectif",
+                "text": "Les personnes qui écrivent leur objectif ont 42% plus de chances de l’atteindre que ceux qui se contentent de le penser.",
+                "placeholder": "Mon objectif est...",
+                "Example": "Exemple :",
+                "examples": {
+                    "1": "Avoir son bac avec mention",
+                    "2": "Courir le marathon de Paris en moins de 3h"
+                }
+            }
+        }
+    },
     "categories": {
         "item1": {
             "title": "S'organiser"
@@ -13,11 +37,6 @@
             "title": "Se visualiser"
         }
     },
-    "sentences": {
-        "1": "Nous avons tous un objectif à atteindre.",
-        "2": "Qu'il soit sportif, personnel ou encore professionnel...",
-        "3": "Et vous, quel est le votre ?"
-    },
     "cards": {
         "1": {
             "title": "Mesurable",
@@ -28,12 +47,20 @@
             "text": "Suffisamment précis, présenter des caractéristiques propres."
         },
         "3": {
-            "title": "Mesurable",
+            "title": "Positif",
             "text": "Il peut avoir un indicateur de résultat, ou à défaut, nos sens doivent nous permettre de déterminer précisément à quel moment l’objectif sera atteint."
         },
         "4": {
-            "title": "Spécifique",
-            "text": "Suffisamment préci, présenter des caractéristiques propres."
+            "title": "Réaliste",
+            "text": "Suffisamment précis, présenter des caractéristiques propres."
+        },
+        "5": {
+            "title": "En harmonie",
+            "text": "Il peut avoir un indicateur de résultat, ou à défaut, nos sens doivent nous permettre de déterminer précisément à quel moment l’objectif sera atteint."
+        },
+        "6": {
+            "title": "Temporel",
+            "text": "Suffisamment précis, présenter des caractéristiques propres."
         }
     }
 }

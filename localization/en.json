@@ -2,6 +2,7 @@
     "discover": "discover",
     "Gallery": "Gallery",
     "next": "next",
+    "Write down your goal": "Write down your goal",
     "categories": {
         "item1": {
             "title": "Be organized"
@@ -33,7 +34,7 @@
         },
         "4": {
             "title": "Specific",
-            "text": "Suffisamment préci, présenter des caractéristiques propres."
+            "text": "Suffisamment précis, présenter des caractéristiques propres."
         }
     }
 }

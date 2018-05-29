@@ -3,7 +3,7 @@
 		<div class="step step1">
 			<div class="sentences">
 				<div class="sentence" v-for="i in 3" :key="i" ref="sentences">
-					<span v-for="(word, j) in $t('sentences.' + i).split(' ')" :key="j">{{ word }} </span>
+					<span v-for="(word, j) in $t('intro.step1.sentences.' + i).split(' ')" :key="j">{{ word }} </span>
 				</div>
 			</div>
 			<div :class="['button__next', showNextButton ? 'show' : '']" @click="goToStep(2)">
@@ -11,16 +11,40 @@
 				<img src="~/assets/images/arrow@3x.png"/>
 			</div>
 		</div>
-		<div :class="['step', 'step2', cardsStatus]">
-			<span class="heading">Un bon objectif devrait être :</span>
-			<div :class="['cards',]" :style="{'--cardsTranslationDuration': cardsTranslationDuration + 'ms', '--singleCardTranslationDuration': cardsTranslationDuration / cards.length + 'ms'}">
-				<div :class="['card']" v-for="(card, i) in cards" ref="cards" :key="card.title + i">
+		<div :class="['step', 'step2', cardsStatus]" :style="{'--cardsTranslationDuration': cardsTranslationDuration + 'ms', '--singleCardTranslationDuration': cardsTranslationDuration / cards.length + 'ms'}">
+			<h3 class="heading" v-t="'intro.step2.sidePanel.heading'"></h3>
+			<div :class="['cards',]">
+				<div :class="['card', i === currentCardIndex ? 'selected': '']" v-for="(card, i) in cards" ref="cards" :style="{zIndex: getCardZIndex(i)}" :key="card.title + i">
 					<div class="illustration">
 						<img :src="card.img" alt="" class="shadow">
 						<img :src="card.img" alt="">
 					</div>
 					<h3>{{ card.title }}</h3>
 					<p v-html="card.text"></p>
+				</div>
+			</div>
+			<div class="sidePanel">
+				<ul>
+					<li v-for="(card, i) in cards" :key="i">
+						<span :class="[currentCardIndex === i ? 'selected' : '']" @click="goToCard(i)">{{ card.title }}</span>
+					</li>
+				</ul>
+			</div>
+			<div class="formPanel">
+				<div class="wrapper">
+					<h2 v-t="'intro.step2.formPanel.heading'"></h2>
+					<p v-t="'intro.step2.formPanel.text'"></p>
+					<form>
+						<input type="text" :placeholder="$t('intro.step2.formPanel.placeholder')">
+						<div class="examples">
+							<span v-t="'intro.step2.formPanel.Example'"></span>
+							<div class="wrapper">
+								<ul>
+									<li v-for="(example, i) in examples" v-html="example" :key="i"></li>
+								</ul>
+							</div>
+						</div>
+					</form>
 				</div>
 			</div>
 		</div>
@@ -34,6 +58,7 @@ export default {
 			step: 1,
 			cardsStatus: 'beforeEnter',
 			cardsTranslationDuration: '1000',
+			currentCardIndex: 0,
 			cards: [
 				{
 					title: this.$t('cards.1.title'),
@@ -54,7 +79,21 @@ export default {
 					title: this.$t('cards.4.title'),
 					text: this.$t('cards.4.text'),
 					img: '/images/cards/specific.png'
+				},
+				{
+					title: this.$t('cards.5.title'),
+					text: this.$t('cards.5.text'),
+					img: '/images/cards/mesurable.png'
+				},
+				{
+					title: this.$t('cards.6.title'),
+					text: this.$t('cards.6.text'),
+					img: '/images/cards/specific.png'
 				}
+			],
+			examples: [
+				this.$t('intro.step2.formPanel.examples.1'),
+				this.$t('intro.step2.formPanel.examples.2')
 			]
 		};
 	},
@@ -71,6 +110,9 @@ export default {
 					break;
 			}
 		}
+	},
+	created() {
+		this.currentCardIndex = this.cards.length - 1;
 	},
 	mounted() {
 		const step1animation = new Promise(resolve => {
@@ -122,21 +164,17 @@ export default {
 		},
 
 		toggleCards() {
-			// switch (this.cardsStatus) {
-			// 	case 'beforeEnter':
-			// 		this.cardsStatus = 'onEnter';
-			// 		break;
-			// 	case 'onEnter':
-			// 		this.cardsStatus = 'afterEnter';
-			// 		break;
-			// 	case 'afterEnter':
-			// 		this.cardsStatus = 'finish';
-			// 		break;
-			// 	default:
-			// 		this.cardsStatus = 'beforeEnter';
-			// 		break;
-			// }
 			this.goToStep(2);
+		},
+
+		goToCard(i) {
+			this.currentCardIndex = i;
+		},
+
+		getCardZIndex(i) {
+			const value = i + (this.cards.length - this.currentCardIndex) - 1;
+			const zIndex = value % this.cards.length;
+			return zIndex;
 		}
 	}
 };
@@ -227,24 +265,26 @@ export default {
 		align-items: center;
 		justify-content: space-around;
 		position: relative;
+		--leftMargin: 3vw;
+		--cardsTranslationDelay: var(--cardsTranslationDuration);
 		.heading {
 			position: absolute;
 			top: 10%;
-			left: 50%;
-			transform: translateX(-50%);
-			font-size: 2rem;
-			transition: all 0.4s var(--ease) 1.5s;
+			transform: translateX(0);
+			left: var(--leftMargin);
+			font-size: 1.6rem;
+			transition: all  var(--cardsTranslationDuration) var(--ease) var(--cardsTranslationDelay);
 		}
 		.cards {
 			display: block;
 			position: absolute;
 			top: 50%;
 			left: 50%;
-			--cardsTranslationDelay: var(--cardsTranslationDuration);
 			transition: transform var(--cardsTranslationDuration) var(--ease) var(--cardsTranslationDelay);
-			transform: translate(calc(50% - 25vw), -50%);
+			transform: translate(calc(50% - (100vw / 5)), -50%);
+			z-index: 2;
 			.card {
-				--cardWidth: 22rem;
+				--cardWidth: 18vw;
 				width: var(--cardWidth);
 				height: calc(var(--cardWidth) * 1.54);
 				background: white;
@@ -258,6 +298,7 @@ export default {
 				--cardRotate: 0deg;
 				transform: translate(var(--cardX), var(--cardY)) rotate(var(--cardRotate));
 				box-shadow: 0 calc(var(--cardWidth) * 0.03) calc(var(--cardWidth) * 0.07) rgba(0, 0, 0, 0.05);
+				border: solid 1px rgba(0, 0, 0, 0.09);
 				padding: calc(var(--cardWidth) * 0.1);
 				box-sizing: border-box;
 				text-align: center;
@@ -294,17 +335,110 @@ export default {
 				p {
 					margin: 0;
 				}
-				&:nth-child(1) {
-					--cardRotate: 3deg;
+				@for $i from 1 to 10 {
+					&:nth-child(#{$i}) {
+						--cardRotate: calc(#{random($limit: 8) - 4} * 1deg);
+					}
 				}
-				&:nth-child(2) {
-					--cardRotate: -2deg;
-				}
-				&:nth-child(3) {
-					--cardRotate: 2deg;
-				}
-				&:nth-child(4) {
+				&.selected {
 					--cardRotate: 0deg;
+				}
+			}
+		}
+		.sidePanel {
+			text-align: left;
+			position: absolute;
+			left: var(--leftMargin);
+			transform: translate(0);
+			text-transform: uppercase;
+			ul {
+				li {
+					margin: 2em 0;
+					span {
+						opacity: 0.6;
+						transition: all 0.4s;
+						cursor: pointer;
+						&.selected {
+							cursor: default;
+							opacity: 1;
+						}
+					}
+				}
+			}
+		}
+		.formPanel {
+			position: absolute;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			width: 0;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			transition: all var(--cardsTranslationDuration);
+			background: var(--lightOrange);
+			.wrapper {
+				width: 100%;
+				max-width: 66%;
+				text-align: left;
+				p {
+					display: inline-block;
+					width: 66%;
+					margin-bottom: 4rem;
+				}
+				form {
+					position: relative;
+					input {
+						font-size: 2.5rem;
+						width: 100%;
+						font-family: inherit;
+						color: inherit;
+						background: none;
+						border: none;
+						border-bottom: solid white 2px;
+						padding: 0.1em;
+						line-height: 1.5;
+						&::placeholder {
+							color: rgba(255, 255, 255, 0.7);
+							font-style: italic;
+							font-weight: 100;
+						}
+					}
+
+					.examples {
+						display: inline-block;
+						margin: 2rem 0;
+						color: black;
+						opacity: 0.35;
+						font-weight: bold;
+						width: 100%;
+						span {
+							line-height: 2.35em;
+						}
+						.wrapper {
+							margin-left: 1rem;
+							vertical-align: top;
+							display: inline-block;
+							height: 2.35em;
+							overflow: hidden;
+							@keyframes slide {
+								0%, 45% {
+									transform: translateY(0%);
+								}
+								55%, 90% {
+									transform: translateY(-50%);
+								}
+							}
+							ul {
+								animation: slide 10s infinite;
+								li {
+									font-size: 1.35em;
+									font-style: italic;
+									white-space: nowrap;
+								}
+							}
+						}
+					}
 				}
 			}
 		}
@@ -318,13 +452,19 @@ export default {
 					--cardRotate: 20deg;
 				}
 			}
-		}
-		&.afterEnter {
+			.heading {
+				left: 50%;
+				transform: translateX(-50%);
+			}
 		}
 		&.finish {
-			.heading {
-				transform: translate(-50%, -50%);
-				opacity: 0;
+			.formPanel {
+				width: 66%;
+			}
+			.cards {
+				.card {
+					transition-delay: 0s;
+				}
 			}
 		}
 	}
