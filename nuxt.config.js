@@ -103,10 +103,10 @@ module.exports = {
 								spacing: '1.5rem',
 								menuTransitionSpeed: '0.2s',
 								ease: 'cubic-bezier(0.165, 0.84, 0.44, 1)',
-								darkOrange: '#f16955',
-								lightOrange: '#ff6f5a',
+								darkOrange: '#f35a3e',
+								lightOrange: '#fd6246',
 								black: '#494949',
-								blue: '#5781f8'
+								blue: '#4b80ff'
 							}
 						}
 					}
