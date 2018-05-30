@@ -38,6 +38,7 @@ export default {
     position: absolute;
     top: 33.83%;
     transform: translateX(10.01%);
+    width: 100%;
 
 	.bilan-svg {
 		width: 100%;

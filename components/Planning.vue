@@ -37,6 +37,7 @@ export default {
     background-color: white;
     position: absolute;
     top: 48.75%;
+    width:100%;
     transform: translateX(10.2%);
 
 	.planning-svg {

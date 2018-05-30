@@ -33,6 +33,7 @@ export default {
     background-color: white;
     position: absolute;
     top: 54.8%;
+    width: 100%;
     transform: translateX(10.99%);
 
 	.methods-svg {

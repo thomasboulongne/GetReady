@@ -38,6 +38,7 @@ export default {
     background-color: white;
     position: absolute;
     top: 38.645%;
+    width: 100%;
 
 	.bilantab-svg {
 		width: 100%;
