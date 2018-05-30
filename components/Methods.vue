@@ -1,11 +1,11 @@
 <template>
 	<div class="methods">
 		<!-- BILAN 1 -->
-		<img class="methods-svg" :class="[current == 0 ? 'active' : '' ]" src="http://imagehost.kevinmoutier.com/images/2018/05/29/methode01.png" />
+		<img class="methods-svg" :class="[current == 0 ? 'active' : '' ]" src="~/assets/images/organize/methode01.png" />
 		<!-- BILAN 2 -->
-		<img class="methods-svg" :class="[current == 1 ? 'active' : '' ]" src="http://imagehost.kevinmoutier.com/images/2018/05/29/methode02.png" />
+		<img class="methods-svg" :class="[current == 1 ? 'active' : '' ]" src="~/assets/images/organize/methode02.png" />
 		<!-- BILAN 3 -->
-		<img class="methods-svg" :class="[current == 2 ? 'active' : '' ]" src="http://imagehost.kevinmoutier.com/images/2018/05/29/methode03.png" />
+		<img class="methods-svg" :class="[current == 2 ? 'active' : '' ]" src="~/assets/images/organize/methode03.png" />
 	</div>
 </template>
 <script>

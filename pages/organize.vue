@@ -992,7 +992,7 @@
 		</div>
 
 		<div class="people-cards">
-			<img ref="people" src="http://imagehost.kevinmoutier.com/images/2018/05/30/celebrite.png" :style="{'--people-progression': people.minX - people.progression + '%'}"/>
+			<img ref="people" src="~/assets/images/organize/celebrites.png" :style="{'--people-progression': people.minX - people.progression + '%'}"/>
 		</div>
 
 		<div class="psmart-arrows">  
@@ -1028,17 +1028,17 @@
 			<div @click="peopleNext" class="people-arrow people-arrow-right"></div>
 		</div>
 		<div class="learnmore learnmore-gif1"> 
-			<img src="http://imagehost.kevinmoutier.com/images/2018/05/30/01incontrolable.gif" />
+			<img src="~/assets/images/organize/01incontrolable.gif" />
 		</div>
 		
 		<div class="learnmore learnmore-gif2"> 
-			<img src="http://imagehost.kevinmoutier.com/images/2018/05/30/02s-entourer15e57c47b274da76.gif" />
+			<img src="~/assets/images/organize/02s-entourer.gif" />
 		</div>
 		<div class="learnmore learnmore-gif3"> 
-			<img src="http://imagehost.kevinmoutier.com/images/2018/05/30/03intention8a90e2faac3fe97d.gif" />
+			<img src="~/assets/images/organize/03intention.gif" />
 		</div>
 		<div class="learnmore learnmore-gif4"> 
-			<img src="http://imagehost.kevinmoutier.com/images/2018/05/30/04profesionnel.gif" />
+			<img src="~/assets/images/organize/04profesionnel.gif" />
 		</div>
 	</section>
 </template>
@@ -1166,6 +1166,10 @@ export default {
 </script>
 
 <style lang="scss">
+
+.burger {
+	display: none;
+}
 
 .organize-page {
 

@@ -1,12 +1,11 @@
 <template>
 	<div class="bilantab">
 		<!-- BILAN 1 -->
-		<img class="bilantab-svg" :class="[current == 0 ? 'active' : '' ]" src="http://imagehost.kevinmoutier.com/images/2018/05/29/tab01.png" />
+		<img class="bilantab-svg" :class="[current == 0 ? 'active' : '' ]" src="~/assets/images/organize/tab01.png" />
 		<!-- BILAN 2 -->
-		<img class="bilantab-svg" :class="[current == 1 ? 'active' : '' ]" src="http://imagehost.kevinmoutier.com/images/2018/05/29/tab02.png" />
+		<img class="bilantab-svg" :class="[current == 1 ? 'active' : '' ]" src="~/assets/images/organize/tab02.png" />
 		<!-- BILAN 3 -->
-		<img class="bilantab-svg" :class="[current == 2 ? 'active' : '' ]" src="http://imagehost.kevinmoutier.com/images/2018/05/29/tab03.png
-" />
+		<img class="bilantab-svg" :class="[current == 2 ? 'active' : '' ]" src="~/assets/images/organize/tab03.png" />
 	</div>
 </template>
 <script>
