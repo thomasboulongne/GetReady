@@ -2,7 +2,7 @@
 	<div class="selector" @mousemove="mouseMove" :style="{backgroundColor: backgroundColor, '--transition-speed': transitionSpeed * 0.75 + 's', '--xPercent': xPercent.toFixed(2), '--yPercent': yPercent.toFixed(2), '--vw': vw + 'px', '--vh': vh + 'px', '--ratio': (vh / vw).toFixed(2)}">
 		<ul class="hiddenSelector">
 			<li v-for="(item, i) in items" :key="item.color + i">
-				<div class="selectorItem" ref="items" :style="{'--backgroundColor': item.color, '--xOffset': item.x.toFixed(2) + '%', '--yOffset': item.y.toFixed(2) + '%'}">
+				<div class="selectorItem" ref="items" :style="{'--backgroundColor': item.color, '--xOffset': item.shadow.x.toFixed(2) + '%', '--yOffset': item.shadow.y.toFixed(2) + '%'}">
 					<img :src="item.img" class="shadow">
 					<img :src="item.img">
 					<div class="titleWrapper MTKnox">
@@ -20,7 +20,6 @@
 				</div>
 			</li>
 		</ul>
-		<!-- <span style="position: fixed; top: 0; left: 0">{{ vw / vh }}</span> -->
 	</div>
 </template>
 <script>
@@ -271,8 +270,8 @@ export default {
 			transform: translate(calc(-50% + var(--xPercent) * 0.01%), calc(-50% + var(--yPercent) * 0.01%));
 			z-index: 1;
 			height: auto;
-			width: 80vmin;
-			height: 80vmin;
+			width: 70vmin;
+			height: 70vmin;
 			object-fit: contain;
 			display: block;
 			filter: grayscale(1);
