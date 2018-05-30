@@ -1041,10 +1041,12 @@
 			<img src="~/assets/images/organize/04profesionnel.gif" />
 		</div>
 
-		<div class="hoverArea2"></div>
-	<!-- 	<div class="hoverPersonaInfos">
-			<img ref="people" src="~/assets/images/organize/hover01.png"/>
-		</div> -->
+		<div class="hoverArea2" @mouseover="showPersonaInfos($event, currentMethods)" @mouseleave="hidePersonaInfos"></div>
+		<div :class="[persona.isVisible == 1 ? 'visible' : '' ]" class="hoverPersonaInfos" :style="{'--persona-top': persona.position.top + 'px', '--persona-left': persona.position.left + 'px'}" >
+			<img :class="[persona.current == 0 ? 'active' : '' ]" src="~/assets/images/organize/hover01.png" />
+			<img :class="[persona.current == 1 ? 'active' : '' ]" src="~/assets/images/organize/hover02.png" />
+			<img :class="[persona.current == 2 ? 'active' : '' ]" src="~/assets/images/organize/hover03.png" />
+		</div>
 	</section>
 </template>
 
@@ -1079,6 +1081,12 @@ export default {
 				maxX: -54
 			},
 			persona: {
+				position: {
+					top: 0,
+					left: 0
+				},
+				current: 0,
+				isVisible: 0
 			},
 			currentBilan: 0,
 			currentBilanTab: 0,
@@ -1116,8 +1124,18 @@ export default {
 
 	methods: {
 
-		showPersonaInfos: function() {
-			// Show persona popup
+		showPersonaInfos: function(evt, id) {
+			let el = evt.toElement;
+			let xPos = (el.offsetLeft + el.clientLeft);
+			let yPos = (el.offsetTop - el.scrollTop + el.clientTop);
+			this.persona.current = id;
+			this.persona.isVisible = 1;
+			this.persona.position.top = yPos;
+			this.persona.position.left = xPos - 20;
+		},
+
+		hidePersonaInfos: function() {
+			this.persona.isVisible = 0;
 		},
 
 		psmartNext() {
@@ -1421,7 +1439,6 @@ export default {
 	}
 
 	.hoverArea2 {
-		background-color: rgba(255, 0, 0, .3);
 		position: absolute;
 		overflow: hidden;
 		cursor: pointer;
@@ -1430,6 +1447,29 @@ export default {
 		top: 56.1%;
 		width: 3%;
 		height: 0.15%;
+	}
+
+	.hoverPersonaInfos {
+		overflow: hidden;
+		width: 28%;
+		top: var(--persona-top);
+		left: var(--persona-left);
+		display: none;
+		position: absolute;
+		transform: translate3d(-100%, -40%, 0);
+
+		img {
+			width: 100%;
+			display: none;
+		}
+
+		img.active {
+			display: initial;
+		}
+	}
+
+	.hoverPersonaInfos.visible {
+		display: block;
 	}
 }
 
