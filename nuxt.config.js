@@ -63,7 +63,8 @@ module.exports = {
 		'@nuxtjs/sitemap'
 	],
 	plugins: [
-		'~/plugins/i18n.js'
+		'~/plugins/i18n.js',
+		{ src: '~/plugins/Hammer.js', ssr: false }
 	],
 	/*
 	** Customize the progress-bar color
@@ -117,7 +118,8 @@ module.exports = {
 			'gsap',
 			'marked',
 			'three',
-			'three/examples/js/renderers/CSS3DRenderer'
+			'three/examples/js/renderers/CSS3DRenderer',
+			'vue2-hammer'
 		]
 	}
 };

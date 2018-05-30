@@ -1,5 +1,5 @@
 <template>
-	<div class="selector" @mousemove="mouseMove" :style="{backgroundColor: backgroundColor, '--transition-speed': transitionSpeed * 0.75 + 's', '--xPercent': xPercent.toFixed(2), '--yPercent': yPercent.toFixed(2), '--vw': vw + 'px', '--vh': vh + 'px', '--ratio': (vh / vw).toFixed(2)}">
+	<div class="selector" v-hammer:swipe.horizontal="swipeGesture" @mousemove="mouseMove" :style="{backgroundColor: backgroundColor, '--transition-speed': transitionSpeed * 0.75 + 's', '--xPercent': xPercent.toFixed(2), '--yPercent': yPercent.toFixed(2), '--vw': vw + 'px', '--vh': vh + 'px', '--ratio': (vh / vw).toFixed(2)}">
 		<ul class="hiddenSelector">
 			<li v-for="(item, i) in items" :key="item.color + i">
 				<div class="selectorItem" ref="items" :style="{'--backgroundColor': item.color, '--xOffset': item.shadow.x.toFixed(2) + '%', '--yOffset': item.shadow.y.toFixed(2) + '%'}">
@@ -41,7 +41,8 @@ export default {
 			progression: 0,
 			backgroundColor: this.items[0].color,
 			canSlide: true,
-			transitionSpeed: 1
+			transitionSpeed: 1,
+			currentSlide: 0
 		};
 	},
 
@@ -54,10 +55,6 @@ export default {
 		},
 		step: function() {
 			return 100 / this.numberOfItems;
-		},
-		currentSlide: function() {
-			const i = Math.floor((this.progression - this.step / 2) / this.step) + 1;
-			return i === this.numberOfItems ? 0 : i === -1 ? this.numberOfItems - 1 : i;
 		},
 		numberOfItems: function() {
 			return this.items.length;
@@ -173,34 +170,51 @@ export default {
 				y: e.clientY
 			});
 		},
+		swipeGesture(e) {
+			switch (e.direction) {
+				case 2:
+					this.next();
+					break;
+				case 4:
+					this.prev();
+					break;
+				default:
+					break;
+			}
+		},
 		prev() {
 			if (this.canSlide) {
 				this.canSlide = false;
-				const newX = this.progression - this.step;
+				const newX = (this.currentSlide * this.step) - this.step;
+				this.currentSlide = (this.currentSlide - 1) < 0 ? this.items.length - 1 : this.currentSlide - 1;
 				this.slide(newX);
 			}
 		},
 		next() {
 			if (this.canSlide) {
 				this.canSlide = false;
-				const newX = this.progression + this.step;
+				const newX = (this.currentSlide * this.step) + this.step;
+				this.currentSlide = (this.currentSlide + 1) > this.items.length - 1 ? 0 : this.currentSlide + 1;
 				this.slide(newX);
 			}
 		},
 		slide(to) {
-			const tl = new TimelineMax({
-				paused: true,
-				onComplete: () => {
-					this.canSlide = true;
-				}
+			return new Promise(resolve => {
+				const tl = new TimelineMax({
+					paused: true,
+					onComplete: () => {
+						this.canSlide = true;
+						resolve();
+					}
+				});
+				tl
+				.to(this, this.transitionSpeed, {
+					ease: Power4.easeOut,
+					progression: to
+				})
+				;
+				tl.play();
 			});
-			tl
-			.to(this, this.transitionSpeed, {
-				ease: Power4.easeOut,
-				progression: to
-			})
-			;
-			tl.play();
 		},
 		onWindowResize() {
 			this.camera.aspect = window.innerWidth / window.innerHeight;
@@ -276,6 +290,7 @@ export default {
 			display: block;
 			filter: grayscale(1);
 			transform-style: preserve-3d;
+			pointer-events: none;
 			&.shadow {
 				top: calc(var(--imgTop) + var(--yOffset));
 				left: calc(50% + var(--xOffset));
@@ -291,6 +306,7 @@ export default {
 			flex-direction: column;
 			color: white;
 			height: 50%;
+			pointer-events: none;
 			@-moz-document url-prefix() {
 				transform-style: preserve-3d;
 			}

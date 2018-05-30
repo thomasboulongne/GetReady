@@ -23,7 +23,8 @@
     "sass-loader": "^6.0.6",
     "style-loader": "^0.18.2",
     "three": "^0.92.0",
-    "vue-i18n": "^7.7.0"
+    "vue-i18n": "^7.7.0",
+    "vue2-hammer": "^1.0.6"
   },
   "scripts": {
     "dev": "PORT=3010 nuxt",
