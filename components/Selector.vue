@@ -258,6 +258,7 @@ export default {
 	overflow: hidden;
 	transition: background-color 0.4s;
 	backface-visibility: hidden;
+	cursor: url(~/assets/images/drag.png), auto;
 	.hiddenSelector {
 		display: none;
 	}
