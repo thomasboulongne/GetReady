@@ -12,7 +12,9 @@
 			</ul>
 		</nav>
 		<div class="burger" @click="toggleMenu">
-			MENU
+			<img src="~/assets/images/burger.svg" class="open" />
+			<img src="~/assets/images/close.svg" class="close" />
+			<!-- MENU -->
 		</div>
 	</div>
 </template>
@@ -110,6 +112,13 @@ export default {
 		pointer-events: all;
 		color: white;
 		cursor: pointer;
+		img {
+			width: 2rem;
+		}
+		.close {
+			display: none;
+			width: 1.5rem;
+		}
 	}
 	&.open {
 		.menu {
@@ -129,6 +138,14 @@ export default {
 						transform: translateY(0);
 					}
 				}
+			}
+		}
+		.burger {
+			.open {
+				display: none;
+			}
+			.close {
+				display: block;
 			}
 		}
 	}
