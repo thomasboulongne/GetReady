@@ -1194,7 +1194,7 @@ export default {
 <style lang="scss">
 
 .burger {
-	top: 6.41vh !important;
+	top: 3.28vw !important;
 	right: 3.28vw !important;
 }
 
