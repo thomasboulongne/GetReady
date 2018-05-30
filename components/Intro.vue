@@ -67,32 +67,32 @@ export default {
 				{
 					title: this.$t('cards.1.title'),
 					text: this.$t('cards.1.text'),
-					img: '/images/cards/mesurable.png'
+					img: require('~/assets/images/cards/p.png')
 				},
 				{
 					title: this.$t('cards.2.title'),
 					text: this.$t('cards.2.text'),
-					img: '/images/cards/specific.png'
+					img: require('~/assets/images/cards/s.png')
 				},
 				{
 					title: this.$t('cards.3.title'),
 					text: this.$t('cards.3.text'),
-					img: '/images/cards/mesurable.png'
+					img: require('~/assets/images/cards/m.png')
 				},
 				{
 					title: this.$t('cards.4.title'),
 					text: this.$t('cards.4.text'),
-					img: '/images/cards/specific.png'
+					img: require('~/assets/images/cards/a.png')
 				},
 				{
 					title: this.$t('cards.5.title'),
 					text: this.$t('cards.5.text'),
-					img: '/images/cards/mesurable.png'
+					img: require('~/assets/images/cards/r.png')
 				},
 				{
 					title: this.$t('cards.6.title'),
 					text: this.$t('cards.6.text'),
-					img: '/images/cards/specific.png'
+					img: require('~/assets/images/cards/t.png')
 				}
 			],
 			examples: [

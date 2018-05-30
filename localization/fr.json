@@ -41,28 +41,28 @@
     },
     "cards": {
         "1": {
-            "title": "Mesurable",
-            "text": "Il peut avoir un indicateur de résultat, ou à défaut, nos sens doivent nous permettre de déterminer précisément à quel moment l’objectif sera atteint."
+            "title": "Positif",
+            "text": "Il doit être exprimé positivement car il n'est pas possible de se représenter une négation."
         },
         "2": {
             "title": "Spécifique",
             "text": "Suffisamment précis, présenter des caractéristiques propres."
         },
         "3": {
-            "title": "Positif",
+            "title": "Mesurable",
             "text": "Il peut avoir un indicateur de résultat, ou à défaut, nos sens doivent nous permettre de déterminer précisément à quel moment l’objectif sera atteint."
         },
         "4": {
-            "title": "Réaliste",
-            "text": "Suffisamment précis, présenter des caractéristiques propres."
+            "title": "En harmonie",
+            "text": "L’objectif doit être en accord avec vos valeurs et croyances et, compatible avec l’atteinte de ses autres objectifs."
         },
         "5": {
-            "title": "En harmonie",
-            "text": "Il peut avoir un indicateur de résultat, ou à défaut, nos sens doivent nous permettre de déterminer précisément à quel moment l’objectif sera atteint."
+            "title": "Réaliste",
+            "text": "Il prend en compte les facteurs extérieurs, qui ne peuvent pas être sous votre contrôle. Il peut être ambitieux pour représenter un défi motivant, tout en restant atteignable."
         },
         "6": {
             "title": "Temporel",
-            "text": "Suffisamment précis, présenter des caractéristiques propres."
+            "text": "Il doit être positionné dans le temps et donc avoir une échéance précise."
         }
     }
 }
