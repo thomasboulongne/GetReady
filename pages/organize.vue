@@ -1,13 +1,13 @@
 <template>
 	<section class="container organize-page">
-		<nav class="how-to">
+<!-- 		<nav class="how-to">
 			<ul>
 				<li class="active">But précis</li>
 				<li>Faire le bilan</li>
 				<li>Méthodes</li>
 				<li>Évaluer et maintenir</li>
 			</ul>
-		</nav>
+		</nav> -->
 		<svg class="page-svg" width="1440px" height="10861px" viewBox="0 0 1440 10861" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 	<!-- Generator: Sketch 50.2 (55047) - http://www.bohemiancoding.com/sketch -->
 	<title>Définition-d’objectifs Copy 17</title>
@@ -1040,6 +1040,11 @@
 		<div class="learnmore learnmore-gif4"> 
 			<img src="~/assets/images/organize/04profesionnel.gif" />
 		</div>
+
+		<div class="hoverArea2"></div>
+	<!-- 	<div class="hoverPersonaInfos">
+			<img ref="people" src="~/assets/images/organize/hover01.png"/>
+		</div> -->
 	</section>
 </template>
 
@@ -1411,6 +1416,18 @@ export default {
 	.methods-button-03 {
 		left: 69%;
     	width: 10%;
+	}
+
+	.hoverArea2 {
+		background-color: rgba(255, 0, 0, .3);
+		position: absolute;
+		overflow: hidden;
+		cursor: pointer;
+		padding: 5px;
+		left: 33.8%;
+		top: 56.1%;
+		width: 3%;
+		height: 0.15%;
 	}
 }
 
