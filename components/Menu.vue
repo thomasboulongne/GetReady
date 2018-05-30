@@ -4,9 +4,9 @@
 			<ul class="menuItems">
 				<li v-for="(item, i) in items" :key="i" class="menuItem" ref="items">
 					<div class="titleWrapper MTKnox">
-						<div v-for="(letter, j) in item.title" :key="letter + j" class="letterWrapper">
+						<nuxt-link tag="div" :to="item.slug" v-for="(letter, j) in item.title" :key="letter + j" class="letterWrapper">
 							<span class="letter">{{ letter }}</span>
-						</div>
+						</nuxt-link>
 					</div>
 				</li>
 			</ul>

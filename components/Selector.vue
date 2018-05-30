@@ -13,9 +13,9 @@
 						</h2>
 					</div>
 					<div class="button">
-						<div class="textWrapper">
+						<nuxt-link :to="'/organize'" tag="div" class="textWrapper">
 							<span v-for="(letter, i) in $t('discover').split('')" :key="i">{{ i === 0 ? letter.toUpperCase() : letter }}</span>
-						</div>
+						</nuxt-link>
 					</div>
 				</div>
 			</li>
@@ -405,6 +405,7 @@ export default {
 			.textWrapper {
 				transform-style: preserve-3d;
 				position: relative;
+				cursor: pointer;
 				&:after {
 					content: '';
 					position: absolute;

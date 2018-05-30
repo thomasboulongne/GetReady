@@ -1088,6 +1088,13 @@ export default {
 	},
 
 	mounted() {
+		document.querySelector('body').classList.add('overflowAuto');
+		document.querySelector('#__nuxt').classList.add('overflowAuto');
+	},
+
+	beforeDestroy() {
+		document.querySelector('body').classList.remove('overflowAuto');
+		document.querySelector('#__nuxt').classList.remove('overflowAuto');
 	},
 
 	computed: {
@@ -1114,10 +1121,8 @@ export default {
 		},
 
 		psmartNext() {
-			console.log(this.psmartCurrentStep);
 			if (this.psmartCurrentStep < this.psmart.numberOfItems) {
 				this.psmart.progression += this.psmartStep;
-				console.log(this.psmart.progression);
 			}
 		},
 
@@ -1128,10 +1133,8 @@ export default {
 		},
 
 		peopleNext() {
-			console.log(this.peopleCurrentStep);
 			if (this.peopleCurrentStep < this.people.numberOfItems) {
 				this.people.progression += this.peopleStep;
-				console.log(this.people.progression);
 			}
 		},
 
@@ -1177,7 +1180,6 @@ export default {
 }
 
 .organize-page {
-
 	.background {
 		width: 100%;
 	}
@@ -1429,10 +1431,6 @@ export default {
 		width: 3%;
 		height: 0.15%;
 	}
-}
-
-body, #__nuxt {
-	overflow: auto;
 }
 
 </style>

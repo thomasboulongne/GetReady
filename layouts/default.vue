@@ -17,16 +17,20 @@ export default {
 		return {
 			menuItems: [
 				{
-					title: this.$t('Gallery')
+					title: this.$t('Gallery'),
+					slug: ''
 				},
 				{
-					title: this.$t('categories.item1.title')
+					title: this.$t('categories.item1.title'),
+					slug: 'organize'
 				},
 				{
-					title: this.$t('categories.item2.title')
+					title: this.$t('categories.item2.title'),
+					slug: 'organize'
 				},
 				{
-					title: this.$t('categories.item3.title')
+					title: this.$t('categories.item3.title'),
+					slug: 'organize'
 				}
 			]
 		};
