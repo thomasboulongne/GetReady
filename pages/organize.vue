@@ -1194,7 +1194,8 @@ export default {
 <style lang="scss">
 
 .burger {
-	display: none;
+	top: 6.41vh !important;
+	right: 3.28vw !important;
 }
 
 .organize-page {
