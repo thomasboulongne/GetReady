@@ -39,7 +39,6 @@ export default {
 				y: 0
 			},
 			progression: 0,
-			backgroundColor: this.items[0].color,
 			canSlide: true,
 			transitionSpeed: 1,
 			currentSlide: 0
@@ -82,7 +81,7 @@ export default {
 			let fov = 55;
 			switch (this.numberOfItems) {
 				case 3:
-					fov = 1 / (Math.pow(1.7, aspect - 9.5)) + 28.7;
+					fov = 1 / (Math.pow(1.7, aspect - 9.5)) + 28;
 					break;
 				case 4:
 					fov = (1 / (Math.pow(2.21, aspect - 6.3)) + 23);
@@ -90,13 +89,19 @@ export default {
 			}
 			fov = fov * (this.vw / this.vw); // Hacky way to trigger recalculation on vw change
 			return this.$route.query.fov ? this.$route.query.fov : fov;
+		},
+		tempSlide: function() {
+			let tempIndex = Math.round(this.progression / this.step);
+			return tempIndex === this.items.length ? 0 : tempIndex < 0 ? this.items.length - 1 : tempIndex;
+		},
+		backgroundColor: function() {
+			return this.items[this.tempSlide].color;
 		}
 	},
 
 	watch: {
 		'currentSlide': function(index) {
 			if (this.items[index]) {
-				this.backgroundColor = this.items[index].color;
 				const elementsArray = Array.from(this.$el.querySelectorAll('.threeDselector .selectorItem'));
 
 				elementsArray.forEach(elt => {
@@ -141,6 +146,11 @@ export default {
 
 		this.$el.querySelector('.threeDselector .selectorItem').classList.add('currentSlide');
 		this.addEventListeners();
+
+		TweenMax.to(this, 2, {
+			progression: 100,
+			ease: Power4.easeOut
+		});
 	},
 
 	beforeDestroy() {
@@ -245,6 +255,9 @@ export default {
 		},
 		render() {
 			this.renderer.render(this.scene, this.camera);
+		},
+		mod(n, m) {
+			return ((n % m) + m) % m;
 		}
 	}
 };
@@ -271,6 +284,7 @@ export default {
 		align-items: center;
 		flex-direction: column;
 		transform-style: preserve-3d;
+		overflow: hidden;
 		&:before {
 			content: '';
 			display: block;
@@ -308,6 +322,9 @@ export default {
 			color: white;
 			height: 50%;
 			pointer-events: none;
+			--titleWrapperDelay: 2s;
+			transition: transform calc(var(--transition-speed) * 1.15) var(--ease) var(--titleWrapperDelay);
+			transform: scaleX(2);
 			@-moz-document url-prefix() {
 				transform-style: preserve-3d;
 			}
@@ -317,7 +334,7 @@ export default {
 				white-space: nowrap;
 				position: relative;
 				display: block;
-				--yOffset: -0.019em;
+				--yOffset: -0.03em;
 				@-moz-document url-prefix() {
 					transform-style: preserve-3d;
 				}
@@ -329,56 +346,12 @@ export default {
 					span {
 						display: inline-block;
 						transform-style: preserve-3d;
-						transition: margin var(--transition-speed) var(--ease);
-						--extraMargin: calc((var(--ratio) * 1.05 + 1) * 1vw);
-						margin: 0 var(--extraMargin);
 					}
 					@for $i from 1 to 30 {
 						&:nth-child(#{$i}) {
 							span {
-								transform: translateY(calc(#{$i} * var(--yOffset)));
+								transition: transform calc(var(--transition-speed) * 1.15) var(--ease) calc(#{$i} * 0.03s);
 							}
-						}
-					}
-					& {
-						&:nth-child(1) {
-							z-index: 1;
-						}
-						&:nth-child(2) {
-							z-index: 2;
-						}
-						&:nth-child(3) {
-							z-index: 0;
-						}
-						&:nth-child(4) {
-							z-index: 1;
-						}
-						&:nth-child(5) {
-							z-index: 0;
-						}
-						&:nth-child(6) {
-							z-index: 1;
-						}
-						&:nth-child(7) {
-							z-index: 0;
-						}
-						&:nth-child(8) {
-							z-index: 1;
-						}
-						&:nth-child(9) {
-							z-index: 1;
-						}
-						&:nth-child(10) {
-							z-index: 1;
-						}
-						&:nth-child(11) {
-							z-index: 1;
-						}
-						&:nth-child(12) {
-							z-index: 1;
-						}
-						&:nth-child(13) {
-							z-index: 1;
 						}
 					}
 				}
@@ -436,15 +409,14 @@ export default {
 		}
 		&.currentSlide {
 			.titleWrapper {
+				transform: scaleX(1) translateY(calc(var(--yPercent) * 0.006em)) translateX(calc(var(--xPercent) * 0.006em));
+				--titleWrapperDelay: 0s;
 				h2 {
 					div {
-						span {
-							margin: 0;
-						}
 						@for $i from 1 to 30 {
 							&:nth-child(#{$i}) {
 								span {
-									transform: translateY(calc(#{$i} * var(--yOffset) + var(--yPercent) * 0.001em)) translateX(calc(var(--xPercent) * 0.001em));
+									transform: translateY(calc(#{$i} * var(--yOffset)));
 								}
 							}
 						}

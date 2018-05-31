@@ -85,14 +85,29 @@ main {
 	backface-visibility: hidden;
 	transform-style: preserve-3d;
 	filter: blur(0.3px);
-	@-moz-document url-prefix() { 
+	@-moz-document url-prefix() {
 		filter: none;
 	}
+	&:after {
+		content: '';
+		position: fixed;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		background: black;
+		opacity: 0;
+		pointer-events: none;
+		transition: opacity var(--menuTransitionSpeed);
+	}
 	&.menuOpen {
-		filter: blur(6px) brightness(0.2);
+		filter: blur(6px);
 		transform: scale(1.02) translate3d(0, 0, 0);
-		@-moz-document url-prefix() { 
-			filter: brightness(0.2);
+		&:after {
+			opacity: 0.65;
+		}
+		@-moz-document url-prefix() {
+			filter: none;
 		}
 	}
 }
