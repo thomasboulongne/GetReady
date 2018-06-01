@@ -323,8 +323,8 @@ export default {
 			height: 50%;
 			pointer-events: none;
 			--titleWrapperDelay: 2s;
-			transition: transform calc(var(--transition-speed) * 1.15) var(--ease) var(--titleWrapperDelay);
-			transform: scaleX(2);
+			// transition: transform calc(var(--transition-speed) * 1.25) var(--ease) var(--titleWrapperDelay);
+			// transform: scaleX(3);
 			@-moz-document url-prefix() {
 				transform-style: preserve-3d;
 			}
