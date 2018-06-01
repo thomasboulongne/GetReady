@@ -45,6 +45,7 @@ export default {
 	mounted() {
 		this.updateViewportSize();
 		this.addEventListeners();
+		this.$store.dispatch('layoutMounted');
 	},
 
 	beforeDestroy() {

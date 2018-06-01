@@ -115,7 +115,7 @@ module.exports = {
 			}
 		},
 		vendor: [
-			'gsap',
+			'gsap/TweenMax',
 			'marked',
 			'three',
 			'three/examples/js/renderers/CSS3DRenderer',

@@ -1,5 +1,13 @@
 <template>
-	<div class="selector" v-hammer:swipe.horizontal="swipeGesture" @mousemove="mouseMove" :style="{backgroundColor: backgroundColor, '--transition-speed': transitionSpeed * 0.75 + 's', '--xPercent': xPercent.toFixed(2), '--yPercent': yPercent.toFixed(2), '--vw': vw + 'px', '--vh': vh + 'px', '--ratio': (vh / vw).toFixed(2)}">
+	<div class="selector" v-hammer:pan.horizontal="panGesture" @mousemove="mouseMove" :style="{
+		backgroundColor: backgroundColor,
+		'--transition-speed': transitionSpeed * 0.75 + 's',
+		'--easedMousePositionPercentX': easedMousePositionPercent.x.toFixed(2),
+		'--easedMousePositionPercentY': easedMousePositionPercent.y.toFixed(2),
+		'--vw': vw + 'px',
+		'--vh': vh + 'px',
+		'--ratio': (vh / vw).toFixed(2)
+	}">
 		<ul class="hiddenSelector">
 			<li v-for="(item, i) in items" :key="item.color + i">
 				<div class="selectorItem" ref="items" :style="{'--backgroundColor': item.color, '--xOffset': item.shadow.x.toFixed(2) + '%', '--yOffset': item.shadow.y.toFixed(2) + '%'}">
@@ -20,6 +28,7 @@
 				</div>
 			</li>
 		</ul>
+		<!-- <span style="position: fixed; z-index: 9999;">{{ progression }}</span> -->
 	</div>
 </template>
 <script>
@@ -34,23 +43,35 @@ export default {
 
 	data() {
 		return {
-			position: {
+			mousePosition: {
 				x: 0,
 				y: 0
 			},
-			progression: 0,
-			canSlide: true,
+			easedMousePosition: {
+				x: 0,
+				y: 0
+			},
+			progression: -100,
+			canSlide: false,
 			transitionSpeed: 1,
-			currentSlide: 0
+			currentSlide: 0,
+			navigationArrowsAreaWidth: 15,
+			navigationIndicationSlide: 0.05
 		};
 	},
 
 	computed: {
-		xPercent: function() {
-			return this.position.x * 100 / (this.vw || 1);
+		mousePositionPercent: function() {
+			return {
+				x: this.mousePosition.x * 100 / (this.vw || 1),
+				y: this.mousePosition.y * 100 / (this.vh || 1)
+			};
 		},
-		yPercent: function() {
-			return this.position.y * 100 / (this.vh || 1);
+		easedMousePositionPercent: function() {
+			return {
+				x: this.easedMousePosition.x * 100 / (this.vw || 1),
+				y: this.easedMousePosition.y * 100 / (this.vh || 1)
+			};
 		},
 		step: function() {
 			return 100 / this.numberOfItems;
@@ -113,44 +134,40 @@ export default {
 		'$store.getters.viewportSize': function() {
 			this.onWindowResize();
 		},
-		'canSlide': function() {
-			if (this.progression === 100) {
-				this.progression = 0;
-			} else if (this.progression < 0) {
-				this.progression = 100 - this.step;
+		'canSlide': function(canSlide) {
+			if (canSlide) {
+				if (this.progression === 100) {
+					this.progression = 0;
+				} else if (this.progression < 0) {
+					this.progression = 100 - this.step;
+				}
+			}
+		},
+		'mousePositionPercent': function(position) {
+			if (this.canSlide) {
+				if (position.x > 100 - this.navigationArrowsAreaWidth) {
+					this.navigationIndicationSlideLeft();
+				} else if (position.x < this.navigationArrowsAreaWidth) {
+					this.navigationIndicationSlideRight();
+				} else {
+					this.navigationIndicationSlideReset();
+				}
 			}
 		}
 	},
 
 	mounted() {
-		this.camera = new THREE.PerspectiveCamera(this.fov, window.innerWidth / window.innerHeight, 1, 1000);
-		this.camera.position.set(0, 0, this.apothem);
-		this.scene = new THREE.Scene();
-		this.group = new THREE.Group();
-		this.scene.add(this.group);
-		this.renderer = new THREE.CSS3DRenderer();
-		this.renderer.setSize(window.innerWidth, window.innerHeight);
-
-		this.items.forEach((item, i) => {
-			const x = this.apothem * Math.sin(i * Math.PI * 2 / this.numberOfItems);
-			const y = 0;
-			const z = -(this.apothem * Math.cos(i * Math.PI * 2 / this.numberOfItems) - this.apothem);
-			const ry = -i * (Math.PI * 2 / this.numberOfItems);
-			this.group.add(this.createElement(this.$refs.items[i], x, y, z, ry));
-		});
-
-		this.renderer.domElement.classList.add('threeDselector');
-
-		this.$el.appendChild(this.renderer.domElement);
-		this.animate();
-
-		this.$el.querySelector('.threeDselector .selectorItem').classList.add('currentSlide');
+		this.initThreeScene();
 		this.addEventListeners();
 
-		TweenMax.to(this, 2, {
-			progression: 100,
+		const duration = 2;
+		TweenMax.to(this, duration, {
+			progression: 0,
 			ease: Power4.easeOut
 		});
+		setTimeout(() => {
+			this.canSlide = true;
+		}, duration * 1000);
 	},
 
 	beforeDestroy() {
@@ -175,37 +192,97 @@ export default {
 			}
 		},
 		mouseMove(e) {
-			TweenMax.to(this.position, 1.5, {
+			this.mousePosition = {
+				x: e.clientX,
+				y: e.clientY
+			};
+			TweenMax.to(this.mousePosition, 1.5, {
 				x: e.clientX,
 				y: e.clientY
 			});
 		},
-		swipeGesture(e) {
-			switch (e.direction) {
-				case 2:
-					this.next();
-					break;
-				case 4:
-					this.prev();
-					break;
-				default:
-					break;
+		navigationIndicationSlideLeft() {
+			TweenMax.to(this, 1, {
+				progression: this.currentSlide * this.step + this.step * this.navigationIndicationSlide,
+				ease: Power4.easeOut
+			});
+		},
+		navigationIndicationSlideRight() {
+			TweenMax.to(this, 1, {
+				progression: this.currentSlide * this.step - this.step * this.navigationIndicationSlide,
+				ease: Power4.easeOut
+			});
+		},
+		navigationIndicationSlideReset() {
+			TweenMax.to(this, 1, {
+				progression: this.currentSlide * this.step,
+				ease: Power4.easeOut
+			});
+		},
+		panGesture(e) {
+			if (e.isFinal) {
+				this.canSlide = true;
+				switch (e.offsetDirection) {
+					case 2:
+						this.next();
+						break;
+					case 4:
+						this.prev();
+						break;
+					default:
+
+						break;
+				}
+			} else {
+				this.canSlide = false;
+				switch (e.offsetDirection) {
+					case 2:
+						this.navigationIndicationSlideLeft();
+						break;
+					case 4:
+						this.navigationIndicationSlideRight();
+						break;
+				}
 			}
+		},
+		initThreeScene() {
+			this.camera = new THREE.PerspectiveCamera(this.fov, window.innerWidth / window.innerHeight, 1, 1000);
+			this.camera.position.set(0, 0, this.apothem);
+			this.scene = new THREE.Scene();
+			this.group = new THREE.Group();
+			this.scene.add(this.group);
+			this.renderer = new THREE.CSS3DRenderer();
+			this.renderer.setSize(window.innerWidth, window.innerHeight);
+
+			this.items.forEach((item, i) => {
+				const x = this.apothem * Math.sin(i * Math.PI * 2 / this.numberOfItems);
+				const y = 0;
+				const z = -(this.apothem * Math.cos(i * Math.PI * 2 / this.numberOfItems) - this.apothem);
+				const ry = -i * (Math.PI * 2 / this.numberOfItems);
+				this.group.add(this.createElement(this.$refs.items[i], x, y, z, ry));
+			});
+
+			this.renderer.domElement.classList.add('threeDselector');
+
+			this.$el.appendChild(this.renderer.domElement);
+			this.animate();
+
+			this.$el.querySelector('.threeDselector .selectorItem').classList.add('currentSlide');
 		},
 		prev() {
 			if (this.canSlide) {
 				this.canSlide = false;
-				const newX = (this.currentSlide * this.step) - this.step;
+				const newProgression = (this.currentSlide * this.step) - this.step;
 				this.currentSlide = (this.currentSlide - 1) < 0 ? this.items.length - 1 : this.currentSlide - 1;
-				this.slide(newX);
+				this.slide(newProgression);
 			}
 		},
 		next() {
 			if (this.canSlide) {
 				this.canSlide = false;
-				const newX = (this.currentSlide * this.step) + this.step;
+				const newProgression = (this.currentSlide * this.step) + this.step;
 				this.currentSlide = (this.currentSlide + 1) > this.items.length - 1 ? 0 : this.currentSlide + 1;
-				this.slide(newX);
+				this.slide(newProgression);
 			}
 		},
 		slide(to) {
@@ -296,7 +373,7 @@ export default {
 			--imgTop: 45%;
 			top: var(--imgTop);
 			left: 50%;
-			transform: translate(calc(-50% + var(--xPercent) * 0.01%), calc(-50% + var(--yPercent) * 0.01%));
+			transform: translate(calc(-50% + var(--easedMousePositionPercentX) * 0.01%), calc(-50% + var(--easedMousePositionPercentY) * 0.01%));
 			z-index: 1;
 			height: auto;
 			width: 70vmin;
@@ -311,7 +388,7 @@ export default {
 				left: calc(50% + var(--xOffset));
 				filter: grayscale(1) brightness(0);
 				opacity: 0.15;
-				transform: translate(calc(-50% + var(--xPercent) * 0.02%), calc(-50% + var(--yPercent) * 0.02%)) scale(1.02);
+				transform: translate(calc(-50% + var(--easedMousePositionPercentX) * 0.02%), calc(-50% + var(--easedMousePositionPercentY) * 0.02%)) scale(1.02);
 			}
 		}
 		.titleWrapper {
@@ -323,8 +400,6 @@ export default {
 			height: 50%;
 			pointer-events: none;
 			--titleWrapperDelay: 2s;
-			// transition: transform calc(var(--transition-speed) * 1.25) var(--ease) var(--titleWrapperDelay);
-			// transform: scaleX(3);
 			@-moz-document url-prefix() {
 				transform-style: preserve-3d;
 			}
@@ -409,7 +484,6 @@ export default {
 		}
 		&.currentSlide {
 			.titleWrapper {
-				transform: scaleX(1) translateY(calc(var(--yPercent) * 0.006em)) translateX(calc(var(--xPercent) * 0.006em));
 				--titleWrapperDelay: 0s;
 				h2 {
 					div {

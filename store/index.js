@@ -14,7 +14,8 @@ const store = () => new Vuex.Store({
 				y: 0
 			},
 			locale: 'fr',
-			menuOpen: false
+			menuOpen: false,
+			layoutMounted: false
 		},
 		goal: null,
 
@@ -50,6 +51,9 @@ const store = () => new Vuex.Store({
 		},
 		SET_GOAL(state, goal) {
 			state.goal = goal;
+		},
+		LAYOUT_MOUNTED(state) {
+			state.uiData.layoutMounted = true;
 		}
 	},
 
@@ -86,6 +90,9 @@ const store = () => new Vuex.Store({
 		},
 		setGoal({ commit, state }, goal) {
 			commit('SET_GOAL', goal);
+		},
+		layoutMounted({ commit }) {
+			commit('LAYOUT_MOUNTED');
 		}
 	},
 
@@ -108,7 +115,8 @@ const store = () => new Vuex.Store({
 			return state.translations.find(t => t.identifier == identifier) ? state.translations.find(t => t.identifier == identifier).translations : identifier;
 		},
 		lang: state => state.uiData.lang,
-		goal: state => state.goal
+		goal: state => state.goal,
+		isLayoutMounted: state => state.uiData.layoutMounted
 	}
 });
 
