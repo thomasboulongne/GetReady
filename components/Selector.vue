@@ -1,6 +1,6 @@
 <template>
 	<div class="selector" v-hammer:pan.horizontal="panGesture" @mousemove="mouseMove" :style="{
-		backgroundColor: backgroundColor,
+		'--currentColor': backgroundColor,
 		'--transition-speed': transitionSpeed * 0.75 + 's',
 		'--easedMousePositionPercentX': easedMousePositionPercent.x.toFixed(2),
 		'--easedMousePositionPercentY': easedMousePositionPercent.y.toFixed(2),
@@ -10,15 +10,25 @@
 	}">
 		<ul class="hiddenSelector">
 			<li v-for="(item, i) in items" :key="item.color + i">
-				<div class="selectorItem" ref="items" :style="{'--backgroundColor': item.color, '--xOffset': item.shadow.x.toFixed(2) + '%', '--yOffset': item.shadow.y.toFixed(2) + '%'}">
-					<img :src="item.img" class="shadow">
-					<img :src="item.img">
-					<div class="titleWrapper MTKnox">
-						<h2 class="MTKnox">
-							<div v-for="(letter, i) in item.title" :key="letter + i">
-								<span class="letter">{{ letter }}</span>
-							</div>
-						</h2>
+				<div class="selectorItem" ref="items" :style="{
+				'--backgroundColor': item.color,
+				'--xOffset': item.shadow.x.toFixed(2) + '%',
+				'--yOffset': item.shadow.y.toFixed(2) + '%',
+				'--numberOfLetters': item.title.length
+				}">
+					<div class="itemWrapper">
+						<img :src="item.img" class="shadow">
+						<img :src="item.img">
+						<div class="titleWrapper MTKnox">
+							<h2 class="MTKnox">
+								<div v-for="(letter, i) in item.title" :key="letter + i">
+									<span class="letter">{{ letter }}</span>
+								</div>
+							</h2>
+						</div>
+						<div class="subtitle">
+							<h3>{{ $t('categories.like') }} <span v-html="item.athlete"></span></h3>
+						</div>
 					</div>
 					<div class="button">
 						<nuxt-link :to="'/organize'" tag="div" class="textWrapper">
@@ -343,113 +353,138 @@ export default {
 
 <style lang="scss">
 .selector {
-	height: 100vh;
-	width: 100vw;
+	height: var(--vh);
+	width: var(--vw);
 	overflow: hidden;
 	transition: background-color 0.4s;
-	backface-visibility: hidden;
+	background: var(--currentColor);
 	cursor: url(~/assets/images/drag.png), auto;
 	.hiddenSelector {
 		display: none;
 	}
 	.selectorItem {
 		position: relative;
-		height: 100vh;
-		width: 100vw;
+		height: var(--vh);
+		width: var(--vw);
 		display: flex;
 		justify-content: center;
 		align-items: center;
 		flex-direction: column;
 		transform-style: preserve-3d;
 		overflow: hidden;
-		&:before {
-			content: '';
-			display: block;
-			height: 33%;
-			width: 100%;
-		}
-		img {
-			position: absolute;
-			--imgTop: 45%;
-			top: var(--imgTop);
-			left: 50%;
-			transform: translate(calc(-50% + var(--easedMousePositionPercentX) * 0.01%), calc(-50% + var(--easedMousePositionPercentY) * 0.01%));
-			z-index: 1;
-			height: auto;
-			width: 70vmin;
-			height: 70vmin;
-			object-fit: contain;
-			display: block;
-			filter: grayscale(1);
-			transform-style: preserve-3d;
-			pointer-events: none;
-			&.shadow {
-				top: calc(var(--imgTop) + var(--yOffset));
-				left: calc(50% + var(--xOffset));
-				filter: grayscale(1) brightness(0);
-				opacity: 0.15;
-				transform: translate(calc(-50% + var(--easedMousePositionPercentX) * 0.02%), calc(-50% + var(--easedMousePositionPercentY) * 0.02%)) scale(1.02);
-			}
-		}
-		.titleWrapper {
-			display: flex;
-			justify-content: center;
-			align-items: flex-end;
-			flex-direction: column;
-			color: white;
-			height: 50%;
-			pointer-events: none;
-			--titleWrapperDelay: 2s;
-			@-moz-document url-prefix() {
-				transform-style: preserve-3d;
-			}
-			h2 {
-				font-size: 16vmax;
-				margin: 0;
-				white-space: nowrap;
-				position: relative;
+		.itemWrapper {
+			position: relative;
+			img {
+				position: absolute;
+				--imgTop: 45%;
+				top: var(--imgTop);
+				left: 50%;
+				transform: translate(calc(-50% + var(--easedMousePositionPercentX) * 0.01%), calc(-50% + var(--easedMousePositionPercentY) * 0.01%));
+				z-index: 1;
+				height: auto;
+				width: 70vmin;
+				height: 70vmin;
+				object-fit: contain;
 				display: block;
-				--yOffset: -0.03em;
+				filter: grayscale(1);
+				transform-style: preserve-3d;
+				pointer-events: none;
+				&.shadow {
+					top: calc(var(--imgTop) + var(--yOffset));
+					left: calc(50% + var(--xOffset));
+					filter: grayscale(1) brightness(0);
+					opacity: 0.15;
+					transform: translate(calc(-50% + var(--easedMousePositionPercentX) * 0.02%), calc(-50% + var(--easedMousePositionPercentY) * 0.02%)) scale(1.02);
+				}
+			}
+			.titleWrapper {
+				display: flex;
+				justify-content: center;
+				align-items: flex-end;
+				flex-direction: column;
+				color: white;
+				height: 50%;
+				pointer-events: none;
+				--titleWrapperDelay: 2s;
 				@-moz-document url-prefix() {
 					transform-style: preserve-3d;
 				}
-				div {
-					display: inline-block;
+				h2 {
+					font-size: 16vmax;
+					margin: 0;
+					white-space: nowrap;
 					position: relative;
-					z-index: 2;
-					transform-style: preserve-3d;
-					span {
-						display: inline-block;
+					display: block;
+					--yOffset: -0.045em;
+					@-moz-document url-prefix() {
 						transform-style: preserve-3d;
 					}
-					@for $i from 1 to 30 {
-						&:nth-child(#{$i}) {
-							span {
-								transition: transform calc(var(--transition-speed) * 1.15) var(--ease) calc(#{$i} * 0.03s);
+					div {
+						display: inline-block;
+						position: relative;
+						z-index: 2;
+						transform-style: preserve-3d;
+						span {
+							display: inline-block;
+							transform-style: preserve-3d;
+						}
+						@for $i from 1 to 30 {
+							&:nth-child(#{$i}) {
+								span {
+									transition: transform calc(var(--transition-speed) * 1.15) var(--ease) calc(#{$i} * 0.03s);
+								}
 							}
 						}
 					}
 				}
 			}
-			h3 {
-				z-index: 2;
-				.bigger {
-					margin-left: 0.2em;
-					font-size: 1.8em;
+			.subtitle {
+				position: absolute;
+				right: 0;
+				top: calc(40% + ((-2% * var(--numberOfLetters)) + 28%));
+				color: white;
+				&:after {
+					content: '';
+					position: absolute;
+					background-color: var(--currentColor);
+					transition: background-color 0.4s;
+					bottom: 100%;
+					left: 50%;
+					height: 150%;
+					width: 150%;
+					transform: rotate(-6deg) translateX(-50%);
+				}
+				h3 {
+					display: block;
+					transform: translateY(-150%);
+					transition: transform 0.5s var(--ease);
+					span {
+						font-size: 1.3em;
+					}
+				}
+			}
+			&:hover {
+				.subtitle {
+					h3 {
+						transform: none;
+					}
 				}
 			}
 		}
 
 		.button {
+			position: absolute;
+			bottom: 10%;
+			left: 50%;
 			flex-grow: 1;
 			color: white;
 			display: flex;
 			justify-content: center;
 			align-items: center;
 			font-size: 1.5rem;
-			position: relative;
 			z-index: 2;
 			text-transform: uppercase;
+			transform: translateX(-50%);
 			transform-style: preserve-3d;
 			.textWrapper {
 				transform-style: preserve-3d;
@@ -483,14 +518,16 @@ export default {
 			}
 		}
 		&.currentSlide {
-			.titleWrapper {
-				--titleWrapperDelay: 0s;
-				h2 {
-					div {
-						@for $i from 1 to 30 {
-							&:nth-child(#{$i}) {
-								span {
-									transform: translateY(calc(#{$i} * var(--yOffset)));
+			.itemWrapper {
+				.titleWrapper {
+					--titleWrapperDelay: 0s;
+					h2 {
+						div {
+							@for $i from 1 to 30 {
+								&:nth-child(#{$i}) {
+									span {
+										transform: translateY(calc(#{$i} * var(--yOffset)));
+									}
 								}
 							}
 						}

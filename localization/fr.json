@@ -29,14 +29,18 @@
         }
     },
     "categories": {
+        "like": "comme",
         "item1": {
-            "title": "S'organiser"
+            "title": "S'organiser",
+            "athlete": "Usain Bolt"
         },
         "item2": {
-            "title": "Se concentrer"
+            "title": "Se concentrer",
+            "athlete": "Serena Williams"
         },
         "item3": {
-            "title": "Se visualiser"
+            "title": "Se visualiser",
+            "athlete": "Michael Phelps"
         }
     },
     "cards": {

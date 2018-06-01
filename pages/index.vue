@@ -15,6 +15,7 @@ export default {
 			items: [
 				{
 					title: this.$t('categories.item1.title'),
+					athlete: this.$t('categories.item1.athlete'),
 					img: require('~/assets/images/athletes/bolt.png'),
 					color: '#fd6246',
 					shadow: {
@@ -24,6 +25,7 @@ export default {
 				},
 				{
 					title: this.$t('categories.item2.title'),
+					athlete: this.$t('categories.item2.athlete'),
 					img: require('~/assets/images/athletes/williams.png'),
 					color: '#ff8b49',
 					shadow: {
@@ -33,6 +35,7 @@ export default {
 				},
 				{
 					title: this.$t('categories.item3.title'),
+					athlete: this.$t('categories.item3.athlete'),
 					img: require('~/assets/images/athletes/phelps.png'),
 					color: '#4b80ff',
 					shadow: {
