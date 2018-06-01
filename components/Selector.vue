@@ -30,15 +30,16 @@
 							<h3>{{ $t('categories.like') }} <span v-html="item.athlete"></span></h3>
 						</div>
 					</div>
-					<div class="button">
-						<nuxt-link :to="'/organize'" tag="div" class="textWrapper">
-							<span v-for="(letter, i) in $t('discover').split('')" :key="i">{{ i === 0 ? letter.toUpperCase() : letter }}</span>
-						</nuxt-link>
+					<div class="buttonWrapper">
+						<div class="button">
+							<nuxt-link :to="'/organize'" tag="div" class="textWrapper">
+								<span v-t="'discover'"></span>
+							</nuxt-link>
+						</div>
 					</div>
 				</div>
 			</li>
 		</ul>
-		<!-- <span style="position: fixed; z-index: 9999;">{{ progression }}</span> -->
 	</div>
 </template>
 <script>
@@ -355,8 +356,9 @@ export default {
 .selector {
 	height: var(--vh);
 	width: var(--vw);
-	transition: background-color 0.4s;
-	background: var(--currentColor);
+	--backgroundTransitionDuration: 0.4s;
+	transition: background-color var(--backgroundTransitionDuration);
+	background-color: var(--currentColor);
 	cursor: url(~/assets/images/drag.png), auto;
 	.hiddenSelector {
 		display: none;
@@ -372,6 +374,7 @@ export default {
 		transform-style: preserve-3d;
 		.itemWrapper {
 			position: relative;
+			z-index: 3;
 			img {
 				position: absolute;
 				--imgTop: 45%;
@@ -445,7 +448,7 @@ export default {
 					content: '';
 					position: absolute;
 					background-color: var(--currentColor);
-					transition: background-color 0.4s;
+					transition: background-color var(--backgroundTransitionDuration);
 					bottom: 100%;
 					left: 50%;
 					height: 150%;
@@ -463,46 +466,58 @@ export default {
 			}
 		}
 
-		.button {
+		.buttonWrapper {
 			position: absolute;
 			bottom: 10%;
 			left: 50%;
-			flex-grow: 1;
-			color: white;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			font-size: 1.5rem;
-			z-index: 2;
-			text-transform: uppercase;
 			transform: translateX(-50%);
 			transform-style: preserve-3d;
-			.textWrapper {
-				transform-style: preserve-3d;
+			z-index: 2;
+			--transition-delay: var(--transition-speed);
+			&:before, &:after {
+				content: '';
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				width: 120%;
+				height: 100%;
+				background-color: var(--currentColor);
+				transition: background-color var(--backgroundTransitionDuration), transform calc(var(--transition-speed) * 1.3) var(--ease) var(--transition-delay);
+				z-index: 1;
+			}
+			&:before {
+				transform: translate(-50%, -99%) rotate(-6deg);
+			}
+			&:after {
+				transform: translate(-50%, -1%) rotate(-6deg);
+			}
+			.button {
 				position: relative;
-				cursor: pointer;
-				&:after {
-					content: '';
-					position: absolute;
-					top: 150%;
-					left: 50%;
-					height: 0.1em;
-					width: 0;
-					transition: width 0.4s calc(var(--transition-speed) * 1) var(--ease);
-					transform: translate(-50%, -50%);
-					background: rgba(0, 0, 0, 0.2);
-				}
-				span {
-					display: inline-block;
-					opacity: 0;
-					transform: translateY(10%);
-					transition-duration: 0.3s;
-					transition-timing-function: var(--ease);
-					transition-property: opacity, transform;
-					--transition-delay: var(--transition-speed);
-					@for $i from 1 to 20 {
-						&:nth-child(#{$i}) {
-							transition-delay: calc(var(--transition-delay) / 1.5 + (#{$i} * 0.03s));
+				color: white;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				font-size: 1rem;
+				text-transform: uppercase;
+				transform-style: preserve-3d;
+				.textWrapper {
+					transform-style: preserve-3d;
+					position: relative;
+					cursor: pointer;
+					border: solid 1px white;
+					padding: 0.7em 3em;
+					border-radius: 10em;
+					span {
+						display: inline-block;
+						opacity: 0;
+						transform: translateY(10%);
+						transition-duration: 0.3s;
+						transition-timing-function: var(--ease);
+						transition-property: opacity, transform;
+						@for $i from 1 to 20 {
+							&:nth-child(#{$i}) {
+								transition-delay: calc(var(--transition-delay) / 1.5 + (#{$i} * 0.03s));
+							}
 						}
 					}
 				}
@@ -525,14 +540,22 @@ export default {
 					}
 				}
 			}
-			.button {
-				.textWrapper {
-					&:after {
-						width: 33%;
-					}
-					span {
-						opacity: 1;
-						transform: none;
+			.buttonWrapper {
+				&:before {
+					transform: translate(-50%, -200%) rotate(-6deg);
+				}
+				&:after {
+					transform: translate(-50%, 100%) rotate(-6deg);
+				}
+				.button {
+					.textWrapper {
+						&:after {
+							width: 33%;
+						}
+						span {
+							opacity: 1;
+							transform: none;
+						}
 					}
 				}
 			}
