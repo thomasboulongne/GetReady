@@ -1,5 +1,5 @@
 <template>
-	<div class="selector" v-hammer:pan.horizontal="panGesture" @mousemove="mouseMove" :style="{
+	<div :class="['selector', canSlide ? 'canAnimate' : '']" v-hammer:pan.horizontal="panGesture" @mousemove="mouseMove" :style="{
 		'--currentColor': backgroundColor,
 		'--transition-speed': transitionSpeed * 0.75 + 's',
 		'--easedMousePositionPercentX': easedMousePositionPercent.x.toFixed(2),
@@ -355,7 +355,6 @@ export default {
 .selector {
 	height: var(--vh);
 	width: var(--vw);
-	overflow: hidden;
 	transition: background-color 0.4s;
 	background: var(--currentColor);
 	cursor: url(~/assets/images/drag.png), auto;
@@ -371,7 +370,6 @@ export default {
 		align-items: center;
 		flex-direction: column;
 		transform-style: preserve-3d;
-		overflow: hidden;
 		.itemWrapper {
 			position: relative;
 			img {
@@ -463,13 +461,6 @@ export default {
 					}
 				}
 			}
-			&:hover {
-				.subtitle {
-					h3 {
-						transform: none;
-					}
-				}
-			}
 		}
 
 		.button {
@@ -542,6 +533,20 @@ export default {
 					span {
 						opacity: 1;
 						transform: none;
+					}
+				}
+			}
+		}
+	}
+
+	&.canAnimate {
+		.selectorItem {
+			.itemWrapper {
+				&:hover {
+					.subtitle {
+						h3 {
+							transform: none;
+						}
 					}
 				}
 			}
