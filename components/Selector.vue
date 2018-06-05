@@ -62,7 +62,7 @@ export default {
 				x: 0,
 				y: 0
 			},
-			progression: -100,
+			rotation: Math.PI * 1.99,
 			canSlide: false,
 			transitionSpeed: 1,
 			currentSlide: 0,
@@ -84,8 +84,11 @@ export default {
 				y: this.easedMousePosition.y * 100 / (this.vh || 1)
 			};
 		},
-		step: function() {
+		progressionStep: function() {
 			return 100 / this.numberOfItems;
+		},
+		rotationStep: function() {
+			return Math.PI * 2 / this.numberOfItems;
 		},
 		numberOfItems: function() {
 			return this.items.length;
@@ -96,11 +99,8 @@ export default {
 		apothem: function() {
 			return this.itemWidth / (2 * Math.tan(Math.PI / this.items.length));
 		},
-		computedDegree: function() {
-			return -(this.progression * 360 / 100);
-		},
-		computedRadian: function() {
-			return this.computedDegree * Math.PI / 180;
+		progression: function() {
+			return (this.rotation * 100) / (Math.PI * 2);
 		},
 		vw: function() {
 			return this.$store.getters.viewportSize.width;
@@ -123,10 +123,12 @@ export default {
 			return this.$route.query.fov ? this.$route.query.fov : fov;
 		},
 		tempSlide: function() {
-			let tempIndex = Math.round(this.progression / this.step);
-			return tempIndex === this.items.length ? 0 : tempIndex < 0 ? this.items.length - 1 : tempIndex;
+			let tempIndex = Math.round((Math.PI * 2 - this.rotation) / this.rotationStep);
+			const tempSlide = tempIndex === this.items.length ? 0 : tempIndex < 0 ? this.items.length - 1 : tempIndex;
+			return this.mod(tempSlide, this.numberOfItems);
 		},
 		backgroundColor: function() {
+			// return this.items[0].color;
 			return this.items[this.tempSlide].color;
 		}
 	},
@@ -142,17 +144,11 @@ export default {
 				elementsArray[index].classList.add('currentSlide');
 			}
 		},
+		'tempSlide': function(tempSlide) {
+			console.log(tempSlide, this.mod(tempSlide, this.numberOfItems));
+		},
 		'$store.getters.viewportSize': function() {
 			this.onWindowResize();
-		},
-		'canSlide': function(canSlide) {
-			if (canSlide) {
-				if (this.progression === 100) {
-					this.progression = 0;
-				} else if (this.progression < 0) {
-					this.progression = 100 - this.step;
-				}
-			}
 		},
 		'mousePositionPercent': function(position) {
 			if (this.canSlide) {
@@ -173,7 +169,10 @@ export default {
 
 		const duration = 2;
 		TweenMax.to(this, duration, {
-			progression: 0,
+			directionalRotation: {
+				useRadians: true,
+				rotation: '0_short'
+			},
 			ease: Power4.easeOut
 		});
 		setTimeout(() => {
@@ -214,19 +213,28 @@ export default {
 		},
 		navigationIndicationSlideLeft() {
 			TweenMax.to(this, 1, {
-				progression: this.currentSlide * this.step + this.step * this.navigationIndicationSlide,
+				directionalRotation: {
+					useRadians: true,
+					rotation: ((this.numberOfItems - this.currentSlide) * this.rotationStep) - (this.rotationStep * this.navigationIndicationSlide) + '_short'
+				},
 				ease: Power4.easeOut
 			});
 		},
 		navigationIndicationSlideRight() {
 			TweenMax.to(this, 1, {
-				progression: this.currentSlide * this.step - this.step * this.navigationIndicationSlide,
+				directionalRotation: {
+					useRadians: true,
+					rotation: ((this.numberOfItems - this.currentSlide) * this.rotationStep) + (this.rotationStep * this.navigationIndicationSlide) + '_short'
+				},
 				ease: Power4.easeOut
 			});
 		},
 		navigationIndicationSlideReset() {
 			TweenMax.to(this, 1, {
-				progression: this.currentSlide * this.step,
+				directionalRotation: {
+					useRadians: true,
+					rotation: (this.numberOfItems - this.currentSlide) * this.rotationStep + '_short'
+				},
 				ease: Power4.easeOut
 			});
 		},
@@ -283,17 +291,17 @@ export default {
 		prev() {
 			if (this.canSlide) {
 				this.canSlide = false;
-				const newProgression = (this.currentSlide * this.step) - this.step;
+				const newRotation = ((this.numberOfItems - this.currentSlide) * this.rotationStep) + this.rotationStep;
 				this.currentSlide = (this.currentSlide - 1) < 0 ? this.items.length - 1 : this.currentSlide - 1;
-				this.slide(newProgression);
+				this.slide(newRotation);
 			}
 		},
 		next() {
 			if (this.canSlide) {
 				this.canSlide = false;
-				const newProgression = (this.currentSlide * this.step) + this.step;
+				const newRotation = ((this.numberOfItems - this.currentSlide) * this.rotationStep) - this.rotationStep;
 				this.currentSlide = (this.currentSlide + 1) > this.items.length - 1 ? 0 : this.currentSlide + 1;
-				this.slide(newProgression);
+				this.slide(newRotation);
 			}
 		},
 		slide(to) {
@@ -307,8 +315,11 @@ export default {
 				});
 				tl
 				.to(this, this.transitionSpeed, {
-					ease: Power4.easeOut,
-					progression: to
+					directionalRotation: {
+						useRadians: true,
+						rotation: to + '_short'
+					},
+					ease: Power4.easeOut
 				})
 				;
 				tl.play();
@@ -338,7 +349,7 @@ export default {
 		},
 		animate() {
 			requestAnimationFrame(this.animate);
-			this.camera.rotation.y = this.computedRadian;
+			this.camera.rotation.y = this.rotation;
 			this.render();
 		},
 		render() {
