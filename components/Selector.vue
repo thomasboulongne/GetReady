@@ -6,7 +6,9 @@
 		'--easedMousePositionPercentY': easedMousePositionPercent.y.toFixed(2),
 		'--vw': vw + 'px',
 		'--vh': vh + 'px',
-		'--ratio': (vh / vw).toFixed(2)
+		'--ratio': (vh / vw).toFixed(2),
+		'--backgroundTransitionDuration': backgroundTransitionDuration + 's',
+		'--navigationArrowsAreaWidth': navigationArrowsAreaWidth + '%'
 	}">
 		<ul class="hiddenSelector">
 			<li v-for="(item, i) in items" :key="item.color + i">
@@ -20,6 +22,9 @@
 						<img :src="item.img" class="shadow">
 						<img :src="item.img">
 						<div class="titleWrapper MTKnox">
+							<div class="pagination">
+								<span>{{ i + 1 }}</span>/{{ numberOfItems}}
+							</div>
 							<h2 class="MTKnox">
 								<div v-for="(letter, i) in item.title" :key="letter + i">
 									<span class="letter">{{ letter }}</span>
@@ -40,6 +45,14 @@
 				</div>
 			</li>
 		</ul>
+		<div class="nav">
+			<div class="left" @click="prev">
+				<div class="arrow"></div>
+			</div>
+			<div class="right" @click="next">
+				<div class="arrow"></div>
+			</div>
+		</div>
 	</div>
 </template>
 <script>
@@ -67,7 +80,8 @@ export default {
 			transitionSpeed: 1,
 			currentSlide: 0,
 			navigationArrowsAreaWidth: 15,
-			navigationIndicationSlide: 0.05
+			navigationIndicationSlide: 0.05,
+			backgroundTransitionDuration: 0.4
 		};
 	},
 
@@ -128,7 +142,6 @@ export default {
 			return this.mod(tempSlide, this.numberOfItems);
 		},
 		backgroundColor: function() {
-			// return this.items[0].color;
 			return this.items[this.tempSlide].color;
 		}
 	},
@@ -143,9 +156,6 @@ export default {
 				});
 				elementsArray[index].classList.add('currentSlide');
 			}
-		},
-		'tempSlide': function(tempSlide) {
-			console.log(tempSlide, this.mod(tempSlide, this.numberOfItems));
 		},
 		'$store.getters.viewportSize': function() {
 			this.onWindowResize();
@@ -167,15 +177,18 @@ export default {
 		this.initThreeScene();
 		this.addEventListeners();
 
+		this.backgroundTransitionDuration = 0.4;
+
 		const duration = 2;
 		TweenMax.to(this, duration, {
 			directionalRotation: {
 				useRadians: true,
-				rotation: '0_short'
+				rotation: '0'
 			},
 			ease: Power4.easeOut
 		});
 		setTimeout(() => {
+			this.backgroundTransitionDuration = 0.4;
 			this.canSlide = true;
 		}, duration * 1000);
 	},
@@ -206,7 +219,7 @@ export default {
 				x: e.clientX,
 				y: e.clientY
 			};
-			TweenMax.to(this.mousePosition, 1.5, {
+			TweenMax.to(this.easedMousePosition, 1.5, {
 				x: e.clientX,
 				y: e.clientY
 			});
@@ -367,10 +380,31 @@ export default {
 .selector {
 	height: var(--vh);
 	width: var(--vw);
-	--backgroundTransitionDuration: 0.4s;
 	transition: background-color var(--backgroundTransitionDuration);
 	background-color: var(--currentColor);
-	cursor: url(~/assets/images/drag.png), auto;
+	.nav {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		pointer-events: none;
+		z-index: 1;
+		.left, .right {
+			position: absolute;
+			left: 0;
+			top: 0;
+			height: 100%;
+			width: var(--navigationArrowsAreaWidth);
+			pointer-events: all;
+			cursor: w-resize;
+		}
+		.right {
+			left: auto;
+			right: 0;
+			cursor: e-resize;
+		}
+	}
 	.hiddenSelector {
 		display: none;
 	}
@@ -420,6 +454,19 @@ export default {
 				--titleWrapperDelay: 2s;
 				@-moz-document url-prefix() {
 					transform-style: preserve-3d;
+				}
+				.pagination {
+					position: absolute;
+					left: 0;
+					top: 5%;
+					font-size: 2rem;
+					transform-style: preserve-3d;
+					font-weight: normal;
+					span {
+						font-size: 1.3em;
+						font-weight: bold;
+						transform: translateY(-10%);
+					}
 				}
 				h2 {
 					font-size: 16vmax;
