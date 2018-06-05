@@ -416,7 +416,7 @@ export default {
 					white-space: nowrap;
 					position: relative;
 					display: block;
-					--yOffset: -0.045em;
+					--yOffset: -0.035em;
 					@-moz-document url-prefix() {
 						transform-style: preserve-3d;
 					}
@@ -442,7 +442,7 @@ export default {
 			.subtitle {
 				position: absolute;
 				right: 0;
-				top: calc(40% + ((-2% * var(--numberOfLetters)) + 28%));
+				top: calc(48% + ((-2% * var(--numberOfLetters)) + 28%));
 				color: white;
 				&:after {
 					content: '';
