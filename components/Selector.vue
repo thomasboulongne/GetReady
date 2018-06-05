@@ -225,7 +225,7 @@ export default {
 			});
 		},
 		navigationIndicationSlideLeft() {
-			TweenMax.to(this, 1, {
+			TweenMax.to(this, 0.6, {
 				directionalRotation: {
 					useRadians: true,
 					rotation: ((this.numberOfItems - this.currentSlide) * this.rotationStep) - (this.rotationStep * this.navigationIndicationSlide) + '_short'
@@ -234,7 +234,7 @@ export default {
 			});
 		},
 		navigationIndicationSlideRight() {
-			TweenMax.to(this, 1, {
+			TweenMax.to(this, 0.6, {
 				directionalRotation: {
 					useRadians: true,
 					rotation: ((this.numberOfItems - this.currentSlide) * this.rotationStep) + (this.rotationStep * this.navigationIndicationSlide) + '_short'
@@ -243,7 +243,7 @@ export default {
 			});
 		},
 		navigationIndicationSlideReset() {
-			TweenMax.to(this, 1, {
+			TweenMax.to(this, 0.6, {
 				directionalRotation: {
 					useRadians: true,
 					rotation: (this.numberOfItems - this.currentSlide) * this.rotationStep + '_short'

@@ -8,27 +8,27 @@
 			</div>
 			<div :class="['button__next', showNextButton ? 'show' : '']" @click="goToStep(2)">
 				<span>{{ $t('next') }}</span>
-				<img src="~/assets/images/arrow@3x.png"/>
+				<img src="~/assets/images/arrow.svg"/>
 			</div>
 		</div>
-		<div :class="['step', 'step2', cardsStatus]" :style="{'--cardsTranslationDuration': cardsTranslationDuration + 'ms', '--singleCardTranslationDuration': cardsTranslationDuration / cards.length + 'ms'}">
-			<h3 class="heading" v-t="'intro.step2.sidePanel.heading'"></h3>
-			<div :class="['cards',]">
-				<div :class="['card', (cards.length - 1 - i) === currentCardIndex ? 'selected': '']" v-for="(card, i) in cards.slice().reverse()" ref="cards" :style="{zIndex: getCardZIndex(cards.length - 1 - i)}" :key="card.title + (cards.length - 1 - i)">
-					<div class="illustration">
-						<img :src="card.img" alt="" class="shadow">
-						<img :src="card.img" alt="">
-					</div>
-					<h3>{{ card.title }}</h3>
-					<p v-html="card.text"></p>
-				</div>
-			</div>
-			<div class="sidePanel">
+		<div :class="['step', 'step2']">
+			<div class="cards">
+				<h3 class="heading" v-t="'intro.step2.sidePanel.heading'"></h3>
 				<ul>
-					<li v-for="(card, i) in cards" :key="i">
-						<span :class="[currentCardIndex === i ? 'selected' : '']" @click="goToCard(i)">{{ card.title }}</span>
+					<li :class="['card', (cards.length - 1 - i) === currentCardIndex ? 'selected': '']" v-for="(card, i) in cards.slice().reverse()" ref="cards" :style="{zIndex: getCardZIndex(cards.length - 1 - i)}" :key="card.title + (cards.length - 1 - i)">
+						<div class="illustration">
+							<img :src="card.img" alt="" class="shadow">
+							<img :src="card.img" alt="">
+						</div>
+						<h3>{{ card.title }}</h3>
+						<p v-html="card.text"></p>
 					</li>
 				</ul>
+				<div class="nav">
+					<div class="dots">
+						<span :class="['dot', i === currentCardIndex ? 'selected' : '']" v-for="(card, i) in cards" :key="i" @click="goToCard(i)"></span>
+					</div>
+				</div>
 			</div>
 			<div class="formPanel">
 				<div class="wrapper">
@@ -60,7 +60,6 @@ export default {
 		return {
 			showNextButton: false,
 			step: 1,
-			cardsStatus: 'beforeEnter',
 			cardsTranslationDuration: '1000',
 			currentCardIndex: 0,
 			cards: [
@@ -113,6 +112,9 @@ export default {
 				default:
 					break;
 			}
+		},
+		'currentCardIndex': function(currentCardIndex, oldCardIndex) {
+			console.log(currentCardIndex, oldCardIndex);
 		}
 	},
 	mounted() {
@@ -147,20 +149,16 @@ export default {
 		},
 
 		animateStep2() {
-			this.cardsStatus = 'beforeEnter';
 			return new Promise(resolve => {
-				setTimeout(() => {
-					this.cardsStatus = 'onEnter';
-					setTimeout(() => {
-						this.cardsStatus = 'afterEnter';
-						setTimeout(() => {
-							this.cardsStatus = 'finish';
-							setTimeout(() => {
-								resolve();
-							}, this.cardsTranslationDuration / 2);
-						}, this.cardsTranslationDuration / 5);
-					}, this.cardsTranslationDuration);
-				}, this.cardsTranslationDuration);
+				const tl = new TimelineMax({ paused: true, onComplete: resolve });
+				tl
+				.staggerFrom(this.$refs.cards, 0.6, {
+					x: this.$store.getters.viewportSize.width / 2,
+					y: '6vh',
+					rotation: '15deg',
+					ease: Power4.easeOut
+				}, 0.1);
+				tl.play();
 			});
 		},
 
@@ -188,14 +186,10 @@ export default {
 
 
 <style lang="scss">
-@keyframes lateSlide {
-	from { --cardX: -50%}
-	to { --cardX: 0%}
-}
 .intro {
 	height: 100vh;
 	width: 100vw;
-	background: var(--darkOrange);
+	background: var(--lightBlue);
 	--stepTransitionDuration: 0.7s;
 	color: white;
 	position: relative;
@@ -237,11 +231,14 @@ export default {
 						}
 					}
 				}
+				&:last-child {
+					font-weight: bold;
+				}
 			}
 		}
 		.button__next {
 			position: absolute;
-			font-size: 1.3rem;
+			font-size: 1rem;
 			bottom: 4vh;
 			right: 3vw;
 			color: white;
@@ -252,11 +249,10 @@ export default {
 			opacity: 0;
 			transition: all 0.8s;
 			cursor: pointer;
-			span {
-				transform: translateY(-0.05em);
-			}
 			img {
-				height: 2.3em;
+				height: 0.7em;
+				transform: scale(-1);
+				margin-left: 1em;
 			}
 			&.show {
 				pointer-events: all;
@@ -272,103 +268,105 @@ export default {
 		justify-content: space-around;
 		position: relative;
 		--leftMargin: 3vw;
-		--cardsTranslationDelay: var(--cardsTranslationDuration);
-		.heading {
-			position: absolute;
-			top: 10%;
-			transform: translateX(0);
-			left: var(--leftMargin);
-			font-size: 1.6rem;
-			transition: all  var(--cardsTranslationDuration) var(--ease) var(--cardsTranslationDelay);
-		}
 		.cards {
-			display: block;
-			position: absolute;
-			top: 50%;
-			left: 50%;
-			transition: transform var(--cardsTranslationDuration) var(--ease) var(--cardsTranslationDelay);
-			transform: translate(calc(50% - (100vw / 5)), -50%);
-			z-index: 2;
-			.card {
-				--cardWidth: 18vw;
-				width: var(--cardWidth);
-				height: calc(var(--cardWidth) * 1.54);
-				background: white;
-				color: var(--black);
+			.heading {
 				position: absolute;
+				top: 10%;
 				left: 50%;
-				right: 50%;
-				border-radius: calc(var(--cardWidth) / 15);
-				--cardX: -50%;
-				--cardY: -50%;
-				--cardRotate: 0deg;
-				transform: translate(var(--cardX), var(--cardY)) rotate(var(--cardRotate));
-				box-shadow: 0 calc(var(--cardWidth) * 0.03) calc(var(--cardWidth) * 0.07) rgba(0, 0, 0, 0.05);
-				border: solid 1px rgba(0, 0, 0, 0.07);
-				padding: calc(var(--cardWidth) * 0.1);
-				box-sizing: border-box;
-				text-align: center;
-				opacity: 1;
-				@for $j from 1 to 30 {
-					&:nth-child(#{$j}) {
-						transition: transform calc(var(--cardsTranslationDuration) / 2) var(--ease) calc((#{$j} - 0.5) * 0.1s), opacity 0.2s calc((#{$j} - 0.5) * 0.1s);
-					}
-				}
-				.illustration {
-					position: relative;
-					width: 66%;
-					margin: auto;
-					img {
-						width: 100%;
+				transform: translateX(-50%);
+				font-size: 1.6rem;
+			}
+			ul {
+				display: block;
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				z-index: 2;
+				.card {
+					--cardWidth: 18vw;
+					width: var(--cardWidth);
+					height: calc(var(--cardWidth) * 1.54);
+					background: white;
+					color: var(--black);
+					position: absolute;
+					left: 50%;
+					right: 50%;
+					border-radius: calc(var(--cardWidth) / 15);
+					--cardRotate: 0deg;
+					transform: translate(-50%, -50%) rotate(var(--cardRotate));
+					box-shadow: 0 calc(var(--cardWidth) * 0.03) calc(var(--cardWidth) * 0.07) rgba(0, 0, 0, 0.09);
+					border: solid 1px rgba(0, 0, 0, 0.07);
+					padding: calc(var(--cardWidth) * 0.1);
+					box-sizing: border-box;
+					text-align: center;
+					opacity: 1;
+					.illustration {
 						position: relative;
-						&.shadow {
-							position: absolute;
-							top: 50%;
-							left: 50%;
-							transform: translate(-55%, -35%);
-							filter: brightness(0);
-							opacity: 0.05;
+						width: 66%;
+						margin: auto;
+						img {
+							width: 100%;
+							position: relative;
+							&.shadow {
+								position: absolute;
+								top: 50%;
+								left: 50%;
+								transform: translate(-55%, -35%);
+								filter: brightness(0);
+								opacity: 0.05;
+							}
+						}
+					}
+					h3 {
+						margin-top: 2rem;
+						margin-bottom: 1rem;
+						font-size: 2rem;
+						color: var(--blue);
+						text-transform: uppercase;
+					}
+					p {
+						margin: 0;
+					}
+					@for $i from 1 to 10 {
+						&:nth-child(#{$i}) {
+							--cardRotate: calc(#{random($limit: 8) - 4} * 1deg);
 						}
 					}
 				}
-				h3 {
-					margin-top: 2rem;
-					margin-bottom: 1rem;
-					font-size: 2rem;
-					color: var(--blue);
-					text-transform: uppercase;
-				}
-				p {
-					margin: 0;
-				}
-				@for $i from 1 to 10 {
-					&:nth-child(#{$i}) {
-						--cardRotate: calc(#{random($limit: 8) - 4} * 1deg);
-					}
-				}
-				&.selected {
-					--cardRotate: 0deg;
-				}
 			}
-		}
-		.sidePanel {
-			text-align: left;
-			position: absolute;
-			left: var(--leftMargin);
-			transform: translate(0);
-			text-transform: uppercase;
-			ul {
-				display: flex;
-				flex-direction: column;
-				li {
-					margin: 1em 0;
-					span {
-						opacity: 0.6;
-						transition: opacity 0.4s;
+			.nav {
+				.dots {
+					position: absolute;
+					bottom: 10%;
+					left: 50%;
+					transform: translateX(-50%);
+					.dot {
+						position: relative;
+						width: 6px;
+						height: 6px;
+						display: inline-block;
+						margin: 0 0.5em;
 						cursor: pointer;
+						&:after {
+							content: '';
+							border: solid white 2px;
+							border-radius: 50%;
+							position: absolute;
+							display: block;
+							width: 0;
+							height: 0;
+							top: 50%;
+							left: 50%;
+							transform: translate(-50%, -50%);
+							transition: all 0.2s;
+						}
 						&.selected {
 							cursor: default;
-							opacity: 1;
+							&:after {
+								width: 100%;
+								height: 100%;
+							}
 						}
 					}
 				}
@@ -383,8 +381,6 @@ export default {
 			display: flex;
 			justify-content: center;
 			align-items: center;
-			transition: all var(--cardsTranslationDuration);
-			background: var(--lightOrange);
 			.wrapper {
 				width: 100%;
 				max-width: 66%;
@@ -468,71 +464,6 @@ export default {
 				}
 			}
 		}
-		&.beforeEnter {
-			.cards {
-				transform: translate(-50%, -50%);
-				.card {
-					opacity: 0;
-					--cardX: calc(-50% + 50vw);
-					--cardY: -20%;
-					--cardRotate: 20deg;
-				}
-			}
-			.heading {
-				left: 50%;
-				transform: translateX(-50%);
-			}
-			.sidePanel {
-				ul {
-					li {
-						span {
-							opacity: 0;
-						}
-					}
-				}
-			}
-		}
-		&.onEnter {
-			.sidePanel {
-				ul {
-					li {
-						span {
-							opacity: 0;
-						}
-					}
-				}
-			}
-		}
-		&.afterEnter {
-			.sidePanel {
-				ul {
-					li {
-						@for $i from 0 to 10 {
-							&:nth-child(#{$i + 1}) {
-								span {
-									transition: all 0.4s var(--ease) calc(#{$i} * 0.2s);
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-		&.finish {
-			.formPanel {
-				width: 66%;
-				.wrapper {
-					transition: all calc(var(--cardsTranslationDuration)) var(--ease) calc(var(--cardsTranslationDelay) * 1.5);
-					opacity: 1;
-					transform: none;
-				}
-			}
-			.cards {
-				.card {
-					transition-delay: 0s;
-				}
-			}
-		}
 	}
 
 	&.step__1 {
@@ -546,11 +477,8 @@ export default {
 	&.step__2 {
 		.step1 {
 			opacity: 0;
-			transform: translateY(-5%) scale(0.97);
+			transform: translateY(-15%) scale(0.97);
 			pointer-events: none;
-		}
-		.step2 {
-			transition-delay: var(--stepTransitionDuration);
 		}
 	}
 }

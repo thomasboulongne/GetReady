@@ -107,7 +107,8 @@ module.exports = {
 								darkOrange: '#f35a3e',
 								lightOrange: '#fd6246',
 								black: '#494949',
-								blue: '#4b80ff'
+								blue: '#4b80ff',
+								lightBlue: '#c1cbe0'
 							}
 						}
 					}
