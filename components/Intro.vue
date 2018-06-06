@@ -1,6 +1,6 @@
 <template>
 	<div :class="['intro', 'step__' + step]" @click.shift="toggleCards">
-		<div class="step step1">
+		<div :class="['step', 'step1']">
 			<div class="sentences">
 				<div class="sentence" v-for="i in 3" :key="i" ref="sentences">
 					<span v-for="(word, j) in $t('intro.step1.sentences.' + i).split(' ')" :key="j">{{ word }} </span>
@@ -11,11 +11,13 @@
 				<img src="~/assets/images/arrow.svg"/>
 			</div>
 		</div>
-		<div :class="['step', 'step2']">
+		<div :class="['step', 'step2']" ref="step2">
 			<div class="cards">
-				<h3 class="heading" v-t="'intro.step2.sidePanel.heading'"></h3>
+				<h3 class="heading">
+					<span v-for="(word, i) in $t('intro.step2.sidePanel.heading').split(' ')" :key="i">{{ word }} </span>
+				</h3>
 				<ul>
-					<li :class="['card', (cards.length - 1 - i) === currentCardIndex ? 'selected': '']" v-for="(card, i) in cards.slice().reverse()" ref="cards" :style="{zIndex: getCardZIndex(cards.length - 1 - i)}" :key="card.title + (cards.length - 1 - i)">
+					<li :class="['card', (cards.length - 1 - i) === currentCardIndex ? 'selected': '']" v-for="(card, i) in cards.slice().reverse()" ref="cards" :key="card.title + (cards.length - 1 - i)">
 						<div class="illustration">
 							<img :src="card.img" alt="" class="shadow">
 							<img :src="card.img" alt="">
@@ -113,8 +115,32 @@ export default {
 					break;
 			}
 		},
-		'currentCardIndex': function(currentCardIndex, oldCardIndex) {
-			console.log(currentCardIndex, oldCardIndex);
+		'currentCardIndex': function(currentCardIndex, prevCardIndex) {
+			const tl = new TimelineMax({ paused: true });
+			let i = prevCardIndex;
+			let k = 0;
+			while (i !== currentCardIndex) {
+				const card = this.$refs.cards[this.cards.length - 1 - i];
+				tl
+				.to(card, 0.5, {
+					xPercent: -180,
+					x: 0,
+					ease: Power4.easeInOut
+				}, k === 0 ? '+=0' : '-=0.5');
+				i = i + 1 > this.cards.length - 1 ? 0 : i + 1;
+				this.$refs.cards.forEach((card, j) => {
+					tl.set(card, {
+						zIndex: this.getCardZIndex(this.cards.length - 1 - j, i)
+					});
+				});
+				tl.to(card, 0.4, {
+					xPercent: -50,
+					x: 0,
+					ease: Power4.easeInOut
+				});
+				k++;
+			}
+			tl.play();
 		}
 	},
 	mounted() {
@@ -150,28 +176,41 @@ export default {
 
 		animateStep2() {
 			return new Promise(resolve => {
-				const tl = new TimelineMax({ paused: true, onComplete: resolve });
+				const tl = new TimelineMax({ paused: true, onComplete: resolve, delay: 0.5 });
 				tl
+				.staggerFrom(this.$refs.step2.querySelectorAll('.heading span'), 1.2, {
+					yPercent: 10,
+					rotation: '4deg',
+					opacity: 0,
+					ease: Power4.easeOut
+				}, 0.1)
 				.staggerFrom(this.$refs.cards, 0.6, {
-					x: this.$store.getters.viewportSize.width / 2,
+					x: this.$store.getters.viewportSize.width / 1.5,
 					y: '6vh',
 					rotation: '15deg',
 					ease: Power4.easeOut
-				}, 0.1);
+				}, 0.1, '-=0.3')
+				.staggerFrom(this.$refs.step2.querySelectorAll('.dot'), 1, {
+					yPercent: 10,
+					opacity: 0,
+					ease: Power4.easeOut
+				}, 0.1)
+				;
 				tl.play();
 			});
 		},
 
 		toggleCards() {
-			this.goToStep(2);
+			const nextStep = this.step + 1 > 2 ? 0 : this.step + 1;
+			this.goToStep(nextStep);
 		},
 
 		goToCard(i) {
 			this.currentCardIndex = i;
 		},
 
-		getCardZIndex(i) {
-			const value = (this.cards.length - i) + (this.currentCardIndex) - 1;
+		getCardZIndex(i, currentCardIndex) {
+			const value = (this.cards.length - i) + (currentCardIndex) - 1;
 			const zIndex = value % this.cards.length;
 			return zIndex;
 		},
@@ -275,6 +314,10 @@ export default {
 				left: 50%;
 				transform: translateX(-50%);
 				font-size: 1.6rem;
+				span {
+					display: inline-block;
+					transform-origin: center left;
+				}
 			}
 			ul {
 				display: block;
@@ -338,7 +381,7 @@ export default {
 			.nav {
 				.dots {
 					position: absolute;
-					bottom: 10%;
+					bottom: 15%;
 					left: 50%;
 					transform: translateX(-50%);
 					.dot {
