@@ -1,5 +1,5 @@
 <template>
-	<section :class="['container', 'home', $store.getters.goal === null ? 'introLayout' : 'selectorLayout']">
+	<section :class="['container', 'home', $route.name === 'intro' ? 'introLayout' : 'selectorLayout']">
 		<intro-comp></intro-comp>
 		<selector-comp :items="items"></selector-comp>
 	</section>

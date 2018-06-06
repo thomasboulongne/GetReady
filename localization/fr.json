@@ -15,16 +15,16 @@
                 "heading": "Un bon objectif devrait être :"
             },
             "formPanel": {
-                "heading": "Formuler un objectif",
-                "text": "Les personnes qui écrivent leur objectif ont 42% plus de chances de l’atteindre que ceux qui se contentent de le penser.",
+                "subheading": "Grâce à ces conseils,",
+                "heading": "Formulez votre objectif",
+                "text": "Ceux qui écrivent leur objectif on 42% plus de chance de l’atteindre que ceux qui y penses.",
                 "placeholder": "Mon objectif est...",
                 "Example": "Exemple :",
                 "examples": {
                     "1": "Avoir son bac avec mention",
                     "2": "Courir le marathon de Paris en moins de 3h"
                 },
-                "submit": "Valider",
-                "noSubmit": "Plus tard"
+                "submit": "Valider"
             }
         }
     },

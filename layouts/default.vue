@@ -42,6 +42,12 @@ export default {
 		}
 	},
 
+	created() {
+		if (this.$store.getters.goal === null) {
+			this.$router.push({name: 'intro'});
+		}
+	},
+
 	mounted() {
 		this.updateViewportSize();
 		this.addEventListeners();

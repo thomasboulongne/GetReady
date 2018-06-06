@@ -1,18 +1,18 @@
 <template>
 	<div :class="['intro', 'step__' + step]" @click.shift="goToNextStep">
-		<div :class="['step', 'step1']">
+		<div :class="['step', 'step1']" ref="step1">
 			<div class="sentences">
 				<div class="sentence" v-for="i in 3" :key="i" ref="sentences">
 					<span v-for="(word, j) in $t('intro.step1.sentences.' + i).split(' ')" :key="j">{{ word }} </span>
 				</div>
 			</div>
-			<div :class="['button__next', showNextButton ? 'show' : '']" @click="goToStep(2)">
+			<div :class="['button__next']" @click="goToStep(2)">
 				<span>{{ $t('next') }}</span>
 				<img src="~/assets/images/arrow.svg"/>
 			</div>
 		</div>
-		<div :class="['step', 'step2']" ref="step2">
-			<div class="cards">
+		<div :class="['step', 'step2']" ref="step2" :style="{'--cardsLeftMargin': cardsLeftMargin}">
+			<div class="cards" ref="cardsWrapper">
 				<h3 class="heading">
 					<span v-for="(word, i) in $t('intro.step2.sidePanel.heading').split(' ')" :key="i">{{ word }} </span>
 				</h3>
@@ -38,8 +38,13 @@
 					</div>
 				</div>
 			</div>
-			<div class="formPanel">
+			<div :class="['button__next']" @click="goToStep(3)">
+				<span>{{ $t('next') }}</span>
+				<img src="~/assets/images/arrow.svg"/>
+			</div>
+			<div class="formPanel" ref="formPanel">
 				<div class="wrapper">
+					<span class="subheading" v-t="'intro.step2.formPanel.subheading'"></span>
 					<h2 v-t="'intro.step2.formPanel.heading'"></h2>
 					<p v-t="'intro.step2.formPanel.text'"></p>
 					<form @submit="validate">
@@ -54,7 +59,6 @@
 						</div>
 						<div class="buttons">
 							<input type="submit" class="validate" :value="$t('intro.step2.formPanel.submit')"/>
-							<input type="submit" class="noValidate" :value="$t('intro.step2.formPanel.noSubmit')"/>
 						</div>
 					</form>
 				</div>
@@ -66,41 +70,48 @@
 export default {
 	data() {
 		return {
-			showNextButton: false,
 			step: 1,
 			cardsTranslationDuration: '1000',
 			currentCardIndex: 0,
 			cardDirection: -1,
+			allCardsAreDisplayed: false,
+			cardsLeftMargin: '20%',
 			cards: [
 				{
 					title: this.$t('cards.1.title'),
 					text: this.$t('cards.1.text'),
-					img: require('~/assets/images/cards/p.png')
+					img: require('~/assets/images/cards/p.png'),
+					displayed: true
 				},
 				{
 					title: this.$t('cards.2.title'),
 					text: this.$t('cards.2.text'),
-					img: require('~/assets/images/cards/s.png')
+					img: require('~/assets/images/cards/s.png'),
+					displayed: false
 				},
 				{
 					title: this.$t('cards.3.title'),
 					text: this.$t('cards.3.text'),
-					img: require('~/assets/images/cards/m.png')
+					img: require('~/assets/images/cards/m.png'),
+					displayed: false
 				},
 				{
 					title: this.$t('cards.4.title'),
 					text: this.$t('cards.4.text'),
-					img: require('~/assets/images/cards/a.png')
+					img: require('~/assets/images/cards/a.png'),
+					displayed: false
 				},
 				{
 					title: this.$t('cards.5.title'),
 					text: this.$t('cards.5.text'),
-					img: require('~/assets/images/cards/r.png')
+					img: require('~/assets/images/cards/r.png'),
+					displayed: false
 				},
 				{
 					title: this.$t('cards.6.title'),
 					text: this.$t('cards.6.text'),
-					img: require('~/assets/images/cards/t.png')
+					img: require('~/assets/images/cards/t.png'),
+					displayed: false
 				}
 			],
 			examples: [
@@ -113,17 +124,24 @@ export default {
 		'step': function(step) {
 			switch (step) {
 				case 2:
-					this.animateStep2()
-					.then(() => {
-						console.log('yo adele step 2 ok');
-					});
+					this.animateStep2();
 					break;
-				default:
-					break;
+				case 3:
+					this.animateStep3();
 			}
 		},
 		'currentCardIndex': function(currentCardIndex, prevCardIndex) {
-			const tl = new TimelineMax({ paused: true });
+			const tl = new TimelineMax({
+				paused: true,
+				onComplete: () => {
+					this.cards[currentCardIndex].displayed = true;
+					let allDisplayed = true;
+					this.cards.forEach(card => {
+						allDisplayed = card.displayed;
+					});
+					this.allCardsAreDisplayed = allDisplayed;
+				}
+			});
 			let i = prevCardIndex;
 			let k = 0;
 			while (i !== currentCardIndex) {
@@ -148,20 +166,35 @@ export default {
 				k++;
 			}
 			tl.play();
+		},
+		'allCardsAreDisplayed': function(allDisplayed) {
+			if (allDisplayed) {
+				TweenMax.to(this.$refs.step2.querySelector('.button__next'), 0.8, {
+					opacity: 1,
+					pointerEvents: 'all'
+				});
+			}
 		}
 	},
 	mounted() {
 		const step1animation = new Promise(resolve => {
-			this.$refs.sentences.forEach((sentence, i) => {
-				setTimeout(() => {
-					sentence.classList.add('show');
-				}, i * 1500);
-				if (i === this.$refs.sentences.length - 1) {
-					setTimeout(() => {
-						resolve();
-					}, (i + 1) * 1500);
-				}
+			const tl = new TimelineMax({ paused: true, onComplete: resolve });
+			this.$refs.sentences.forEach(sentence => {
+				tl.staggerFrom(sentence.querySelectorAll('span'), 0.9, {
+					opacity: 0,
+					yPercent: 10,
+					rotation: '4deg',
+					ease: Power3.easeOut
+				}, 0.1);
 			});
+
+			tl
+			.to(this.$refs.step1.querySelector('.button__next'), 0.8, {
+				opacity: 1,
+				pointerEvents: 'all'
+			});
+
+			tl.play();
 		});
 
 		step1animation.then(() => {
@@ -170,21 +203,23 @@ export default {
 	},
 	methods: {
 		goToStep(index) {
-			let promise;
-			switch (index) {
-				case 2:
-					this.step = 2;
-					break;
-				default:
-					break;
-			}
-			return promise;
+			this.step = index;
 		},
 
 		animateStep2() {
 			return new Promise(resolve => {
 				const tl = new TimelineMax({ paused: true, onComplete: resolve, delay: 0.5 });
 				tl
+				.to(this.$refs.step1, 0.4, {
+					opacity: 0,
+					scale: 0.97,
+					pointerEvents: 'none'
+				})
+				.set(this.$refs.step2, {
+					opacity: 1,
+					scale: 1,
+					pointerEvents: 'all'
+				})
 				.staggerFrom(this.$refs.step2.querySelectorAll('.heading span'), 1.2, {
 					yPercent: 10,
 					rotation: '4deg',
@@ -208,6 +243,32 @@ export default {
 					ease: Power4.easeOut
 				})
 				;
+				tl.play();
+			});
+		},
+
+		animateStep3() {
+			return new Promise(resolve => {
+				const tl = new TimelineMax({ paused: true, onComplete: resolve });
+				tl
+				.to(this.$refs.step2.querySelector('.button__next'), 0.3, {
+					opacity: 0,
+					pointerEvents: 'none'
+				})
+				.to(this.$refs.cardsWrapper, 0.5, {
+					left: this.cardsLeftMargin,
+					xPercent: 0,
+					x: 0,
+					ease: Power4.easeOut
+				}, '-=0.3')
+				.to(this.$refs.formPanel, 0.4, {
+					opacity: 1,
+					scale: 1,
+					pointerEvents: 'all',
+					ease: Power4.easeOut
+				})
+				;
+
 				tl.play();
 			});
 		},
@@ -275,6 +336,7 @@ export default {
 		validate(event) {
 			event.preventDefault();
 			this.$store.dispatch('setGoal', this.$refs.goalInput.value);
+			this.$router.push({name: 'index'});
 		}
 	}
 };
@@ -289,8 +351,29 @@ export default {
 	--stepTransitionDuration: 0.7s;
 	color: white;
 	position: relative;
+	.button__next {
+		position: absolute;
+		font-size: 1rem;
+		bottom: 4vh;
+		right: 3vw;
+		color: white;
+		text-transform: uppercase;
+		align-items: center;
+		pointer-events: none;
+		display: flex;
+		opacity: 0;
+		cursor: pointer;
+		img {
+			height: 0.7em;
+			transform: scale(-1);
+			margin-left: 1em;
+		}
+		&.show {
+			pointer-events: all;
+			opacity: 1;
+		}
+	}
 	.step {
-		transition: all var(--stepTransitionDuration) var(--ease);
 		position: absolute;
 		top: 0;
 		right: 0;
@@ -298,12 +381,18 @@ export default {
 		left: 0;
 		height: 100%;
 		width: 100%;
+		transform: scale(0.97);
+		opacity: 0;
+		pointer-events: none;
 	}
 	.step1 {
+		opacity: 1;
+		transform: none;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
+		pointer-events: all;
 		.sentences {
 			text-align: center;
 			font-size: 2rem;
@@ -311,67 +400,29 @@ export default {
 			.sentence {
 				span {
 					display: inline-block;
-					transform: translateY(10%) rotate(4deg);
 					transform-origin: center left;
-					opacity: 0;
-					transition: all 0.3s var(--ease);
-				}
-				&.show {
-					span{
-						transform: none;
-						opacity: 1;
-						@for $j from 1 to 30 {
-							&:nth-child(#{$j}) {
-								transition-delay: calc((#{$j} - 1) * 0.1s);
-							}
-						}
-					}
 				}
 				&:last-child {
 					font-weight: bold;
 				}
 			}
 		}
-		.button__next {
-			position: absolute;
-			font-size: 1rem;
-			bottom: 4vh;
-			right: 3vw;
-			color: white;
-			text-transform: uppercase;
-			align-items: center;
-			pointer-events: none;
-			display: flex;
-			opacity: 0;
-			transition: all 0.8s;
-			cursor: pointer;
-			img {
-				height: 0.7em;
-				transform: scale(-1);
-				margin-left: 1em;
-			}
-			&.show {
-				pointer-events: all;
-				opacity: 1;
-			}
-		}
 	}
 
 	.step2 {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: space-around;
 		position: relative;
-		--leftMargin: 3vw;
 		--cardWidth: 18vw;
 		.cards {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			display: flex;
+			flex-direction: column;
+			align-items: center;
 			.heading {
-				position: absolute;
-				top: 10%;
-				left: 50%;
-				transform: translateX(-50%);
 				font-size: 1.6rem;
+				margin-bottom: 2em;
 				span {
 					display: inline-block;
 					transform-origin: center left;
@@ -379,11 +430,10 @@ export default {
 			}
 			ul {
 				display: block;
-				position: absolute;
-				top: 50%;
-				left: 50%;
-				transform: translate(-50%, -50%);
 				z-index: 2;
+				width: var(--cardWidth);
+				height: calc(var(--cardWidth) * 1.54);
+				position: relative;
 				.card {
 					width: var(--cardWidth);
 					height: calc(var(--cardWidth) * 1.54);
@@ -391,7 +441,7 @@ export default {
 					color: var(--black);
 					position: absolute;
 					left: 50%;
-					right: 50%;
+					top: 50%;
 					border-radius: calc(var(--cardWidth) / 15);
 					--cardRotate: 0deg;
 					transform: translate(-50%, -50%) rotate(var(--cardRotate));
@@ -436,14 +486,11 @@ export default {
 				}
 			}
 			.nav {
-				position: absolute;
-				bottom: 15%;
-				left: 50%;
-				transform: translateX(-50%);
 				display: flex;
 				width: var(--cardWidth);
 				justify-content: space-between;
 				align-items: center;
+				margin-top: 3rem;
 				.arrow {
 					cursor: pointer;
 					&.right {
@@ -488,22 +535,31 @@ export default {
 		.formPanel {
 			position: absolute;
 			top: 0;
-			right: 0;
+			left: 50%;
 			bottom: 0;
-			width: 0;
+			width: 50%;
 			display: flex;
-			justify-content: center;
+			justify-content: flex-start;
 			align-items: center;
+			pointer-events: none;
+			opacity: 0;
+			transform: scale(0.97);
 			.wrapper {
-				width: 100%;
-				max-width: 66%;
+				width: calc(100% - var(--cardsLeftMargin));
 				text-align: left;
-				opacity: 0;
-				transform: scale(0.97);
+				.subheading {
+					font-size: 1.3rem;
+					text-transform: uppercase;
+				}
+				h2 {
+					margin-top: 0;
+					margin-bottom: 0;
+				}
 				p {
 					display: inline-block;
 					width: 66%;
 					margin-bottom: 4rem;
+					font-size: 1.1rem;
 				}
 				form {
 					position: relative;
@@ -518,15 +574,13 @@ export default {
 						padding: 0.1em;
 						line-height: 1.5;
 						&::placeholder {
-							color: rgba(255, 255, 255, 0.7);
-							font-style: italic;
+							color: #959FB0;
 							font-weight: 100;
 						}
 					}
 					.examples {
 						display: inline-block;
 						margin: 2rem 0;
-						color: #A64034;
 						font-weight: bold;
 						width: 100%;
 						span {
@@ -552,7 +606,6 @@ export default {
 									font-size: 1.35em;
 									font-style: italic;
 									white-space: nowrap;
-									color: #A64034;
 								}
 							}
 						}
@@ -562,36 +615,13 @@ export default {
 						text-transform: uppercase;
 						padding: 1em 3.5em;
 						background: white;
-						color: var(--lightOrange);
+						font-weight: bold;
+						color: var(--blue);
 						font-family: 'Open Sans', sans-serif;
 						border: none;
-					}
-					input.noValidate {
-						border: none;
-						background: none;
-						font-family: 'Open Sans', sans-serif;
-						margin-left: 2em;
-						text-decoration: underline;
-						color: #A64034;
 					}
 				}
 			}
-		}
-	}
-
-	&.step__1 {
-		.step2 {
-			opacity: 0;
-			pointer-events: none;
-			transform: translateY(5%) scale(0.97);
-		}
-	}
-
-	&.step__2 {
-		.step1 {
-			opacity: 0;
-			transform: translateY(-15%) scale(0.97);
-			pointer-events: none;
 		}
 	}
 }

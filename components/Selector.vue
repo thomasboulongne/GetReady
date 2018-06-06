@@ -8,7 +8,8 @@
 		'--vh': vh + 'px',
 		'--ratio': (vh / vw).toFixed(2),
 		'--backgroundTransitionDuration': backgroundTransitionDuration + 's',
-		'--navigationArrowsAreaWidth': navigationArrowsAreaWidth + '%'
+		'--navigationArrowsAreaWidth': navigationArrowsAreaWidth + '%',
+		'cursor': cursor
 	}">
 		<ul class="hiddenSelector">
 			<li v-for="(item, i) in items" :key="item.color + i">
@@ -38,6 +39,13 @@
 					<div class="buttonWrapper">
 						<div class="button">
 							<nuxt-link :to="'/organize'" tag="div" class="textWrapper">
+								<span v-t="'discover'"></span>
+							</nuxt-link>
+						</div>
+					</div>
+					<div class="buttonWrapper clone">
+						<div class="button">
+							<nuxt-link :to="'/organize'" tag="div" aria-hidden="true" class="textWrapper">
 								<span v-t="'discover'"></span>
 							</nuxt-link>
 						</div>
@@ -81,7 +89,8 @@ export default {
 			currentSlide: 0,
 			navigationArrowsAreaWidth: 15,
 			navigationIndicationSlide: 0.05,
-			backgroundTransitionDuration: 0.4
+			backgroundTransitionDuration: 0.4,
+			cursor: '-webkit-grab'
 		};
 	},
 
@@ -254,6 +263,7 @@ export default {
 		panGesture(e) {
 			if (e.isFinal) {
 				this.canSlide = true;
+				this.cursor = '-webkit-grab';
 				switch (e.offsetDirection) {
 					case 2:
 						this.next();
@@ -264,6 +274,7 @@ export default {
 				}
 			} else {
 				this.canSlide = false;
+				this.cursor = '-webkit-grabbing';
 				switch (e.offsetDirection) {
 					case 2:
 						this.navigationIndicationSlideLeft();
@@ -379,6 +390,7 @@ export default {
 	width: var(--vw);
 	transition: background-color var(--backgroundTransitionDuration);
 	background-color: var(--currentColor);
+	cursor: grab;
 	.nav {
 		position: absolute;
 		top: 0;
@@ -499,16 +511,19 @@ export default {
 				right: 0;
 				top: calc(48% + ((-2% * var(--numberOfLetters)) + 28%));
 				color: white;
-				&:after {
-					content: '';
-					position: absolute;
-					background-color: var(--currentColor);
-					transition: background-color var(--backgroundTransitionDuration);
-					bottom: 100%;
-					left: 50%;
-					height: 150%;
-					width: 150%;
-					transform: rotate(-6deg) translateX(-50%);
+				clip-path: polygon(0 15%, 100% 0, 100% 100%, 0 100%);
+				@supports (-ms-ime-align: auto) {
+					&:after {
+						content: '';
+						position: absolute;
+						transition: background-color var(--backgroundTransitionDuration);
+						background-color: var(--currentColor);
+						bottom: 100%;
+						left: 50%;
+						height: 150%;
+						width: 150%;
+						transform: rotate(-6deg) translateX(-50%);
+					}
 				}
 				h3 {
 					display: block;
@@ -529,22 +544,26 @@ export default {
 			transform-style: preserve-3d;
 			z-index: 2;
 			--transition-delay: var(--transition-speed);
-			&:before, &:after {
-				content: '';
-				position: absolute;
-				top: 50%;
-				left: 50%;
-				width: 120%;
-				height: 100%;
-				background-color: var(--currentColor);
-				transition: background-color var(--backgroundTransitionDuration), transform calc(var(--transition-speed) * 1.3) var(--ease) var(--transition-delay);
-				z-index: 1;
-			}
-			&:before {
-				transform: translate(-50%, -99%) rotate(-6deg);
-			}
-			&:after {
-				transform: translate(-50%, -1%) rotate(-6deg);
+			clip-path: polygon(0 100%, 100% 0, 100% 0%, 0% 100%);
+			transition: clip-path 0.5s var(--ease) var(--transition-delay);
+			@supports (-ms-ime-align: auto) {
+				&:before, &:after {
+					content: '';
+					position: absolute;
+					top: 50%;
+					left: 50%;
+					width: 120%;
+					height: 100%;
+					background-color: var(--currentColor);
+					transition: background-color var(--backgroundTransitionDuration), transform calc(var(--transition-speed) * 1.3) var(--ease) var(--transition-delay);
+					z-index: 1;
+				}
+				&:before {
+					transform: translate(-50%, -99%) rotate(-6deg);
+				}
+				&:after {
+					transform: translate(-50%, -1%) rotate(-6deg);
+				}
 			}
 			.button {
 				position: relative;
@@ -577,6 +596,13 @@ export default {
 					}
 				}
 			}
+			&.clone {
+				transition-delay: 0s;
+				.textWrapper {
+					background-color: white;
+					color: var(--currentColor);
+				}
+			}
 		}
 		&.currentSlide {
 			.itemWrapper {
@@ -596,11 +622,8 @@ export default {
 				}
 			}
 			.buttonWrapper {
-				&:before {
-					transform: translate(-50%, -200%) rotate(-6deg);
-				}
-				&:after {
-					transform: translate(-50%, 100%) rotate(-6deg);
+				&:not(.clone) {
+					clip-path: polygon(-6% 6%, 94% -94%, 116% 94%, 6% 194%);
 				}
 				.button {
 					.textWrapper {
@@ -612,6 +635,9 @@ export default {
 							transform: none;
 						}
 					}
+				}
+				&:hover + .clone, &.clone:hover {
+					clip-path: polygon(-6% 6%, 94% -94%, 116% 94%, 6% 194%);
 				}
 			}
 		}
