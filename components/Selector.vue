@@ -261,9 +261,6 @@ export default {
 					case 4:
 						this.prev();
 						break;
-					default:
-
-						break;
 				}
 			} else {
 				this.canSlide = false;

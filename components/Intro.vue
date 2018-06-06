@@ -1,5 +1,5 @@
 <template>
-	<div :class="['intro', 'step__' + step]" @click.shift="toggleCards">
+	<div :class="['intro', 'step__' + step]" @click.shift="goToNextStep">
 		<div :class="['step', 'step1']">
 			<div class="sentences">
 				<div class="sentence" v-for="i in 3" :key="i" ref="sentences">
@@ -16,7 +16,7 @@
 				<h3 class="heading">
 					<span v-for="(word, i) in $t('intro.step2.sidePanel.heading').split(' ')" :key="i">{{ word }} </span>
 				</h3>
-				<ul>
+				<ul v-hammer:pan.horizontal="panGesture">
 					<li :class="['card', (cards.length - 1 - i) === currentCardIndex ? 'selected': '']" v-for="(card, i) in cards.slice().reverse()" ref="cards" :key="card.title + (cards.length - 1 - i)">
 						<div class="illustration">
 							<img :src="card.img" alt="" class="shadow">
@@ -27,8 +27,14 @@
 					</li>
 				</ul>
 				<div class="nav">
+					<div class="arrow left" @click="prevCard" ref="cardsArrowLeft">
+						<img src="~/assets/images/arrow.svg"/>
+					</div>
 					<div class="dots">
 						<span :class="['dot', i === currentCardIndex ? 'selected' : '']" v-for="(card, i) in cards" :key="i" @click="goToCard(i)"></span>
+					</div>
+					<div class="arrow right" @click="nextCard" ref="cardsArrowRight">
+						<img src="~/assets/images/arrow.svg"/>
 					</div>
 				</div>
 			</div>
@@ -64,6 +70,7 @@ export default {
 			step: 1,
 			cardsTranslationDuration: '1000',
 			currentCardIndex: 0,
+			cardDirection: -1,
 			cards: [
 				{
 					title: this.$t('cards.1.title'),
@@ -123,7 +130,7 @@ export default {
 				const card = this.$refs.cards[this.cards.length - 1 - i];
 				tl
 				.to(card, 0.5, {
-					xPercent: -180,
+					xPercent: this.cardDirection === 1 ? 90 : -180,
 					x: 0,
 					ease: Power4.easeInOut
 				}, k === 0 ? '+=0' : '-=0.5');
@@ -195,12 +202,17 @@ export default {
 					opacity: 0,
 					ease: Power4.easeOut
 				}, 0.1)
+				.from(this.$refs.step2.querySelectorAll('.arrow'), 1, {
+					yPercent: 10,
+					opacity: 0,
+					ease: Power4.easeOut
+				})
 				;
 				tl.play();
 			});
 		},
 
-		toggleCards() {
+		goToNextStep() {
 			const nextStep = this.step + 1 > 2 ? 0 : this.step + 1;
 			this.goToStep(nextStep);
 		},
@@ -213,6 +225,51 @@ export default {
 			const value = (this.cards.length - i) + (currentCardIndex) - 1;
 			const zIndex = value % this.cards.length;
 			return zIndex;
+		},
+
+		panGesture(e) {
+			if (e.isFinal) {
+				this.nextCard();
+			} else {
+				switch (e.offsetDirection) {
+					case 2:
+						this.cardDirection = -1;
+						this.cardSlideLeft();
+						break;
+					case 4:
+						this.cardDirection = 1;
+						this.cardSlideRight();
+						break;
+				}
+			}
+		},
+
+		nextCard() {
+			this.goToCard(this.currentCardIndex + 1 < this.cards.length ? this.currentCardIndex + 1 : 0);
+		},
+
+		prevCard() {
+			this.goToCard(this.currentCardIndex - 1 > -1 ? this.currentCardIndex - 1 : this.cards.length - 1);
+		},
+
+		cardSlideLeft() {
+			const card = this.$refs.cards[this.cards.length - 1 - this.currentCardIndex];
+			TweenMax
+			.to(card, 0.2, {
+				xPercent: -180,
+				x: 0,
+				ease: Power4.easeInOut
+			});
+		},
+
+		cardSlideRight() {
+			const card = this.$refs.cards[this.cards.length - 1 - this.currentCardIndex];
+			TweenMax
+			.to(card, 0.2, {
+				xPercent: 130,
+				x: 0,
+				ease: Power4.easeInOut
+			});
 		},
 
 		validate(event) {
@@ -307,6 +364,7 @@ export default {
 		justify-content: space-around;
 		position: relative;
 		--leftMargin: 3vw;
+		--cardWidth: 18vw;
 		.cards {
 			.heading {
 				position: absolute;
@@ -327,7 +385,6 @@ export default {
 				transform: translate(-50%, -50%);
 				z-index: 2;
 				.card {
-					--cardWidth: 18vw;
 					width: var(--cardWidth);
 					height: calc(var(--cardWidth) * 1.54);
 					background: white;
@@ -379,11 +436,23 @@ export default {
 				}
 			}
 			.nav {
+				position: absolute;
+				bottom: 15%;
+				left: 50%;
+				transform: translateX(-50%);
+				display: flex;
+				width: var(--cardWidth);
+				justify-content: space-between;
+				align-items: center;
+				.arrow {
+					cursor: pointer;
+					&.right {
+						img {
+							transform: scale(-1);
+						}
+					}
+				}
 				.dots {
-					position: absolute;
-					bottom: 15%;
-					left: 50%;
-					transform: translateX(-50%);
 					.dot {
 						position: relative;
 						width: 6px;
@@ -391,6 +460,7 @@ export default {
 						display: inline-block;
 						margin: 0 0.5em;
 						cursor: pointer;
+						transform: translateY(-50%);
 						&:after {
 							content: '';
 							border: solid white 2px;
