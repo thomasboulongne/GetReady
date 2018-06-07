@@ -1,7 +1,7 @@
 <template>
 	<section :class="['container', 'home', $route.name === 'intro' ? 'introLayout' : 'selectorLayout']">
-		<intro-comp></intro-comp>
-		<selector-comp :items="items"></selector-comp>
+		<intro-comp ref="intro" v-if="intro"></intro-comp>
+		<selector-comp ref="selector" :items="items" v-if="selector"></selector-comp>
 	</section>
 </template>
 
@@ -53,8 +53,34 @@ export default {
 						y: 2
 					}
 				}
-			]
+			],
+			intro: this.$route.name === 'intro',
+			selector: this.$route.name === 'index'
 		};
+	},
+
+	beforeRouteLeave(to, from, next) {
+		if (from.name === 'intro' && to.name === 'index') {
+			this.selector = true;
+			this.$nextTick(() => {
+				const tl = new TimelineMax({
+					paused: true,
+					onComplete: () => {
+						this.intro = false;
+					}
+				});
+				tl.to(this.$refs.intro.$el, 1, {
+					opacity: 0
+				})
+				.add(() => {
+					this.$refs.selector.spinAnimation()
+					.then(next);
+				}, 0);
+				tl.play();
+			});
+		} else {
+			next();
+		}
 	},
 
 	components: {
@@ -75,27 +101,12 @@ export default {
 		position: absolute;
 		top: 0;
 		left: 0;
-		transition: opacity var(--transitionDuration), visibility 0s linear var(--transitionDuration), transform var(--transitionDuration) var(--ease) 0s;
+		z-index: 2;
 	}
 	.selector {
 		position: absolute;
 		top: 0;
 		left: 0;
-		transition: opacity 0.4s var(--ease) calc(var(--transitionDuration) / 2), transform var(--transitionDuration) var(--ease);
-	}
-	&.introLayout {
-		.selector {
-			visibility: hidden;
-			opacity: 0;
-			transform: scale(0.97);
-		}
-	}
-	&.selectorLayout {
-		.intro {
-			opacity: 0;
-			transform: scale(0.97);
-			visibility: hidden;
-		}
 	}
 }
 </style>

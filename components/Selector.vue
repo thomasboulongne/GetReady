@@ -83,7 +83,7 @@ export default {
 				x: 0,
 				y: 0
 			},
-			rotation: Math.PI * 1.99,
+			rotation: 0,
 			canSlide: false,
 			transitionSpeed: 1,
 			currentSlide: 0,
@@ -187,19 +187,6 @@ export default {
 		this.addEventListeners();
 
 		this.backgroundTransitionDuration = 0.4;
-
-		const duration = 2;
-		TweenMax.to(this, duration, {
-			directionalRotation: {
-				useRadians: true,
-				rotation: '0'
-			},
-			ease: Power4.easeOut
-		});
-		setTimeout(() => {
-			this.backgroundTransitionDuration = 0.4;
-			this.canSlide = true;
-		}, duration * 1000);
 	},
 
 	beforeDestroy() {
@@ -284,6 +271,23 @@ export default {
 						break;
 				}
 			}
+		},
+		spinAnimation() {
+			this.rotation = Math.PI * 3;
+			return new Promise(resolve => {
+				TweenMax.to(this, 3, {
+					directionalRotation: {
+						useRadians: true,
+						rotation: '0'
+					},
+					ease: Power4.easeOut,
+					onComplete: () => {
+						this.backgroundTransitionDuration = 0.4;
+						this.canSlide = true;
+						resolve();
+					}
+				});
+			});
 		},
 		initThreeScene() {
 			this.camera = new THREE.PerspectiveCamera(this.fov, window.innerWidth / window.innerHeight, 1, 1000);
