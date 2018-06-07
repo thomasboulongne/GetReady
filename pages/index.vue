@@ -10,16 +10,16 @@ import selectorComp from '~/components/Selector';
 import introComp from '~/components/Intro';
 
 export default {
-	// fetch({ store, redirect }) {
-	// 	if (store.getters.goal === null) {
-	// 		return redirect('/intro');
-	// 	}
-	// },
-	created() {
-		if (this.$store.getters.goal === null) {
-			this.$router.push('/intro');
+	fetch({ store, redirect }) {
+		if (store.getters.goal === null) {
+			return redirect('/intro');
 		}
 	},
+	// created() {
+	// 	if (this.$store.getters.goal === null) {
+	// 		this.$router.push('/intro');
+	// 	}
+	// },
 	data() {
 		return {
 			items: [
@@ -79,6 +79,7 @@ export default {
 				tl.play();
 			});
 		} else {
+			console.log('hello');
 			next();
 		}
 	},

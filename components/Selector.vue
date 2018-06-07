@@ -36,20 +36,9 @@
 							<h3>{{ $t('categories.like') }} <span v-html="item.athlete"></span></h3>
 						</div>
 					</div>
-					<div class="buttonWrapper">
-						<div class="button">
-							<nuxt-link :to="'/organize'" tag="div" class="textWrapper">
-								<span v-t="'discover'"></span>
-							</nuxt-link>
-						</div>
-					</div>
-					<div class="buttonWrapper clone">
-						<div class="button">
-							<nuxt-link :to="'/organize'" tag="div" aria-hidden="true" class="textWrapper">
-								<span v-t="'discover'"></span>
-							</nuxt-link>
-						</div>
-					</div>
+					<nuxt-link to="/organize" class="callToAction">
+						<button-comp :text="$t('discover')"></button-comp>
+					</nuxt-link>
 				</div>
 			</li>
 		</ul>
@@ -64,6 +53,7 @@
 	</div>
 </template>
 <script>
+import buttonComp from '~/components/Button';
 export default {
 	props: {
 		items: {
@@ -162,8 +152,10 @@ export default {
 
 				elementsArray.forEach(elt => {
 					elt.classList.remove('currentSlide');
+					elt.querySelector('.buttonComp').classList.remove('show');
 				});
 				elementsArray[index].classList.add('currentSlide');
+				elementsArray[index].querySelector('.buttonComp').classList.add('show');
 			}
 		},
 		'$store.getters.viewportSize': function() {
@@ -273,9 +265,9 @@ export default {
 			}
 		},
 		spinAnimation() {
-			this.rotation = Math.PI * 3;
+			this.rotation = Math.PI;
 			return new Promise(resolve => {
-				TweenMax.to(this, 3, {
+				TweenMax.to(this, 1.5, {
 					directionalRotation: {
 						useRadians: true,
 						rotation: '0'
@@ -312,6 +304,7 @@ export default {
 			this.animate();
 
 			this.$el.querySelector('.threeDselector .selectorItem').classList.add('currentSlide');
+			this.$el.querySelector('.threeDselector .selectorItem').querySelector('.buttonComp').classList.add('show');
 		},
 		prev() {
 			if (this.canSlide) {
@@ -383,6 +376,10 @@ export default {
 		mod(n, m) {
 			return ((n % m) + m) % m;
 		}
+	},
+
+	components: {
+		buttonComp
 	}
 };
 </script>
@@ -538,76 +535,13 @@ export default {
 					}
 				}
 			}
+			.callToAction {
+			}
+			.buttonComp {
+				--transition-delay: var(--transition-speed);
+			}
 		}
 
-		.buttonWrapper {
-			position: absolute;
-			bottom: 10%;
-			left: 50%;
-			transform: translateX(-50%);
-			transform-style: preserve-3d;
-			z-index: 2;
-			--transition-delay: var(--transition-speed);
-			clip-path: polygon(0 100%, 100% 0, 100% 0%, 0% 100%);
-			transition: clip-path 0.5s var(--ease) var(--transition-delay);
-			@supports (-ms-ime-align: auto) {
-				&:before, &:after {
-					content: '';
-					position: absolute;
-					top: 50%;
-					left: 50%;
-					width: 120%;
-					height: 100%;
-					background-color: var(--currentColor);
-					transition: background-color var(--backgroundTransitionDuration), transform calc(var(--transition-speed) * 1.3) var(--ease) var(--transition-delay);
-					z-index: 1;
-				}
-				&:before {
-					transform: translate(-50%, -99%) rotate(-6deg);
-				}
-				&:after {
-					transform: translate(-50%, -1%) rotate(-6deg);
-				}
-			}
-			.button {
-				position: relative;
-				color: white;
-				display: flex;
-				justify-content: center;
-				align-items: center;
-				font-size: 1rem;
-				text-transform: uppercase;
-				transform-style: preserve-3d;
-				.textWrapper {
-					transform-style: preserve-3d;
-					position: relative;
-					cursor: pointer;
-					border: solid 1px white;
-					padding: 0.7em 3em;
-					border-radius: 10em;
-					span {
-						display: inline-block;
-						opacity: 0;
-						transform: translateY(10%);
-						transition-duration: 0.3s;
-						transition-timing-function: var(--ease);
-						transition-property: opacity, transform;
-						@for $i from 1 to 20 {
-							&:nth-child(#{$i}) {
-								transition-delay: calc(var(--transition-delay) / 1.5 + (#{$i} * 0.03s));
-							}
-						}
-					}
-				}
-			}
-			&.clone {
-				transition-delay: 0s;
-				.textWrapper {
-					background-color: white;
-					color: var(--currentColor);
-				}
-			}
-		}
 		&.currentSlide {
 			.itemWrapper {
 				.titleWrapper {
@@ -623,25 +557,6 @@ export default {
 							}
 						}
 					}
-				}
-			}
-			.buttonWrapper {
-				&:not(.clone) {
-					clip-path: polygon(-6% 6%, 94% -94%, 116% 94%, 6% 194%);
-				}
-				.button {
-					.textWrapper {
-						&:after {
-							width: 33%;
-						}
-						span {
-							opacity: 1;
-							transform: none;
-						}
-					}
-				}
-				&:hover + .clone, &.clone:hover {
-					clip-path: polygon(-6% 6%, 94% -94%, 116% 94%, 6% 194%);
 				}
 			}
 		}

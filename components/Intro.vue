@@ -47,7 +47,7 @@
 					<span class="subheading" v-t="'intro.step2.formPanel.subheading'" ref="formSubheading"></span>
 					<h2 v-t="'intro.step2.formPanel.heading'" ref="formHeading"></h2>
 					<p v-t="'intro.step2.formPanel.text'" ref="formText"></p>
-					<form @submit="validate">
+					<form>
 						<input type="text" :placeholder="$t('intro.step2.formPanel.placeholder')" ref="goalInput">
 						<div class="examples" ref="formExamples">
 							<span v-t="'intro.step2.formPanel.Example'"></span>
@@ -57,8 +57,8 @@
 								</ul>
 							</div>
 						</div>
-						<div class="buttons" ref="formButtons">
-							<input type="submit" class="validate" :value="$t('intro.step2.formPanel.submit')"/>
+						<div class="buttons">
+							<button-comp :text="$t('intro.step2.formPanel.submit')" @click="validate" ref="formButton"></button-comp>
 						</div>
 					</form>
 				</div>
@@ -67,6 +67,7 @@
 	</div>
 </template>
 <script>
+import buttonComp from '~/components/Button';
 export default {
 	data() {
 		return {
@@ -177,27 +178,29 @@ export default {
 		}
 	},
 	mounted() {
-		const tl = new TimelineMax({ paused: true });
-		this.$refs.sentences.forEach(sentence => {
-			tl.staggerTo(sentence.querySelectorAll('span'), 0.9, {
+		this.animateStep1();
+	},
+	methods: {
+		goToStep(index) {
+			this.step = index;
+		},
+
+		animateStep1() {
+			const tl = new TimelineMax({ paused: true });
+			tl.staggerTo(this.$refs.sentences, 0.9, {
 				opacity: 1,
 				yPercent: 0,
 				rotation: '0deg',
 				ease: Power3.easeOut
 			}, 0.1);
-		});
 
-		tl
-		.to(this.$refs.step1.querySelector('.button__next'), 0.8, {
-			opacity: 1,
-			pointerEvents: 'all'
-		});
+			tl
+			.to(this.$refs.step1.querySelector('.button__next'), 0.8, {
+				opacity: 1,
+				pointerEvents: 'all'
+			});
 
-		tl.play();
-	},
-	methods: {
-		goToStep(index) {
-			this.step = index;
+			tl.play();
 		},
 
 		animateStep2() {
@@ -249,8 +252,7 @@ export default {
 					this.$refs.formHeading,
 					this.$refs.formText,
 					this.$refs.goalInput,
-					this.$refs.formExamples,
-					this.$refs.formButtons
+					this.$refs.formExamples
 				];
 
 				tl
@@ -276,6 +278,9 @@ export default {
 					rotation: '-1.5deg',
 					ease: Power4.easeOut
 				}, 0.2, '-=0.5')
+				.add(() => {
+					this.$refs.formButton.show = true;
+				})
 				;
 
 				tl.play();
@@ -347,6 +352,9 @@ export default {
 			this.$store.dispatch('setGoal', this.$refs.goalInput.value);
 			this.$router.push({name: 'index'});
 		}
+	},
+	components: {
+		buttonComp
 	}
 };
 </script>
@@ -407,11 +415,11 @@ export default {
 			font-size: 2rem;
 			line-height: 2;
 			.sentence {
+				transform-origin: center right;
+				opacity: 0;
+				transform: translateY(10%) rotate(-4deg);
 				span {
 					display: inline-block;
-					transform-origin: center left;
-					opacity: 0;
-					transform: translateY(10%) rotate(4deg);
 				}
 				&:last-child {
 					font-weight: bold;
@@ -422,7 +430,7 @@ export default {
 
 	.step2 {
 		position: relative;
-		--cardWidth: 18vw;
+		--cardWidth: 20rem;
 		.cards {
 			position: absolute;
 			top: 50%;
@@ -431,6 +439,7 @@ export default {
 			display: flex;
 			flex-direction: column;
 			align-items: center;
+			z-index: 1;
 			.heading {
 				font-size: 1.6rem;
 				margin-bottom: 2em;
@@ -488,6 +497,7 @@ export default {
 					}
 					p {
 						margin: 0;
+						font-weight: 300;
 					}
 					@for $i from 1 to 10 {
 						&:nth-child(#{$i}) {
@@ -620,17 +630,6 @@ export default {
 								}
 							}
 						}
-					}
-					input.validate {
-						border-radius: 3em;
-						text-transform: uppercase;
-						padding: 1em 3.5em;
-						background: white;
-						font-weight: bold;
-						color: var(--blue);
-						font-family: 'Open Sans', sans-serif;
-						border: none;
-						cursor: pointer;
 					}
 				}
 			}

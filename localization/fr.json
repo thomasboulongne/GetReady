@@ -7,7 +7,7 @@
             "sentences": {
                 "1": "Nous avons tous un objectif à atteindre.",
                 "2": "Qu'il soit sportif, personnel ou encore professionnel...",
-                "3": "Et vous, quel est le votre ?"
+                "3": "Avez-vous le votre en tête ?"
             }
         },
         "step2": {
@@ -17,7 +17,7 @@
             "formPanel": {
                 "subheading": "Grâce à ces conseils,",
                 "heading": "Formulez votre objectif",
-                "text": "Ceux qui écrivent leur objectif on 42% plus de chance de l’atteindre que ceux qui y penses.",
+                "text": "Les personnes qui écrivent leur objectif ont 42% de réussite en plus que celles qui se contentent de le penser.",
                 "placeholder": "Mon objectif est...",
                 "Example": "Exemple :",
                 "examples": {
