@@ -44,12 +44,12 @@
 			</div>
 			<div class="formPanel" ref="formPanel">
 				<div class="wrapper">
-					<span class="subheading" v-t="'intro.step2.formPanel.subheading'"></span>
-					<h2 v-t="'intro.step2.formPanel.heading'"></h2>
-					<p v-t="'intro.step2.formPanel.text'"></p>
+					<span class="subheading" v-t="'intro.step2.formPanel.subheading'" ref="formSubheading"></span>
+					<h2 v-t="'intro.step2.formPanel.heading'" ref="formHeading"></h2>
+					<p v-t="'intro.step2.formPanel.text'" ref="formText"></p>
 					<form @submit="validate">
 						<input type="text" :placeholder="$t('intro.step2.formPanel.placeholder')" ref="goalInput">
-						<div class="examples">
+						<div class="examples" ref="formExamples">
 							<span v-t="'intro.step2.formPanel.Example'"></span>
 							<div class="wrapper">
 								<ul>
@@ -57,7 +57,7 @@
 								</ul>
 							</div>
 						</div>
-						<div class="buttons">
+						<div class="buttons" ref="formButtons">
 							<input type="submit" class="validate" :value="$t('intro.step2.formPanel.submit')"/>
 						</div>
 					</form>
@@ -150,7 +150,7 @@ export default {
 				.to(card, 0.5, {
 					xPercent: this.cardDirection === 1 ? 90 : -180,
 					x: 0,
-					ease: Power4.easeInOut
+					ease: Power4.easeOut
 				}, k === 0 ? '+=0' : '-=0.5');
 				i = i + 1 > this.cards.length - 1 ? 0 : i + 1;
 				this.$refs.cards.forEach((card, j) => {
@@ -177,29 +177,23 @@ export default {
 		}
 	},
 	mounted() {
-		const step1animation = new Promise(resolve => {
-			const tl = new TimelineMax({ paused: true, onComplete: resolve });
-			this.$refs.sentences.forEach(sentence => {
-				tl.staggerFrom(sentence.querySelectorAll('span'), 0.9, {
-					opacity: 0,
-					yPercent: 10,
-					rotation: '4deg',
-					ease: Power3.easeOut
-				}, 0.1);
-			});
-
-			tl
-			.to(this.$refs.step1.querySelector('.button__next'), 0.8, {
+		const tl = new TimelineMax({ paused: true });
+		this.$refs.sentences.forEach(sentence => {
+			tl.staggerTo(sentence.querySelectorAll('span'), 0.9, {
 				opacity: 1,
-				pointerEvents: 'all'
-			});
-
-			tl.play();
+				yPercent: 0,
+				rotation: '0deg',
+				ease: Power3.easeOut
+			}, 0.1);
 		});
 
-		step1animation.then(() => {
-			this.showNextButton = true;
+		tl
+		.to(this.$refs.step1.querySelector('.button__next'), 0.8, {
+			opacity: 1,
+			pointerEvents: 'all'
 		});
+
+		tl.play();
 	},
 	methods: {
 		goToStep(index) {
@@ -250,23 +244,38 @@ export default {
 		animateStep3() {
 			return new Promise(resolve => {
 				const tl = new TimelineMax({ paused: true, onComplete: resolve });
+				const formElements = [
+					this.$refs.formSubheading,
+					this.$refs.formHeading,
+					this.$refs.formText,
+					this.$refs.goalInput,
+					this.$refs.formExamples,
+					this.$refs.formButtons
+				];
+
 				tl
 				.to(this.$refs.step2.querySelector('.button__next'), 0.3, {
 					opacity: 0,
 					pointerEvents: 'none'
 				})
-				.to(this.$refs.cardsWrapper, 0.5, {
+				.set(this.$refs.formPanel, {
+					opacity: 1,
+					pointerEvents: 'all'
+				})
+				.set(formElements, {
+					transformOrigin: 'center right'
+				})
+				.to(this.$refs.cardsWrapper, 1, {
 					left: this.cardsLeftMargin,
 					xPercent: 0,
 					x: 0,
-					ease: Power4.easeOut
+					ease: Power4.easeInOut
 				}, '-=0.3')
-				.to(this.$refs.formPanel, 0.4, {
-					opacity: 1,
-					scale: 1,
-					pointerEvents: 'all',
+				.staggerFrom(formElements, 1, {
+					opacity: 0,
+					rotation: '-1.5deg',
 					ease: Power4.easeOut
-				})
+				}, 0.2, '-=0.5')
 				;
 
 				tl.play();
@@ -316,20 +325,20 @@ export default {
 		cardSlideLeft() {
 			const card = this.$refs.cards[this.cards.length - 1 - this.currentCardIndex];
 			TweenMax
-			.to(card, 0.2, {
+			.to(card, 0.5, {
 				xPercent: -180,
 				x: 0,
-				ease: Power4.easeInOut
+				ease: Power4.easeOut
 			});
 		},
 
 		cardSlideRight() {
 			const card = this.$refs.cards[this.cards.length - 1 - this.currentCardIndex];
 			TweenMax
-			.to(card, 0.2, {
+			.to(card, 0.5, {
 				xPercent: 130,
 				x: 0,
-				ease: Power4.easeInOut
+				ease: Power4.easeOut
 			});
 		},
 
@@ -401,6 +410,8 @@ export default {
 				span {
 					display: inline-block;
 					transform-origin: center left;
+					opacity: 0;
+					transform: translateY(10%) rotate(4deg);
 				}
 				&:last-child {
 					font-weight: bold;
@@ -543,11 +554,11 @@ export default {
 			align-items: center;
 			pointer-events: none;
 			opacity: 0;
-			transform: scale(0.97);
 			.wrapper {
 				width: calc(100% - var(--cardsLeftMargin));
 				text-align: left;
 				.subheading {
+					display: block;
 					font-size: 1.3rem;
 					text-transform: uppercase;
 				}
@@ -619,6 +630,7 @@ export default {
 						color: var(--blue);
 						font-family: 'Open Sans', sans-serif;
 						border: none;
+						cursor: pointer;
 					}
 				}
 			}
