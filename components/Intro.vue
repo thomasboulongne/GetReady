@@ -57,8 +57,8 @@
 								</ul>
 							</div>
 						</div>
-						<div class="buttons">
-							<button-comp :text="$t('intro.step2.formPanel.submit')" @click="validate" ref="formButton"></button-comp>
+						<div class="buttons" @click="validate">
+							<button-comp :text="$t('intro.step2.formPanel.submit')" ref="formButton"></button-comp>
 						</div>
 					</form>
 				</div>
@@ -629,6 +629,12 @@ export default {
 									white-space: nowrap;
 								}
 							}
+						}
+					}
+
+					.buttons {
+						.buttonWrapper {
+							--buttonColor: var(--lightBlue);
 						}
 					}
 				}

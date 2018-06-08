@@ -1,5 +1,5 @@
 <template>
-	<div :class="['buttonComp', show ? 'show' : '']">
+	<div :class="['buttonComp', show ? 'show' : '']" :style="{'--buttonColor': color}">
 		<div class="buttonWrapper">
 			<div class="button">
 				<div class="textWrapper">
@@ -20,7 +20,12 @@
 <script>
 export default {
 	props: {
-		text: ''
+		text: {
+			default: 'Button'
+		},
+		color: {
+			default: 'black'
+		}
 	},
 	data() {
 		return {
@@ -28,7 +33,6 @@ export default {
 		};
 	}
 };
-
 </script>
 
 
@@ -39,6 +43,7 @@ export default {
 	--offset: 40%;
 	--computedOffset: calc(1 / 100 * var(--offset));
 	position: relative;
+	display: inline-block;
 	.buttonWrapper {
 		transform-style: preserve-3d;
 		z-index: 2;
@@ -83,7 +88,7 @@ export default {
 					display: inline-block;
 					opacity: 0;
 					transform: translateY(10%);
-					transition-duration: 0.3s;
+					transition-duration: 0.2s;
 					transition-timing-function: var(--ease);
 					transition-property: opacity, transform;
 					@for $i from 1 to 20 {
@@ -100,9 +105,10 @@ export default {
 			left: 50%;
 			transform: translate(-50%, -50%);
 			transition-delay: 0s;
+			transition-duration: 0.2s;
 			.textWrapper {
 				background-color: white;
-				color: var(--currentColor);
+				color: var(--buttonColor) !important;
 			}
 		}
 

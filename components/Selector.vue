@@ -535,11 +535,17 @@ export default {
 					}
 				}
 			}
-			.callToAction {
+		}
+
+		.callToAction {
+			position: absolute;
+			bottom: 10%;
+			.buttonWrapper {
+				--buttonColor: var(--backgroundColor);
 			}
-			.buttonComp {
-				--transition-delay: var(--transition-speed);
-			}
+		}
+		.buttonComp {
+			--transition-delay: var(--transition-speed);
 		}
 
 		&.currentSlide {
