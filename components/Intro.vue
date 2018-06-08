@@ -7,8 +7,7 @@
 				</div>
 			</div>
 			<div :class="['button__next']" @click="goToStep(2)">
-				<span>{{ $t('next') }}</span>
-				<img src="~/assets/images/arrow.svg"/>
+				<button-comp :text="$t('next')" ref="step1__button"></button-comp>
 			</div>
 		</div>
 		<div :class="['step', 'step2']" ref="step2" :style="{'--cardsLeftMargin': cardsLeftMargin}">
@@ -16,7 +15,7 @@
 				<h3 class="heading">
 					<span v-for="(word, i) in $t('intro.step2.sidePanel.heading').split(' ')" :key="i">{{ word }} </span>
 				</h3>
-				<ul v-hammer:pan.horizontal="panGesture">
+				<ul v-hammer:pan.horizontal="panGesture" ref="cardsList">
 					<li :class="['card', (cards.length - 1 - i) === currentCardIndex ? 'selected': '']" v-for="(card, i) in cards.slice().reverse()" ref="cards" :key="card.title + (cards.length - 1 - i)">
 						<div class="illustration">
 							<img :src="card.img" alt="" class="shadow">
@@ -35,12 +34,11 @@
 					</div>
 					<div class="arrow right" @click="nextCard" ref="cardsArrowRight">
 						<img src="~/assets/images/arrow.svg"/>
+						<div :class="['button__next']" @click="goToStep(3)">
+							<button-comp :text="$t('next')" ref="step2__button"></button-comp>
+						</div>
 					</div>
 				</div>
-			</div>
-			<div :class="['button__next']" @click="goToStep(3)">
-				<span>{{ $t('next') }}</span>
-				<img src="~/assets/images/arrow.svg"/>
 			</div>
 			<div class="formPanel" ref="formPanel">
 				<div class="wrapper">
@@ -151,6 +149,7 @@ export default {
 				.to(card, 0.5, {
 					xPercent: this.cardDirection === 1 ? 90 : -180,
 					x: 0,
+					'--cardBoxShadowOpacity': 0.09,
 					ease: Power4.easeOut
 				}, k === 0 ? '+=0' : '-=0.5');
 				i = i + 1 > this.cards.length - 1 ? 0 : i + 1;
@@ -162,6 +161,7 @@ export default {
 				tl.to(card, 0.4, {
 					xPercent: -50,
 					x: 0,
+					'--cardBoxShadowOpacity': 0,
 					ease: Power4.easeInOut
 				});
 				k++;
@@ -187,17 +187,21 @@ export default {
 
 		animateStep1() {
 			const tl = new TimelineMax({ paused: true });
-			tl.staggerTo(this.$refs.sentences, 0.9, {
+			const duration = 1;
+			tl.staggerTo([this.$refs.sentences[0], this.$refs.sentences[1]], duration, {
 				opacity: 1,
 				yPercent: 0,
 				rotation: '0deg',
-				ease: Power3.easeOut
-			}, 0.1);
-
-			tl
-			.to(this.$refs.step1.querySelector('.button__next'), 0.8, {
+				ease: Power4.easeOut
+			}, 0.2)
+			.to(this.$refs.sentences[2], duration, {
 				opacity: 1,
-				pointerEvents: 'all'
+				yPercent: 0,
+				rotation: '0deg',
+				ease: Power4.easeOut
+			}, '+=0.3')
+			.add(() => {
+				this.$refs.step1__button.show = true;
 			});
 
 			tl.play();
@@ -229,6 +233,9 @@ export default {
 					rotation: '15deg',
 					ease: Power4.easeOut
 				}, 0.1, '-=0.3')
+				.to(this.$refs.cardsList, 0.3, {
+					'--boxShadowOpacity': 0.09
+				})
 				.staggerFrom(this.$refs.step2.querySelectorAll('.dot'), 1, {
 					yPercent: 10,
 					opacity: 0,
@@ -333,6 +340,7 @@ export default {
 			.to(card, 0.5, {
 				xPercent: -180,
 				x: 0,
+				'--cardBoxShadowOpacity': 0.09,
 				ease: Power4.easeOut
 			});
 		},
@@ -343,6 +351,7 @@ export default {
 			.to(card, 0.5, {
 				xPercent: 130,
 				x: 0,
+				'--cardBoxShadowOpacity': 0.09,
 				ease: Power4.easeOut
 			});
 		},
@@ -370,24 +379,11 @@ export default {
 	position: relative;
 	.button__next {
 		position: absolute;
-		font-size: 1rem;
-		bottom: 4vh;
-		right: 3vw;
-		color: white;
-		text-transform: uppercase;
-		align-items: center;
-		pointer-events: none;
-		display: flex;
-		opacity: 0;
-		cursor: pointer;
-		img {
-			height: 0.7em;
-			transform: scale(-1);
-			margin-left: 1em;
-		}
-		&.show {
-			pointer-events: all;
-			opacity: 1;
+		bottom: 10%;
+		left: 50%;
+		transform: translateX(-50%);
+		.buttonWrapper {
+			--buttonColor: var(--lightBlue);
 		}
 	}
 	.step {
@@ -412,7 +408,7 @@ export default {
 		pointer-events: all;
 		.sentences {
 			text-align: center;
-			font-size: 2rem;
+			font-size: 1.6rem;
 			line-height: 2;
 			.sentence {
 				transform-origin: center right;
@@ -454,6 +450,9 @@ export default {
 				width: var(--cardWidth);
 				height: calc(var(--cardWidth) * 1.54);
 				position: relative;
+				--boxShadowOpacity: 0;
+				box-shadow: 0 calc(var(--cardWidth) * 0.03) calc(var(--cardWidth) * 0.07) rgba(0, 0, 0, var(--boxShadowOpacity));
+				border-radius: calc(var(--cardWidth) / 15);
 				.card {
 					width: var(--cardWidth);
 					height: calc(var(--cardWidth) * 1.54);
@@ -465,12 +464,13 @@ export default {
 					border-radius: calc(var(--cardWidth) / 15);
 					--cardRotate: 0deg;
 					transform: translate(-50%, -50%) rotate(var(--cardRotate));
-					box-shadow: 0 calc(var(--cardWidth) * 0.03) calc(var(--cardWidth) * 0.07) rgba(0, 0, 0, 0.09);
 					border: solid 1px rgba(0, 0, 0, 0.07);
 					padding: calc(var(--cardWidth) * 0.1);
 					box-sizing: border-box;
 					text-align: center;
 					opacity: 1;
+					--cardBoxShadowOpacity: 0;
+					box-shadow: 0 calc(var(--cardWidth) * 0.03) calc(var(--cardWidth) * 0.07) rgba(0, 0, 0, var(--cardBoxShadowOpacity));
 					.illustration {
 						position: relative;
 						width: 66%;
@@ -509,15 +509,24 @@ export default {
 			.nav {
 				display: flex;
 				width: var(--cardWidth);
-				justify-content: space-between;
+				justify-content: center;
 				align-items: center;
 				margin-top: 3rem;
 				.arrow {
 					cursor: pointer;
+					position: absolute;
+					top: 50%;
+					transform: translateY(-50%);
+					right: 150%;
 					&.right {
+						right: auto;
+						left: 150%;
 						img {
 							transform: scale(-1);
 						}
+					}
+					.buttonComp {
+						pointer-events: none;
 					}
 				}
 				.dots {

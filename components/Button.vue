@@ -49,6 +49,7 @@ export default {
 		z-index: 2;
 		clip-path: polygon(0 calc(100% - var(--offset)), 100% var(--offset), 100% var(--offset), 0% calc(100% - var(--offset)));
 		transition: clip-path 0.5s var(--ease) var(--transition-delay);
+		pointer-events: none;
 		@supports (-ms-ime-align: auto) {
 			&:before, &:after {
 				content: '';
@@ -115,6 +116,7 @@ export default {
 	}
 	&.show {
 		.buttonWrapper {
+			pointer-events: all;
 			&:not(.clone) {
 				clip-path: polygon(calc(var(--computedOffset) * -1) var(--computedOffset), calc(100% - var(--computedOffset)) calc(-100% + var(--computedOffset)), calc(100% + var(--computedOffset)) calc(100% - var(--computedOffset)), calc(var(--computedOffset)) calc(200% - var(--computedOffset)));
 			}
