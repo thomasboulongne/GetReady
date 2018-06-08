@@ -141,31 +141,36 @@ export default {
 					this.allCardsAreDisplayed = allDisplayed;
 				}
 			});
-			let i = prevCardIndex;
-			let k = 0;
-			while (i !== currentCardIndex) {
-				const card = this.$refs.cards[this.cards.length - 1 - i];
-				tl
-				.to(card, 0.5, {
-					xPercent: this.cardDirection === 1 ? 90 : -180,
-					x: 0,
-					'--cardBoxShadowOpacity': 0.09,
-					ease: Power4.easeOut
-				}, k === 0 ? '+=0' : '-=0.5');
-				i = i + 1 > this.cards.length - 1 ? 0 : i + 1;
-				this.$refs.cards.forEach((card, j) => {
-					tl.set(card, {
-						zIndex: this.getCardZIndex(this.cards.length - 1 - j, i)
-					});
-				});
-				tl.to(card, 0.4, {
-					xPercent: -50,
-					x: 0,
-					'--cardBoxShadowOpacity': 0,
-					ease: Power4.easeInOut
-				});
-				k++;
-			}
+			const prevCard = this.$refs.cards[this.cards.length - 1 - prevCardIndex];
+			const nextCard = this.$refs.cards[this.cards.length - 1 - currentCardIndex];
+			TweenMax.set(nextCard, {
+				zIndex: 2
+			});
+
+			const duration = 0.3;
+
+			tl
+			.to(prevCard, duration, {
+				xPercent: this.cardDirection === 1 ? 90 : -180,
+				x: 0,
+				'--cardBoxShadowOpacity': 0.09,
+				ease: Power4.easeOut,
+				repeat: 1,
+				yoyo: true
+			})
+			.set(prevCard, {
+				zIndex: 1
+			}, '-=' + duration / 2)
+			.set(nextCard, {
+				zIndex: 3
+			});
+
+			// tl.to(card, 0.4, {
+			// 	xPercent: -50,
+			// 	x: 0,
+			// 	'--cardBoxShadowOpacity': 0,
+			// 	ease: Power4.easeInOut
+			// });
 			tl.play();
 		},
 		'allCardsAreDisplayed': function(allDisplayed) {
@@ -525,7 +530,7 @@ export default {
 							transform: scale(-1);
 						}
 					}
-					.buttonComp {
+					.button__next {
 						pointer-events: none;
 					}
 				}
