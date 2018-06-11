@@ -25,15 +25,19 @@
 						<p v-html="card.text"></p>
 					</li>
 				</ul>
-				<div class="nav">
-					<div class="arrow left" @click="prevCard" ref="cardsArrowLeft">
-						<img src="~/assets/images/arrow.svg"/>
+				<div class="nav" ref="cardsNav">
+					<div class="arrow left">
+						<div class="arrowWrapper" @click="prevCard">
+							<img src="~/assets/images/arrow.svg" ref="cardsArrowLeft"/>
+						</div>
 					</div>
 					<div class="dots">
 						<span :class="['dot', i === currentCardIndex ? 'selected' : '']" v-for="(card, i) in cards" :key="i" @click="goToCard(i)"></span>
 					</div>
-					<div class="arrow right" @click="nextCard" ref="cardsArrowRight">
-						<img src="~/assets/images/arrow.svg"/>
+					<div class="arrow right">
+						<div class="arrowWrapper" @click="nextCard">
+							<img src="~/assets/images/arrow.svg" ref="cardsArrowRight"/>
+						</div>
 						<div :class="['button__next']" @click="goToStep(3)">
 							<button-comp :text="$t('next')" ref="step2__button"></button-comp>
 						</div>
@@ -130,15 +134,15 @@ export default {
 			}
 		},
 		'currentCardIndex': function(currentCardIndex, prevCardIndex) {
+			this.cards[currentCardIndex].displayed = true;
+			let allDisplayed = true;
+			this.cards.forEach(card => {
+				allDisplayed = card.displayed;
+			});
+			this.allCardsAreDisplayed = allDisplayed;
 			const tl = new TimelineMax({
 				paused: true,
 				onComplete: () => {
-					this.cards[currentCardIndex].displayed = true;
-					let allDisplayed = true;
-					this.cards.forEach(card => {
-						allDisplayed = card.displayed;
-					});
-					this.allCardsAreDisplayed = allDisplayed;
 				}
 			});
 			const prevCard = this.$refs.cards[this.cards.length - 1 - prevCardIndex];
@@ -150,35 +154,43 @@ export default {
 			const duration = 0.3;
 
 			tl
+			.set(nextCard, {
+				rotation: 0
+			})
 			.to(prevCard, duration, {
-				xPercent: this.cardDirection === 1 ? 90 : -180,
+				xPercent: this.cardDirection === 1 ? 130 : -180,
 				x: 0,
 				'--cardBoxShadowOpacity': 0.09,
-				ease: Power4.easeOut,
-				repeat: 1,
-				yoyo: true
+				ease: Power4.easeOut
 			})
 			.set(prevCard, {
 				zIndex: 1
-			}, '-=' + duration / 2)
+			}, duration / 2)
 			.set(nextCard, {
 				zIndex: 3
-			});
-
-			// tl.to(card, 0.4, {
-			// 	xPercent: -50,
-			// 	x: 0,
-			// 	'--cardBoxShadowOpacity': 0,
-			// 	ease: Power4.easeInOut
-			// });
+			}, duration / 2)
+			.to(prevCard, 0.4, {
+				xPercent: -50,
+				x: 0,
+				'--cardBoxShadowOpacity': 0,
+				rotation: Math.floor(Math.random() * 4) + 1,
+				ease: Power4.easeInOut
+			})
+			;
 			tl.play();
 		},
 		'allCardsAreDisplayed': function(allDisplayed) {
 			if (allDisplayed) {
-				TweenMax.to(this.$refs.step2.querySelector('.button__next'), 0.8, {
-					opacity: 1,
-					pointerEvents: 'all'
+				const tl = new TimelineMax({ paused: true });
+				tl
+				.to(this.$refs.cardsArrowRight, 0.2, {
+					opacity: 0,
+					pointerEvents: 'none'
+				})
+				.add(() => {
+					this.$refs.step2__button.show = true;
 				});
+				tl.play();
 			}
 		}
 	},
@@ -241,16 +253,17 @@ export default {
 				.to(this.$refs.cardsList, 0.3, {
 					'--boxShadowOpacity': 0.09
 				})
+				.add('navMarker')
 				.staggerFrom(this.$refs.step2.querySelectorAll('.dot'), 1, {
 					yPercent: 10,
 					opacity: 0,
 					ease: Power4.easeOut
-				}, 0.1)
+				}, 0.1, 'navMarker')
 				.from(this.$refs.step2.querySelectorAll('.arrow'), 1, {
 					yPercent: 10,
 					opacity: 0,
 					ease: Power4.easeOut
-				})
+				}, 'navMarker')
 				;
 				tl.play();
 			});
@@ -268,9 +281,26 @@ export default {
 				];
 
 				tl
-				.to(this.$refs.step2.querySelector('.button__next'), 0.3, {
+				.to([this.$refs.cardsNav.querySelectorAll('.arrow'), this.$refs.cardsWrapper.querySelector('.heading')], 0.3, {
 					opacity: 0,
 					pointerEvents: 'none'
+				})
+				.add(() => {
+					this.$refs.step2__button.show = false;
+				})
+				.set(this.$refs.cardsNav.querySelectorAll('.arrow'), {
+					position: 'relative',
+					x: 0,
+					y: 0,
+					xPercent: 0,
+					yPercent: 0,
+					top: 'auto',
+					left: 'auto',
+					right: 'auto',
+					bottom: 'auto'
+				})
+				.set(this.$refs.cardsNav, {
+					justifyContent: 'space-between'
 				})
 				.set(this.$refs.formPanel, {
 					opacity: 1,
@@ -285,6 +315,10 @@ export default {
 					x: 0,
 					ease: Power4.easeInOut
 				}, '-=0.3')
+				.to(this.$refs.cardsNav.querySelectorAll('.arrow, .arrowWrapper img'), 0.4, {
+					opacity: 1,
+					pointerEvents: 'all'
+				})
 				.staggerFrom(formElements, 1, {
 					opacity: 0,
 					rotation: '-1.5deg',
@@ -341,6 +375,15 @@ export default {
 
 		cardSlideLeft() {
 			const card = this.$refs.cards[this.cards.length - 1 - this.currentCardIndex];
+			const nextIndex = (this.cards.length - 1 - (this.currentCardIndex + 1));
+			const nextCard = this.$refs.cards[(nextIndex) < 0 ? this.cards.length - 1 : nextIndex];
+			TweenMax.set(card, {
+				zIndex: 3
+			}, 0);
+			TweenMax.set(nextCard, {
+				rotation: 0,
+				zIndex: 2
+			}, 0);
 			TweenMax
 			.to(card, 0.5, {
 				xPercent: -180,
@@ -352,6 +395,15 @@ export default {
 
 		cardSlideRight() {
 			const card = this.$refs.cards[this.cards.length - 1 - this.currentCardIndex];
+			const nextIndex = (this.cards.length - 1 - (this.currentCardIndex + 1));
+			const nextCard = this.$refs.cards[(nextIndex) < 0 ? this.cards.length - 1 : nextIndex];
+			TweenMax.set(card, {
+				zIndex: 3
+			}, 0);
+			TweenMax.set(nextCard, {
+				rotation: 0,
+				zIndex: 2
+			}, 0);
 			TweenMax
 			.to(card, 0.5, {
 				xPercent: 130,
@@ -523,6 +575,12 @@ export default {
 					top: 50%;
 					transform: translateY(-50%);
 					right: 150%;
+					.arrowWrapper {
+						height: 2.5rem;
+						display: flex;
+						align-items: center;
+						justify-content: center;
+					}
 					&.right {
 						right: auto;
 						left: 150%;
@@ -532,6 +590,8 @@ export default {
 					}
 					.button__next {
 						pointer-events: none;
+						bottom: 50%;
+						transform: translate(-50%, 50%);
 					}
 				}
 				.dots {
