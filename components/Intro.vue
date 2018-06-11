@@ -66,6 +66,10 @@
 				</div>
 			</div>
 		</div>
+		<div class="step step4" ref="step4">
+			<div class="goal h2" ref="step4__goal">{{ $store.getters.goal }}</div>
+			<div class="text" v-t="'intro.step4.text'" ref="step4__text"></div>
+		</div>
 	</div>
 </template>
 <script>
@@ -131,6 +135,14 @@ export default {
 					break;
 				case 3:
 					this.animateStep3();
+					break;
+				case 4:
+					this.animateStep4()
+					.then(() => {
+						console.log('onComplete');
+						this.$router.push({name: 'index'});
+					});
+					break;
 			}
 		},
 		'currentCardIndex': function(currentCardIndex, prevCardIndex) {
@@ -333,6 +345,29 @@ export default {
 			});
 		},
 
+		animateStep4() {
+			return new Promise(resolve => {
+				const tl = new TimelineMax({ paused: true, onComplete: resolve, delay: 0.5 });
+				tl
+				.to(this.$refs.step2, 0.4, {
+					opacity: 0,
+					scale: 0.97,
+					pointerEvents: 'none'
+				})
+				.set(this.$refs.step4, {
+					opacity: 1,
+					scale: 1,
+					pointerEvents: 'all'
+				})
+				.staggerTo([this.$refs.step4__goal, this.$refs.step4__text], 0.5, {
+					yPercent: -50,
+					opacity: 0,
+					ease: Power4.easeOut
+				}, 0.05, '+=5');
+				tl.play();
+			});
+		},
+
 		goToNextStep() {
 			const nextStep = this.step + 1 > 2 ? 0 : this.step + 1;
 			this.goToStep(nextStep);
@@ -416,7 +451,7 @@ export default {
 		validate(event) {
 			event.preventDefault();
 			this.$store.dispatch('setGoal', this.$refs.goalInput.value);
-			this.$router.push({name: 'index'});
+			this.goToStep(4);
 		}
 	},
 	components: {
@@ -713,6 +748,24 @@ export default {
 					}
 				}
 			}
+		}
+	}
+
+	.step4 {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
+		.goal{
+			display: block;
+			font-size: 2.5rem;
+			margin-bottom: 1em;
+		}
+		.text {
+			font-size: 1.3rem;
+			line-height: 1.67;
+			text-align: center;
+			max-width: 26em;
 		}
 	}
 }

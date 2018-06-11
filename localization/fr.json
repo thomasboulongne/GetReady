@@ -26,6 +26,9 @@
                 },
                 "submit": "Valider"
             }
+        },
+        "step4": {
+            "text": "Pour t’aider dans ton projet, nous te présentons  trois grandes étapes clés pour réussir à atteindre ton objectif."
         }
     },
     "categories": {
