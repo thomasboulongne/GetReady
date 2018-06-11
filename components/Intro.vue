@@ -49,7 +49,7 @@
 					<span class="subheading" v-t="'intro.step2.formPanel.subheading'" ref="formSubheading"></span>
 					<h2 v-t="'intro.step2.formPanel.heading'" ref="formHeading"></h2>
 					<p v-t="'intro.step2.formPanel.text'" ref="formText"></p>
-					<form>
+					<form @submit.prevent="validate">
 						<input type="text" :placeholder="$t('intro.step2.formPanel.placeholder')" ref="goalInput">
 						<div class="examples" ref="formExamples">
 							<span v-t="'intro.step2.formPanel.Example'"></span>
