@@ -26,21 +26,16 @@
 							<img :src="item.img" class="shadow">
 							<img :src="item.img">
 						</div>
-						<div class="titleWrapper MTKnox">
+						<big-title-comp :title="item.title">
 							<div class="pagination">
 								<span>{{ i + 1 }}</span>/{{ numberOfItems}}
 							</div>
-							<h2 class="MTKnox">
-								<div v-for="(letter, i) in item.title" :key="letter + i">
-									<span class="letter">{{ letter }}</span>
-								</div>
-							</h2>
-						</div>
+						</big-title-comp>
 						<div class="subtitle">
 							<h3>{{ $t('categories.like') }} <span v-html="item.athlete"></span></h3>
 						</div>
 					</div>
-					<nuxt-link to="/organize" class="callToAction">
+					<nuxt-link :to="{name: 'page', params: { slug: item.slug }}" class="callToAction">
 						<button-comp :text="$t('discover')"></button-comp>
 					</nuxt-link>
 				</div>
@@ -62,6 +57,7 @@
 </template>
 <script>
 import buttonComp from '~/components/Button';
+import BigTitleComp from '~/components/BigTitle';
 export default {
 	props: {
 		items: {
@@ -179,6 +175,9 @@ export default {
 					this.navigationIndicationSlideReset();
 				}
 			}
+		},
+		'easedMousePositionPercent': function(position) {
+			this.$store.dispatch('updateMousePosition', position);
 		}
 	},
 
@@ -387,7 +386,8 @@ export default {
 	},
 
 	components: {
-		buttonComp
+		buttonComp,
+		BigTitleComp
 	}
 };
 </script>
@@ -447,7 +447,6 @@ export default {
 		.itemWrapper {
 			position: relative;
 			z-index: 3;
-			--titleTopOffset: 5rem;
 			.img {
 				position: absolute;
 				--imgTop: 45%;
@@ -477,19 +476,6 @@ export default {
 				}
 			}
 			.titleWrapper {
-				display: flex;
-				justify-content: center;
-				align-items: flex-end;
-				flex-direction: column;
-				color: white;
-				height: 50%;
-				pointer-events: none;
-				margin-top: var(--titleTopOffset);
-				--titleWrapperDelay: 2s;
-				transform: translate(calc(var(--easedMousePositionPercentX) * 0.03%), calc(var(--easedMousePositionPercentY) * 0.03%));
-				@-moz-document url-prefix() {
-					transform-style: preserve-3d;
-				}
 				.pagination {
 					position: absolute;
 					left: 0;
@@ -501,34 +487,6 @@ export default {
 						font-size: 1.3em;
 						font-weight: bold;
 						transform: translateY(-10%);
-					}
-				}
-				h2 {
-					font-size: 16vmax;
-					margin: 0;
-					white-space: nowrap;
-					position: relative;
-					display: block;
-					--yOffset: -0.035em; // Used for title slope
-					@-moz-document url-prefix() {
-						transform-style: preserve-3d;
-					}
-					div {
-						display: inline-block;
-						position: relative;
-						z-index: 2;
-						transform-style: preserve-3d;
-						span {
-							display: inline-block;
-							transform-style: preserve-3d;
-						}
-						@for $i from 1 to 30 {
-							&:nth-child(#{$i}) {
-								span {
-									transition: transform calc(var(--transition-speed) * 1.15) var(--ease) calc(#{$i} * 0.03s);
-								}
-							}
-						}
 					}
 				}
 			}

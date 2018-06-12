@@ -27,6 +27,11 @@ module.exports = {
 				path: '/intro',
 				component: resolve(__dirname, 'pages/index.vue')
 			});
+			routes.push({
+				name: 'page',
+				path: '/:slug',
+				component: resolve(__dirname, 'pages/index.vue')
+			});
 		}
 	},
 	/*

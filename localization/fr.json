@@ -35,15 +35,18 @@
         "like": "comme",
         "item1": {
             "title": "S'organiser",
-            "athlete": "Usain Bolt"
+            "athlete": "Usain Bolt",
+            "slug": "s-organiser"
         },
         "item2": {
             "title": "Se concentrer",
-            "athlete": "Serena Williams"
+            "athlete": "Serena Williams",
+            "slug": "se-concentrer"
         },
         "item3": {
             "title": "Se visualiser",
-            "athlete": "Michael Phelps"
+            "athlete": "Michael Phelps",
+            "slug": "se-visualiser"
         }
     },
     "cards": {

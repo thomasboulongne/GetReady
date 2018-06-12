@@ -1,4 +1,5 @@
 import Vuex from 'vuex';
+import CookiesClient from 'js-cookie';
 
 const store = () => new Vuex.Store({
 	state: {
@@ -10,6 +11,10 @@ const store = () => new Vuex.Store({
 				height: process.browser ? window.innerHeight : 1
 			},
 			scrollPosition: {
+				x: 0,
+				y: 0
+			},
+			easedMousePositionPercent: {
 				x: 0,
 				y: 0
 			},
@@ -36,6 +41,9 @@ const store = () => new Vuex.Store({
 		},
 		UPDATE_SCROLL_POSITION(state, position) {
 			state.uiData.scrollPosition = position;
+		},
+		UPDATE_MOUSE_POSITION(state, position) {
+			state.uiData.easedMousePositionPercent = position;
 		},
 		CONTENT_LOADED(state) {
 			state.contentLoaded = true;
@@ -70,6 +78,9 @@ const store = () => new Vuex.Store({
 		updateScrollPosition({ commit }, position) {
 			commit('UPDATE_SCROLL_POSITION', position);
 		},
+		updateMousePosition({ commit }, position) {
+			commit('UPDATE_MOUSE_POSITION', position);
+		},
 		hasLoaded({ commit }) {
 			commit('CONTENT_LOADED');
 		},
@@ -90,6 +101,7 @@ const store = () => new Vuex.Store({
 		},
 		setGoal({ commit, state }, goal) {
 			commit('SET_GOAL', goal);
+			CookiesClient.set('reachyourgoal_goal', goal);
 		},
 		layoutMounted({ commit }) {
 			commit('LAYOUT_MOUNTED');
@@ -109,6 +121,7 @@ const store = () => new Vuex.Store({
 		},
 		viewportSize: state => state.uiData.viewportSize,
 		scrollPosition: state => state.uiData.scrollPosition,
+		easedMousePositionPercent: state => state.uiData.easedMousePositionPercent,
 		menuIsOpen: state => state.uiData.menuOpen,
 		loaded: state => state.contentLoaded,
 		translation: state => identifier => {

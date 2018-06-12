@@ -2,15 +2,28 @@
 	<section :class="['container', 'home', $route.name === 'intro' ? 'introLayout' : 'selectorLayout']">
 		<intro-comp ref="intro" v-if="intro" :lastColor="items[items.length - 2].color"></intro-comp>
 		<selector-comp ref="selector" :items="items" v-if="selector"></selector-comp>
+		<page-comp ref="page" v-if="page"></page-comp>
 	</section>
 </template>
 
 <script>
 import selectorComp from '~/components/Selector';
 import introComp from '~/components/Intro';
+import PageComp from '~/components/Page';
+import CookiesServ from 'cookie';
+import CookiesClient from 'js-cookie';
 
 export default {
-	fetch({ store, redirect }) {
+	fetch({ store, redirect, req }) {
+		let goal;
+		if (process.server) {
+			goal = CookiesServ.parse(req.headers.cookie)['reachyourgoal_goal'];
+		} else {
+			goal = CookiesClient.get('reachyourgoal_goal');
+		}
+		if (goal) {
+			store.dispatch('setGoal', goal);
+		}
 		if (store.getters.goal === null) {
 			return redirect('/intro');
 		}
@@ -28,6 +41,7 @@ export default {
 					athlete: this.$t('categories.item1.athlete'),
 					img: require('~/assets/images/athletes/bolt.png'),
 					color: '#fd6246',
+					slug: this.$t('categories.item1.slug'),
 					position: {
 						x: 1.4,
 						y: 0
@@ -42,6 +56,7 @@ export default {
 					athlete: this.$t('categories.item2.athlete'),
 					img: require('~/assets/images/athletes/williams.png'),
 					color: '#ff8b49',
+					slug: this.$t('categories.item2.slug'),
 					position: {
 						x: -3.3,
 						y: 0
@@ -56,6 +71,7 @@ export default {
 					athlete: this.$t('categories.item3.athlete'),
 					img: require('~/assets/images/athletes/phelps.png'),
 					color: '#4b80ff',
+					slug: this.$t('categories.item3.slug'),
 					position: {
 						x: 1.5,
 						y: 0
@@ -67,7 +83,8 @@ export default {
 				}
 			],
 			intro: this.$route.name === 'intro',
-			selector: this.$route.name === 'index'
+			selector: this.$route.name === 'index',
+			page: this.$route.name === 'page'
 		};
 	},
 
@@ -105,7 +122,8 @@ export default {
 
 	components: {
 		introComp,
-		selectorComp
+		selectorComp,
+		PageComp
 	}
 };
 

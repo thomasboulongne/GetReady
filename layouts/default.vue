@@ -8,7 +8,6 @@
 </template>
 
 <script>
-
 import throttle from 'lodash/throttle';
 import MenuComp from '~/components/Menu';
 
@@ -92,6 +91,7 @@ main {
 	backface-visibility: hidden;
 	transform-style: preserve-3d;
 	filter: blur(0.3px);
+	--titleTopOffset: 5rem;
 	@-moz-document url-prefix() {
 		filter: none;
 	}
