@@ -44,10 +44,14 @@
 		</ul>
 		<div class="nav">
 			<div class="left" @click="prev">
-				<div class="arrow"></div>
+				<div class="arrow">
+					<img src="~/assets/images/arrow.svg"/>
+				</div>
 			</div>
 			<div class="right" @click="next">
-				<div class="arrow"></div>
+				<div class="arrow">
+					<img src="~/assets/images/arrow.svg"/>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -408,11 +412,20 @@ export default {
 			width: var(--navigationArrowsAreaWidth);
 			pointer-events: all;
 			cursor: w-resize;
+			display: flex;
+			align-items: flex-end;
+			justify-content: flex-start;
+			padding: var(--spacing);
+			box-sizing: border-box;
 		}
 		.right {
 			left: auto;
 			right: 0;
+			justify-content: flex-end;
 			cursor: e-resize;
+			img {
+				transform: scale(-1);
+			}
 		}
 	}
 	.hiddenSelector {
