@@ -125,7 +125,8 @@ module.exports = {
 			'marked',
 			'three',
 			'three/examples/js/renderers/CSS3DRenderer',
-			'vue2-hammer'
+			'vue2-hammer',
+			'lining.js/build/lining.min.js'
 		]
 	}
 };

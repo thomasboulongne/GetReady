@@ -1,5 +1,5 @@
 <template>
-	<div :class="['intro', 'step__' + step]" @click.shift="goToNextStep">
+	<div :class="['intro', 'step__' + step]" :style="{'--lastColor': lastColor}" @click.shift="goToNextStep">
 		<div :class="['step', 'step1']" ref="step1">
 			<div class="sentences">
 				<div class="sentence" v-for="i in 3" :key="i" ref="sentences">
@@ -69,12 +69,20 @@
 		<div class="step step4" ref="step4">
 			<div class="goal h2" ref="step4__goal">{{ $store.getters.goal }}</div>
 			<div class="text" v-t="'intro.step4.text'" ref="step4__text"></div>
+			<div class="button__next" @click="endIntro">
+				<button-comp :text="$t('next')" ref="step4__button"></button-comp>
+			</div>
 		</div>
 	</div>
 </template>
 <script>
 import buttonComp from '~/components/Button';
 export default {
+	props: {
+		lastColor: {
+			default: 'blue'
+		}
+	},
 	data() {
 		return {
 			step: 1,
@@ -137,11 +145,7 @@ export default {
 					this.animateStep3();
 					break;
 				case 4:
-					this.animateStep4()
-					.then(() => {
-						console.log('onComplete');
-						this.$router.push({name: 'index'});
-					});
+					this.animateStep4();
 					break;
 			}
 		},
@@ -153,9 +157,7 @@ export default {
 			});
 			this.allCardsAreDisplayed = allDisplayed;
 			const tl = new TimelineMax({
-				paused: true,
-				onComplete: () => {
-				}
+				paused: true
 			});
 			const prevCard = this.$refs.cards[this.cards.length - 1 - prevCardIndex];
 			const nextCard = this.$refs.cards[this.cards.length - 1 - currentCardIndex];
@@ -170,8 +172,12 @@ export default {
 				rotation: 0
 			})
 			.to(prevCard, duration, {
-				xPercent: this.cardDirection === 1 ? 130 : -180,
+				xPercent: this.cardDirection === 1 ? 80 : -180,
 				x: 0,
+				yPercent: -30,
+				y: 0,
+				transformOrigin: 'bottom',
+				rotation: this.cardDirection === 1 ? 15 : -15,
 				'--cardBoxShadowOpacity': 0.09,
 				ease: Power4.easeOut
 			})
@@ -184,6 +190,8 @@ export default {
 			.to(prevCard, 0.4, {
 				xPercent: -50,
 				x: 0,
+				yPercent: -50,
+				y: 0,
 				'--cardBoxShadowOpacity': 0,
 				rotation: Math.floor(Math.random() * 4) + 1,
 				ease: Power4.easeInOut
@@ -208,6 +216,9 @@ export default {
 	},
 	mounted() {
 		this.animateStep1();
+		lining(this.$refs.step4__text, {
+			'autoResize': true
+		});
 	},
 	methods: {
 		goToStep(index) {
@@ -359,11 +370,17 @@ export default {
 					scale: 1,
 					pointerEvents: 'all'
 				})
-				.staggerTo([this.$refs.step4__goal, this.$refs.step4__text], 0.5, {
-					yPercent: -50,
+				.staggerFromTo(this.$refs.step4__text.querySelectorAll('text-line'), 1, {
 					opacity: 0,
+					yPercent: -50
+				}, {
+					yPercent: 0,
+					opacity: 1,
 					ease: Power4.easeOut
-				}, 0.05, '+=5');
+				}, 0.2)
+				.add(() => {
+					this.$refs.step4__button.show = true;
+				}, '-=0.2');
 				tl.play();
 			});
 		},
@@ -423,6 +440,10 @@ export default {
 			.to(card, 0.5, {
 				xPercent: -180,
 				x: 0,
+				yPercent: -30,
+				y: 0,
+				transformOrigin: 'bottom',
+				rotation: -15,
 				'--cardBoxShadowOpacity': 0.09,
 				ease: Power4.easeOut
 			});
@@ -441,8 +462,12 @@ export default {
 			}, 0);
 			TweenMax
 			.to(card, 0.5, {
-				xPercent: 130,
+				xPercent: 80,
 				x: 0,
+				yPercent: -30,
+				y: 0,
+				transformOrigin: 'bottom',
+				rotation: 15,
 				'--cardBoxShadowOpacity': 0.09,
 				ease: Power4.easeOut
 			});
@@ -452,6 +477,10 @@ export default {
 			event.preventDefault();
 			this.$store.dispatch('setGoal', this.$refs.goalInput.value);
 			this.goToStep(4);
+		},
+
+		endIntro() {
+			this.$router.push('/');
 		}
 	},
 	components: {
@@ -469,6 +498,18 @@ export default {
 	--stepTransitionDuration: 0.7s;
 	color: white;
 	position: relative;
+	--maskYLeft: 100;
+	--maskYRight: 100;
+	&:after {
+		content: '';
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		clip-path: polygon(0% calc(1% * var(--maskYLeft)), 100%  calc(1% * var(--maskYRight)), 100% 100%, 0% 100%);
+		background: var(--lastColor);
+	}
 	.button__next {
 		position: absolute;
 		bottom: 10%;

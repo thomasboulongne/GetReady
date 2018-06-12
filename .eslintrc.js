@@ -59,5 +59,7 @@ module.exports = {
     "VelocityTracker": false,
     "CSSPlugin": false,
     "ThrowPropsPlugin": false,
-    "BezierPlugin": false}
+    "BezierPlugin": false,
+    "lining": false
+  }
 }

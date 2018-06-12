@@ -1,5 +1,5 @@
 <template>
-	<div :class="['navWrapper', menuIsOpen ? 'open' : '']">
+	<div :class="['navWrapper', menuIsOpen ? 'open' : '']" :style="{zIndex: $route.name === 'intro' ? 0 : 2}">
 		<nav :class="['menu']">
 			<ul class="menuItems">
 				<li v-for="(item, i) in items" :key="i" class="menuItem" ref="items">
