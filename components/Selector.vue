@@ -486,13 +486,14 @@ export default {
 				pointer-events: none;
 				margin-top: var(--titleTopOffset);
 				--titleWrapperDelay: 2s;
+				transform: translate(calc(var(--easedMousePositionPercentX) * 0.03%), calc(var(--easedMousePositionPercentY) * 0.03%));
 				@-moz-document url-prefix() {
 					transform-style: preserve-3d;
 				}
 				.pagination {
 					position: absolute;
 					left: 0;
-					top: calc(5% + var(--titleTopOffset));
+					top: calc(5%);
 					font-size: 2rem;
 					transform-style: preserve-3d;
 					font-weight: normal;
