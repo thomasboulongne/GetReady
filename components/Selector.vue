@@ -15,13 +15,17 @@
 			<li v-for="(item, i) in items" :key="item.color + i">
 				<div class="selectorItem" ref="items" :style="{
 				'--backgroundColor': item.color,
-				'--xOffset': item.shadow.x.toFixed(2) + '%',
-				'--yOffset': item.shadow.y.toFixed(2) + '%',
+				'--xOffset': item.position.x.toFixed(2) + '%',
+				'--yOffset': item.position.y.toFixed(2) + '%',
+				'--xShadowOffset': item.shadow.x.toFixed(2) + '%',
+				'--yShadowOffset': item.shadow.y.toFixed(2) + '%',
 				'--numberOfLetters': item.title.length
 				}">
 					<div class="itemWrapper">
-						<img :src="item.img" class="shadow">
-						<img :src="item.img">
+						<div class="img">
+							<img :src="item.img" class="shadow">
+							<img :src="item.img">
+						</div>
 						<div class="titleWrapper MTKnox">
 							<div class="pagination">
 								<span>{{ i + 1 }}</span>/{{ numberOfItems}}
@@ -82,7 +86,7 @@ export default {
 			transitionSpeed: 1,
 			currentSlide: 0,
 			navigationArrowsAreaWidth: 15,
-			navigationIndicationSlide: 0.05,
+			navigationIndicationSlide: 0.02,
 			backgroundTransitionDuration: 0.4,
 			cursor: '-webkit-grab'
 		};
@@ -181,7 +185,7 @@ export default {
 	mounted() {
 		this.initThreeScene();
 		this.addEventListeners();
-
+		this.canSlide = this.$route.name === 'index';
 		this.backgroundTransitionDuration = 0.4;
 	},
 
@@ -217,30 +221,30 @@ export default {
 			});
 		},
 		navigationIndicationSlideLeft() {
-			TweenMax.to(this, 0.6, {
+			TweenMax.to(this, 1.2, {
 				directionalRotation: {
 					useRadians: true,
 					rotation: ((this.numberOfItems - this.currentSlide) * this.rotationStep) - (this.rotationStep * this.navigationIndicationSlide) + '_short'
 				},
-				ease: Power4.easeOut
+				ease: Power2.easeOut
 			});
 		},
 		navigationIndicationSlideRight() {
-			TweenMax.to(this, 0.6, {
+			TweenMax.to(this, 1.2, {
 				directionalRotation: {
 					useRadians: true,
 					rotation: ((this.numberOfItems - this.currentSlide) * this.rotationStep) + (this.rotationStep * this.navigationIndicationSlide) + '_short'
 				},
-				ease: Power4.easeOut
+				ease: Power2.easeOut
 			});
 		},
 		navigationIndicationSlideReset() {
-			TweenMax.to(this, 0.6, {
+			TweenMax.to(this, 1.2, {
 				directionalRotation: {
 					useRadians: true,
 					rotation: (this.numberOfItems - this.currentSlide) * this.rotationStep + '_short'
 				},
-				ease: Power4.easeOut
+				ease: Power2.easeOut
 			});
 		},
 		panGesture(e) {
@@ -269,9 +273,9 @@ export default {
 			}
 		},
 		spinAnimation() {
-			this.rotation = Math.PI;
+			this.rotation = Math.PI * 1.5;
 			return new Promise(resolve => {
-				TweenMax.to(this, 1.5, {
+				TweenMax.to(this, 2.5, {
 					directionalRotation: {
 						useRadians: true,
 						rotation: '0'
@@ -415,7 +419,7 @@ export default {
 			display: flex;
 			align-items: flex-end;
 			justify-content: flex-start;
-			padding: var(--spacing);
+			padding: 7vh 5vw;
 			box-sizing: border-box;
 		}
 		.right {
@@ -443,27 +447,33 @@ export default {
 		.itemWrapper {
 			position: relative;
 			z-index: 3;
-			img {
+			--titleTopOffset: 5rem;
+			.img {
 				position: absolute;
 				--imgTop: 45%;
 				top: var(--imgTop);
 				left: 50%;
-				transform: translate(calc(-50% + var(--easedMousePositionPercentX) * 0.01%), calc(-50% + var(--easedMousePositionPercentY) * 0.01%));
-				z-index: 1;
-				height: auto;
-				width: 70vmin;
-				height: 70vmin;
-				object-fit: contain;
-				display: block;
-				filter: grayscale(1);
-				transform-style: preserve-3d;
-				pointer-events: none;
-				&.shadow {
-					top: calc(var(--imgTop) + var(--yOffset));
-					left: calc(50% + var(--xOffset));
-					filter: grayscale(1) brightness(0);
-					opacity: 0.15;
-					transform: translate(calc(-50% + var(--easedMousePositionPercentX) * 0.02%), calc(-50% + var(--easedMousePositionPercentY) * 0.02%)) scale(1.02);
+				transform: translate(-50%, -50%);
+				img {
+					transform: translate(calc(var(--xOffset) * 10 + var(--easedMousePositionPercentX) * 0.01%), calc(var(--yOffset) * 10 + var(--easedMousePositionPercentY) * 0.01%));
+					z-index: 1;
+					height: auto;
+					width: 80vmin;
+					height: 80vmin;
+					object-fit: contain;
+					display: block;
+					filter: grayscale(1);
+					transform-style: preserve-3d;
+					pointer-events: none;
+					position: relative;
+					&.shadow {
+						position: absolute;
+						top: 50%;
+						left: 50%;
+						filter: grayscale(1) brightness(0);
+						opacity: 0.15;
+						transform: translate(calc(-50% + (var(--xShadowOffset) * 10) + (var(--easedMousePositionPercentX) * 0.02%)), calc(-50% + (var(--yShadowOffset) * 10) + (var(--easedMousePositionPercentY) * 0.02%))) scale(1.02);
+					}
 				}
 			}
 			.titleWrapper {
@@ -474,6 +484,7 @@ export default {
 				color: white;
 				height: 50%;
 				pointer-events: none;
+				margin-top: var(--titleTopOffset);
 				--titleWrapperDelay: 2s;
 				@-moz-document url-prefix() {
 					transform-style: preserve-3d;
@@ -481,7 +492,7 @@ export default {
 				.pagination {
 					position: absolute;
 					left: 0;
-					top: 5%;
+					top: calc(5% + var(--titleTopOffset));
 					font-size: 2rem;
 					transform-style: preserve-3d;
 					font-weight: normal;
@@ -497,7 +508,7 @@ export default {
 					white-space: nowrap;
 					position: relative;
 					display: block;
-					--yOffset: -0.035em;
+					--yOffset: -0.035em; // Used for title slope
 					@-moz-document url-prefix() {
 						transform-style: preserve-3d;
 					}
@@ -523,7 +534,7 @@ export default {
 			.subtitle {
 				position: absolute;
 				right: 0;
-				top: calc(48% + ((-2% * var(--numberOfLetters)) + 28%));
+				top: calc(48% + var(--titleTopOffset) / 2 + ((-2% * var(--numberOfLetters)) + 28%));
 				color: white;
 				clip-path: polygon(0 15%, 100% 0, 100% 100%, 0 100%);
 				@supports (-ms-ime-align: auto) {

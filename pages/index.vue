@@ -1,6 +1,6 @@
 <template>
 	<section :class="['container', 'home', $route.name === 'intro' ? 'introLayout' : 'selectorLayout']">
-		<intro-comp ref="intro" v-if="intro"></intro-comp>
+		<intro-comp ref="intro" v-if="intro" :lastColor="items[items.length - 2].color"></intro-comp>
 		<selector-comp ref="selector" :items="items" v-if="selector"></selector-comp>
 	</section>
 </template>
@@ -28,9 +28,13 @@ export default {
 					athlete: this.$t('categories.item1.athlete'),
 					img: require('~/assets/images/athletes/bolt.png'),
 					color: '#fd6246',
+					position: {
+						x: 1.4,
+						y: 0
+					},
 					shadow: {
-						x: 4,
-						y: -3
+						x: 0.7,
+						y: 0
 					}
 				},
 				{
@@ -38,9 +42,13 @@ export default {
 					athlete: this.$t('categories.item2.athlete'),
 					img: require('~/assets/images/athletes/williams.png'),
 					color: '#ff8b49',
+					position: {
+						x: -3.3,
+						y: 0
+					},
 					shadow: {
-						x: 6,
-						y: -4
+						x: -4,
+						y: -0.2
 					}
 				},
 				{
@@ -48,9 +56,13 @@ export default {
 					athlete: this.$t('categories.item3.athlete'),
 					img: require('~/assets/images/athletes/phelps.png'),
 					color: '#4b80ff',
+					position: {
+						x: 1.5,
+						y: 0
+					},
 					shadow: {
-						x: 6,
-						y: 2
+						x: 1,
+						y: -0.3
 					}
 				}
 			],
@@ -62,6 +74,7 @@ export default {
 	beforeRouteLeave(to, from, next) {
 		if (from.name === 'intro' && to.name === 'index') {
 			this.selector = true;
+			const fadeDuration = 0.6;
 			this.$nextTick(() => {
 				const tl = new TimelineMax({
 					paused: true,
@@ -69,17 +82,23 @@ export default {
 						this.intro = false;
 					}
 				});
-				tl.to(this.$refs.intro.$el, 1, {
+				tl
+				.to(this.$refs.intro.$el, 0.4, {
+					'--maskYRight': 0
+				})
+				.to(this.$refs.intro.$el, 0.6, {
+					'--maskYLeft': 0
+				}, 0)
+				.to(this.$refs.intro.$el, fadeDuration, {
 					opacity: 0
 				})
 				.add(() => {
 					this.$refs.selector.spinAnimation()
 					.then(next);
-				}, 0);
+				}, '-=' + fadeDuration);
 				tl.play();
 			});
 		} else {
-			console.log('hello');
 			next();
 		}
 	},
@@ -102,7 +121,7 @@ export default {
 		position: absolute;
 		top: 0;
 		left: 0;
-		z-index: 2;
+		z-index: 3;
 	}
 	.selector {
 		position: absolute;
