@@ -1,11 +1,9 @@
 <template>
-	<div :class="['selector', canSlide ? 'canAnimate' : '']" v-hammer:pan.horizontal="panGesture" @mousemove="mouseMove" :style="{
+	<div :class="['selector', canSlide ? 'canAnimate' : '']" v-hammer:pan.horizontal="panGesture" :style="{
 		'--currentColor': backgroundColor,
 		'--transition-speed': transitionSpeed * 0.75 + 's',
-		'--easedMousePositionPercentX': easedMousePositionPercent.x.toFixed(2),
-		'--easedMousePositionPercentY': easedMousePositionPercent.y.toFixed(2),
-		'--vw': vw + 'px',
-		'--vh': vh + 'px',
+		'--easedMousePositionPercentX': $store.getters.easedMousePositionPercent.x.toFixed(2),
+		'--easedMousePositionPercentY': $store.getters.easedMousePositionPercent.y.toFixed(2),
 		'--ratio': (vh / vw).toFixed(2),
 		'--backgroundTransitionDuration': backgroundTransitionDuration + 's',
 		'--navigationArrowsAreaWidth': navigationArrowsAreaWidth + '%',
@@ -15,16 +13,16 @@
 			<li v-for="(item, i) in items" :key="item.color + i">
 				<div class="selectorItem" ref="items" :style="{
 				'--backgroundColor': item.color,
-				'--xOffset': item.position.x.toFixed(2) + '%',
-				'--yOffset': item.position.y.toFixed(2) + '%',
-				'--xShadowOffset': item.shadow.x.toFixed(2) + '%',
-				'--yShadowOffset': item.shadow.y.toFixed(2) + '%',
+				'--xOffset': item.position.x + '%',
+				'--yOffset': item.position.y + '%',
+				'--xShadowOffset': item.shadow.x + '%',
+				'--yShadowOffset': item.shadow.y + '%',
 				'--numberOfLetters': item.title.length
 				}">
 					<div class="itemWrapper">
 						<div class="img">
-							<img :src="item.img" class="shadow">
-							<img :src="item.img">
+							<img :src="PATH + item.img" class="shadow">
+							<img :src="PATH + item.img">
 						</div>
 						<big-title-comp :title="item.title">
 							<div class="pagination">
@@ -69,14 +67,6 @@ export default {
 
 	data() {
 		return {
-			mousePosition: {
-				x: 0,
-				y: 0
-			},
-			easedMousePosition: {
-				x: 0,
-				y: 0
-			},
 			rotation: 0,
 			canSlide: false,
 			transitionSpeed: 1,
@@ -84,23 +74,13 @@ export default {
 			navigationArrowsAreaWidth: 15,
 			navigationIndicationSlide: 0.02,
 			backgroundTransitionDuration: 0.4,
-			cursor: '-webkit-grab'
+			cursor: '-webkit-grab',
+			height: this.vh,
+			PATH: process.env.PATH
 		};
 	},
 
 	computed: {
-		mousePositionPercent: function() {
-			return {
-				x: this.mousePosition.x * 100 / (this.vw || 1),
-				y: this.mousePosition.y * 100 / (this.vh || 1)
-			};
-		},
-		easedMousePositionPercent: function() {
-			return {
-				x: this.easedMousePosition.x * 100 / (this.vw || 1),
-				y: this.easedMousePosition.y * 100 / (this.vh || 1)
-			};
-		},
 		progressionStep: function() {
 			return 100 / this.numberOfItems;
 		},
@@ -165,7 +145,7 @@ export default {
 		'$store.getters.viewportSize': function() {
 			this.onWindowResize();
 		},
-		'mousePositionPercent': function(position) {
+		'$store.getters.mousePositionPercent': function(position) {
 			if (this.canSlide) {
 				if (position.x > 100 - this.navigationArrowsAreaWidth) {
 					this.navigationIndicationSlideLeft();
@@ -176,8 +156,8 @@ export default {
 				}
 			}
 		},
-		'easedMousePositionPercent': function(position) {
-			this.$store.dispatch('updateMousePosition', position);
+		'height': function() {
+			this.onWindowResize();
 		}
 	},
 
@@ -186,6 +166,7 @@ export default {
 		this.addEventListeners();
 		this.canSlide = this.$route.name === 'index';
 		this.backgroundTransitionDuration = 0.4;
+		this.height = this.vh;
 	},
 
 	beforeDestroy() {
@@ -208,16 +189,6 @@ export default {
 					this.next();
 					break;
 			}
-		},
-		mouseMove(e) {
-			this.mousePosition = {
-				x: e.clientX,
-				y: e.clientY
-			};
-			TweenMax.to(this.easedMousePosition, 1.5, {
-				x: e.clientX,
-				y: e.clientY
-			});
 		},
 		navigationIndicationSlideLeft() {
 			TweenMax.to(this, 1.2, {
@@ -286,6 +257,12 @@ export default {
 						resolve();
 					}
 				});
+			});
+		},
+		leaveAnimationTween() {
+			return TweenMax.to(this.$el, 1, {
+				'height': this.vh / 2,
+				ease: Power4.easeOut
 			});
 		},
 		initThreeScene() {
@@ -363,8 +340,6 @@ export default {
 				const z = -(this.apothem * Math.cos(i * Math.PI * 2 / this.numberOfItems) - this.apothem);
 				object.position.set(x, y, z);
 			});
-
-			this.render();
 		},
 		createElement(div, x, y, z, ry) {
 			const object = new THREE.CSS3DObject(div);
@@ -395,7 +370,7 @@ export default {
 
 <style lang="scss">
 .selector {
-	height: var(--vh);
+	height: var(--selectorHeight);
 	width: var(--vw);
 	transition: background-color var(--backgroundTransitionDuration);
 	background-color: var(--currentColor);

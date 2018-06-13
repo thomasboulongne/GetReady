@@ -14,6 +14,18 @@ const store = () => new Vuex.Store({
 				x: 0,
 				y: 0
 			},
+			mousePosition: {
+				x: 0,
+				y: 0
+			},
+			easedMousePosition: {
+				x: 0,
+				y: 0
+			},
+			mousePositionPercent: {
+				x: 0,
+				y: 0
+			},
 			easedMousePositionPercent: {
 				x: 0,
 				y: 0
@@ -43,6 +55,15 @@ const store = () => new Vuex.Store({
 			state.uiData.scrollPosition = position;
 		},
 		UPDATE_MOUSE_POSITION(state, position) {
+			state.uiData.mousePosition = position;
+		},
+		UPDATE_EASED_MOUSE_POSITION(state, position) {
+			state.uiData.easedMousePosition = position;
+		},
+		UPDATE_MOUSE_POSITION_PERCENT(state, position) {
+			state.uiData.mousePositionPercent = position;
+		},
+		UPDATE_EASED_MOUSE_POSITION_PERCENT(state, position) {
 			state.uiData.easedMousePositionPercent = position;
 		},
 		CONTENT_LOADED(state) {
@@ -78,8 +99,21 @@ const store = () => new Vuex.Store({
 		updateScrollPosition({ commit }, position) {
 			commit('UPDATE_SCROLL_POSITION', position);
 		},
-		updateMousePosition({ commit }, position) {
+		updateMousePosition({ commit, getters }, position) {
 			commit('UPDATE_MOUSE_POSITION', position);
+			const positionPercent = {
+				x: position.x * 100 / (getters.viewportSize.width || 1),
+				y: position.y * 100 / (getters.viewportSize.height || 1)
+			};
+			commit('UPDATE_MOUSE_POSITION_PERCENT', positionPercent);
+		},
+		updateEasedMousePosition({ commit, getters }, position) {
+			commit('UPDATE_EASED_MOUSE_POSITION', position);
+			const positionPercent = {
+				x: position.x * 100 / (getters.viewportSize.width || 1),
+				y: position.y * 100 / (getters.viewportSize.height || 1)
+			};
+			commit('UPDATE_EASED_MOUSE_POSITION_PERCENT', positionPercent);
 		},
 		hasLoaded({ commit }) {
 			commit('CONTENT_LOADED');
@@ -121,6 +155,9 @@ const store = () => new Vuex.Store({
 		},
 		viewportSize: state => state.uiData.viewportSize,
 		scrollPosition: state => state.uiData.scrollPosition,
+		mousePosition: state => state.uiData.mousePosition,
+		easedMousePosition: state => state.uiData.easedMousePosition,
+		mousePositionPercent: state => state.uiData.mousePositionPercent,
 		easedMousePositionPercent: state => state.uiData.easedMousePositionPercent,
 		menuIsOpen: state => state.uiData.menuOpen,
 		loaded: state => state.contentLoaded,

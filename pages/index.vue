@@ -16,7 +16,7 @@ import CookiesClient from 'js-cookie';
 export default {
 	fetch({ store, redirect, req }) {
 		let goal;
-		if (process.server) {
+		if (process.server && req.headers.cookie) {
 			goal = CookiesServ.parse(req.headers.cookie)['reachyourgoal_goal'];
 		} else {
 			goal = CookiesClient.get('reachyourgoal_goal');
@@ -29,59 +29,17 @@ export default {
 		}
 	},
 	// created() {
+	// 	const goal = CookiesClient.get('reachyourgoal_goal');
+	// 	if (goal) {
+	// 		this.$store.dispatch('setGoal', goal);
+	// 	}
 	// 	if (this.$store.getters.goal === null) {
 	// 		this.$router.push('/intro');
 	// 	}
 	// },
 	data() {
 		return {
-			items: [
-				{
-					title: this.$t('categories.item1.title'),
-					athlete: this.$t('categories.item1.athlete'),
-					img: require('~/assets/images/athletes/bolt.png'),
-					color: '#fd6246',
-					slug: this.$t('categories.item1.slug'),
-					position: {
-						x: 1.4,
-						y: 0
-					},
-					shadow: {
-						x: 0.7,
-						y: 0
-					}
-				},
-				{
-					title: this.$t('categories.item2.title'),
-					athlete: this.$t('categories.item2.athlete'),
-					img: require('~/assets/images/athletes/williams.png'),
-					color: '#ff8b49',
-					slug: this.$t('categories.item2.slug'),
-					position: {
-						x: -3.3,
-						y: 0
-					},
-					shadow: {
-						x: -4,
-						y: -0.2
-					}
-				},
-				{
-					title: this.$t('categories.item3.title'),
-					athlete: this.$t('categories.item3.athlete'),
-					img: require('~/assets/images/athletes/phelps.png'),
-					color: '#4b80ff',
-					slug: this.$t('categories.item3.slug'),
-					position: {
-						x: 1.5,
-						y: 0
-					},
-					shadow: {
-						x: 1,
-						y: -0.3
-					}
-				}
-			],
+			items: this.$t('categories').items,
 			intro: this.$route.name === 'intro',
 			selector: this.$route.name === 'index',
 			page: this.$route.name === 'page'

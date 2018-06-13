@@ -1,5 +1,8 @@
 <template>
-	<div>
+	<div :style="{
+		'--vw': $store.getters.viewportSize.width + 'px',
+		'--vh': $store.getters.viewportSize.height + 'px'
+	}">
 		<menu-comp :items="menuItems"></menu-comp>
 		<main :class="[menuIsOpen ? 'menuOpen' : '']">
 			<nuxt/>
@@ -20,24 +23,44 @@ export default {
 					slug: ''
 				},
 				{
-					title: this.$t('categories.item1.title'),
-					slug: 'organize'
+					title: this.$t('categories.items[0].title'),
+					slug: this.$t('categories.items[0].slug')
 				},
 				{
-					title: this.$t('categories.item2.title'),
-					slug: 'organize'
+					title: this.$t('categories.items[1].title'),
+					slug: this.$t('categories.items[1].slug')
 				},
 				{
-					title: this.$t('categories.item3.title'),
-					slug: 'organize'
+					title: this.$t('categories.items[2].title'),
+					slug: this.$t('categories.items[2].slug')
 				}
-			]
+			],
+			mousePosition: {
+				x: 0,
+				y: 0
+			},
+			easedMousePosition: {
+				x: 0,
+				y: 0
+			}
 		};
 	},
 
 	computed: {
 		menuIsOpen: function() {
 			return this.$store.getters.menuIsOpen;
+		}
+	},
+
+	watch: {
+		'mousePosition': function(position) {
+			this.$store.dispatch('updateMousePosition', position);
+		},
+		'easedMousePosition.x': function() {
+			this.$store.dispatch('updateEasedMousePosition', this.easedMousePosition);
+		},
+		'easedMousePosition.y': function() {
+			this.$store.dispatch('updateEasedMousePosition', this.easedMousePosition);
 		}
 	},
 
@@ -67,14 +90,27 @@ export default {
 			this.$store.dispatch('updateScrollPosition', {x: position[0], y: position[1]});
 		},
 
+		updateMousePosition(e) {
+			this.mousePosition = {
+				x: e.clientX,
+				y: e.clientY
+			};
+			TweenMax.to(this.easedMousePosition, 1.5, {
+				x: e.clientX,
+				y: e.clientY
+			});
+		},
+
 		addEventListeners() {
 			window.addEventListener('resize', throttle(this.updateViewportSize, 50));
 			window.addEventListener('scroll', throttle(this.updateScrollPosition, 50));
+			window.addEventListener('mousemove', this.updateMousePosition);
 		},
 
 		removeEventListeners() {
 			window.removeEventListener('resize', throttle(this.updateViewportSize, 50));
 			window.removeEventListener('scroll', throttle(this.updateScrollPosition, 50));
+			window.removeEventListener('mousemove', this.updateMousePosition);
 		}
 	},
 

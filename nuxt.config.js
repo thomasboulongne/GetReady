@@ -1,7 +1,7 @@
 const configFile = require('./config.json');
 
 let config;
-if (process.env.NODE_ENV == 'production') {
+if (process.env.NODE_ENV == 'production' || process.env.DEPLOY_ENV === 'GH_PAGES') {
 	config = configFile.prod;
 } else {
 	config = configFile.prev;
@@ -39,7 +39,7 @@ module.exports = {
 	*/
 	env: {
 		URL: config.url,
-		SLUG: config.slug,
+		PATH: config.path,
 		__PROD__: process.env.NODE_ENV == 'production'
 	},
 	head: {

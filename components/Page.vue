@@ -1,25 +1,26 @@
 <template>
 	<section :class="['page']">
-		<big-title-comp></big-title-comp>
 	</section>
 </template>
 
 <script>
-import BigTitleComp from '~/components/BigTitle';
 export default {
-	components: {
-		BigTitleComp
+	computed: {
+		page: function() {
+			return this.$t('categories.items[0]');
+		}
 	}
 };
 </script>
 
 <style lang="scss">
 .page {
-	.titleWrapper {
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%);
+	height: auto;
+	background-color: white;
+	.header {
+		position: relative;
+		width: 100%;
+		height: calc(var(--vh) / 2);
 	}
 }
 </style>

@@ -3,7 +3,7 @@
 		<nav :class="['menu']">
 			<ul class="menuItems">
 				<li v-for="(item, i) in items" :key="i" class="menuItem" ref="items">
-					<div class="titleWrapper MTKnox">
+					<div class="navTitleWrapper MTKnox">
 						<nuxt-link tag="div" :to="item.slug" v-for="(letter, j) in item.title" :key="letter + j" class="letterWrapper">
 							<span class="letter">{{ letter }}</span>
 						</nuxt-link>
@@ -67,7 +67,7 @@ export default {
 			justify-content: center;
 			align-items: center;
 			.menuItem {
-				.titleWrapper {
+				.navTitleWrapper {
 					margin: 0.5em;
 					font-weight: bold;
 					font-size: 4vw;
