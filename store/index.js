@@ -36,6 +36,8 @@ const store = () => new Vuex.Store({
 		},
 		goal: null,
 
+		currentSlide: 0,
+
 		contentLoaded: false,
 
 		translations: []
@@ -80,6 +82,9 @@ const store = () => new Vuex.Store({
 		},
 		SET_GOAL(state, goal) {
 			state.goal = goal;
+		},
+		UPDATE_CURRENT_SLIDE(state, index) {
+			state.currentSlide = index;
 		},
 		LAYOUT_MOUNTED(state) {
 			state.uiData.layoutMounted = true;
@@ -137,6 +142,9 @@ const store = () => new Vuex.Store({
 			commit('SET_GOAL', goal);
 			CookiesClient.set('reachyourgoal_goal', goal);
 		},
+		updateCurrentSlide({ commit }, index) {
+			commit('UPDATE_CURRENT_SLIDE', index);
+		},
 		layoutMounted({ commit }) {
 			commit('LAYOUT_MOUNTED');
 		}
@@ -166,6 +174,7 @@ const store = () => new Vuex.Store({
 		},
 		lang: state => state.uiData.lang,
 		goal: state => state.goal,
+		currentSlide: state => state.currentSlide,
 		isLayoutMounted: state => state.uiData.layoutMounted
 	}
 });

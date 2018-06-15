@@ -1,5 +1,5 @@
 <template>
-	<div :class="['selector', canSlide ? 'canAnimate' : '']" v-hammer:pan.horizontal="panGesture" :style="{
+	<div :class="['selector', canSlide ? 'canAnimate' : '', $route.name === 'page' ? 'clipped' : '']" v-hammer:pan.horizontal="panGesture" :style="{
 		'--currentColor': backgroundColor,
 		'--transition-speed': transitionSpeed * 0.75 + 's',
 		'--easedMousePositionPercentX': $store.getters.easedMousePositionPercent.x.toFixed(2),
@@ -9,6 +9,7 @@
 		'--navigationArrowsAreaWidth': navigationArrowsAreaWidth + '%',
 		'cursor': cursor
 	}">
+		<div class="background"></div>
 		<ul class="hiddenSelector">
 			<li v-for="(item, i) in items" :key="item.color + i">
 				<div class="selectorItem" ref="items" :style="{
@@ -26,7 +27,7 @@
 						</div>
 						<big-title-comp :title="item.title">
 							<div class="pagination">
-								<span>{{ i + 1 }}</span>/{{ numberOfItems}}
+								<span class="current">{{ i + 1 }}</span><span class="slash">/</span>{{ numberOfItems}}
 							</div>
 						</big-title-comp>
 						<div class="subtitle">
@@ -70,7 +71,6 @@ export default {
 			rotation: 0,
 			canSlide: false,
 			transitionSpeed: 1,
-			currentSlide: 0,
 			navigationArrowsAreaWidth: 15,
 			navigationIndicationSlide: 0.02,
 			backgroundTransitionDuration: 0.4,
@@ -126,6 +126,12 @@ export default {
 		},
 		backgroundColor: function() {
 			return this.items[this.tempSlide].color;
+		},
+		currentSlide: function() {
+			return this.$store.getters.currentSlide;
+		},
+		canInteract: function() {
+			return this.$route.name === 'index';
 		}
 	},
 
@@ -146,7 +152,7 @@ export default {
 			this.onWindowResize();
 		},
 		'$store.getters.mousePositionPercent': function(position) {
-			if (this.canSlide) {
+			if (this.canSlide && this.canInteract) {
 				if (position.x > 100 - this.navigationArrowsAreaWidth) {
 					this.navigationIndicationSlideLeft();
 				} else if (position.x < this.navigationArrowsAreaWidth) {
@@ -218,27 +224,29 @@ export default {
 			});
 		},
 		panGesture(e) {
-			if (e.isFinal) {
-				this.canSlide = true;
-				this.cursor = '-webkit-grab';
-				switch (e.offsetDirection) {
-					case 2:
-						this.next();
-						break;
-					case 4:
-						this.prev();
-						break;
-				}
-			} else {
-				this.canSlide = false;
-				this.cursor = '-webkit-grabbing';
-				switch (e.offsetDirection) {
-					case 2:
-						this.navigationIndicationSlideLeft();
-						break;
-					case 4:
-						this.navigationIndicationSlideRight();
-						break;
+			if (this.canInteract) {
+				if (e.isFinal) {
+					this.canSlide = true;
+					this.cursor = '-webkit-grab';
+					switch (e.offsetDirection) {
+						case 2:
+							this.next();
+							break;
+						case 4:
+							this.prev();
+							break;
+					}
+				} else {
+					this.canSlide = false;
+					this.cursor = '-webkit-grabbing';
+					switch (e.offsetDirection) {
+						case 2:
+							this.navigationIndicationSlideLeft();
+							break;
+						case 4:
+							this.navigationIndicationSlideRight();
+							break;
+					}
 				}
 			}
 		},
@@ -291,18 +299,18 @@ export default {
 			this.$el.querySelector('.threeDselector .selectorItem').querySelector('.buttonComp').classList.add('show');
 		},
 		prev() {
-			if (this.canSlide) {
+			if (this.canSlide && this.canInteract) {
 				this.canSlide = false;
 				const newRotation = ((this.numberOfItems - this.currentSlide) * this.rotationStep) + this.rotationStep;
-				this.currentSlide = (this.currentSlide - 1) < 0 ? this.items.length - 1 : this.currentSlide - 1;
+				this.$store.dispatch('updateCurrentSlide', (this.currentSlide - 1) < 0 ? this.items.length - 1 : this.currentSlide - 1);
 				this.slide(newRotation);
 			}
 		},
 		next() {
-			if (this.canSlide) {
+			if (this.canSlide && this.canInteract) {
 				this.canSlide = false;
 				const newRotation = ((this.numberOfItems - this.currentSlide) * this.rotationStep) - this.rotationStep;
-				this.currentSlide = (this.currentSlide + 1) > this.items.length - 1 ? 0 : this.currentSlide + 1;
+				this.$store.dispatch('updateCurrentSlide', (this.currentSlide + 1) > this.items.length - 1 ? 0 : this.currentSlide + 1);
 				this.slide(newRotation);
 			}
 		},
@@ -370,11 +378,23 @@ export default {
 
 <style lang="scss">
 .selector {
-	height: var(--selectorHeight);
+	height: var(--vh);
 	width: var(--vw);
-	transition: background-color var(--backgroundTransitionDuration);
-	background-color: var(--currentColor);
+	--mask: 0;
+	--pageTransitionDuration: 1s;
+	position: relative;
 	cursor: grab;
+	z-index: 1;
+	.background {
+		transition: background-color var(--backgroundTransitionDuration);
+		background-color: var(--currentColor);
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		clip-path: polygon(0% 0%, 100% 0%, 100% calc(100% - var(--mask) * 1%), 0% calc(100% - var(--mask) * 0.7%));
+	}
 	.nav {
 		position: absolute;
 		top: 0;
@@ -446,7 +466,7 @@ export default {
 						left: 50%;
 						filter: grayscale(1) brightness(0);
 						opacity: 0.15;
-						transform: translate(calc(-50% + (var(--xShadowOffset) * 10) + (var(--easedMousePositionPercentX) * 0.02%)), calc(-50% + (var(--yShadowOffset) * 10) + (var(--easedMousePositionPercentY) * 0.02%))) scale(1.02);
+						transform: translate(calc(-50% + ((var(--xOffset) + var(--xShadowOffset)) * 10) + (var(--easedMousePositionPercentX) * 0.02%)), calc(-50% + ((var(--yOffset) + var(--yShadowOffset)) * 10) + (var(--easedMousePositionPercentY) * 0.02%))) scale(1.02);
 					}
 				}
 			}
@@ -455,13 +475,17 @@ export default {
 					position: absolute;
 					left: 0;
 					top: calc(5%);
-					font-size: 2rem;
+					font-size: 1.2rem;
 					transform-style: preserve-3d;
 					font-weight: normal;
-					span {
+					font-family: 'Antonio';
+					.current {
 						font-size: 1.3em;
 						font-weight: bold;
 						transform: translateY(-10%);
+					}
+					.slash {
+						margin: 0 0.3em;
 					}
 				}
 			}
@@ -536,6 +560,54 @@ export default {
 						}
 					}
 				}
+			}
+		}
+	}
+
+	&.clipped {
+		--mask: 50;
+		pointer-events: none;
+		.background {
+			transition: clip-path var(--pageTransitionDuration) var(--ease);
+		}
+		.nav {
+			transition: opacity var(--pageTransitionDuration);
+			opacity: 0;
+			pointer-events: none;
+			.left, .right {
+				pointer-events: none;
+			}
+		}
+		.selectorItem {
+			.itemWrapper {
+				.pagination {
+					transition: opacity var(--pageTransitionDuration);
+					opacity: 0;
+					pointer-events: none;
+				}
+				--xOffset: 5%;
+				.img {
+					transition: top var(--pageTransitionDuration);
+					--imgTop: 40%;
+					img {
+						transition: transform var(--pageTransitionDuration) var(--ease);
+					}
+				}
+				.titleWrapper {
+					transition: transform var(--pageTransitionDuration);
+					transform: translateY(-15vh);
+				}
+				.subtitle {
+					transition: opacity var(--pageTransitionDuration);
+					opacity: 0;
+					pointer-events: none;
+				}
+			}
+			.callToAction {
+				transition: opacity var(--pageTransitionDuration);
+				opacity: 0;
+				pointer-events: none;
+				visibility: hidden;
 			}
 		}
 	}
