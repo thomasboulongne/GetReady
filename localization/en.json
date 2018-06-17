@@ -36,5 +36,18 @@
             "title": "Specific",
             "text": "Suffisamment précis, présenter des caractéristiques propres."
         }
+    },
+    "page": {
+        "Definition": "Definition",
+        "Definition text": "A goal is a specific result we decide to reach in a defined amount of time.",
+        "Goal types": {
+            "Intro text": "The accomplishment of a complex goal, or a long-term goal, might require to set up steps, or mid-term goals. For example:",
+            "Main goal": "The main_goal",
+            "Main goal text": "It is the long term goal. Win a prize at a competition, finish a marathon, graduate or staying healthy can be main goals. We can plan our sub-goals while thinking about how to reach these main goals.",
+            "Main goal illustration": "/images/organize/trophy.png",
+            "Sub goals": "The sub_goals",
+            "Sub goals text": "Those are the steps or means used to reach the main goal. They improve the progress while reinforcing the motivation at every success.",
+            "Sub goals illustration": "/images/organize/steps.png"
+        }
     }
 }

@@ -3,29 +3,29 @@
 		<div class="pageIntro">
 			<div class="definition">
 				<h4 v-t="'Definition'"></h4>
-				<p class="emphasedText">Un objectif est un résultat spécifique que l'on décide d'atteindre dans un temps donné.</p>
+				<p class="emphasedText" v-t="'categories.items[0].page[\'Definition text\']'"></p>
 			</div>
-			<p>La réalisation d'un objectif complexe, ou à long terme, peut nécessiter la mise en place d'étapes, ou objectifs intermédiaires. On évoque par exemple :</p>
+			<p v-t="'categories.items[0].page[\'Goal types\'][\'Intro text\']'"></p>
 			<div class="blocks">
 				<div class="block">
 					<div class="illustration">
-						<img src="/images/trophy.png" alt="">
+						<img :src="$t('categories.items[0].page[\'Goal types\'][\'Main goal illustration\']')" alt="">
 					</div>
 					<div class="title">
-						<span>L'objectif</span>
-						<span>principal</span>
+						<span>{{ $t('categories.items[0].page[\'Goal types\'][\'Main goal\']').split('_')[0] }}</span>
+						<span>{{ $t('categories.items[0].page[\'Goal types\'][\'Main goal\']').split('_')[1] }}</span>
 					</div>
-					<p>C’est le but à atteindre à long terme. Remporter une place lors d’une compétition, terminer un marathon, obtenir son bac ou se maintenir en bonne santé peuvent être des objectifs principaux. C’est en réfléchissant à l’atteinte de ses objectifs que l’on peut planifier ses sous-objectifs.</p>
+					<p v-t="'categories.items[0].page[\'Goal types\'][\'Main goal text\']'"></p>
 				</div>
 				<div class="block">
 					<div class="illustration">
-						<img src="/images/steps.png" alt="">
+						<img :src="$t('categories.items[0].page[\'Goal types\'][\'Sub goals illustration\']')" alt="">
 					</div>
 					<div class="title">
-						<span>Les sous</span>
-						<span>objectifs</span>
+						<span>{{ $t('categories.items[0].page[\'Goal types\'][\'Sub goals\']').split('_')[0] }}</span>
+						<span>{{ $t('categories.items[0].page[\'Goal types\'][\'Sub goals\']').split('_')[1] }}</span>
 					</div>
-					<p>Ce sont les étapes ou les moyens mis en oeuvre pour atteindre son objectif principal. Ils permettent de progresser efficacement tout en renforçant sa motivation à chaque réussite.</p>
+					<p v-t="'categories.items[0].page[\'Goal types\'][\'Sub goals text\']'"></p>
 				</div>
 			</div>
 		</div>
