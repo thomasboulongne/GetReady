@@ -2,6 +2,7 @@
     "discover": "découvrir",
     "Gallery": "Galerie",
     "next": "suivant",
+    "Example": "Exemple",
     "intro": {
         "step1": {
             "sentences": {
@@ -47,6 +48,83 @@
                 "shadow": {
                     "x": 0.7,
                     "y": 0
+                },
+                "page": {
+                    "Definition": "Définition",
+                    "Definition text": "Un objectif est un résultat spécifique que l'on décide d'atteindre dans un temps donné.",
+                    "Goal types": {
+                        "Intro text": "La réalisation d'un objectif complexe, ou à long terme, peut nécessiter la mise en place d'étapes, ou objectifs intermédiaires. On évoque par exemple :",
+                        "Main goal": "L'objectif_principal",
+                        "Main goal text": "C’est le but à atteindre à long terme. Remporter une place lors d’une compétition, terminer un marathon, obtenir son bac ou se maintenir en bonne santé peuvent être des objectifs principaux. C’est en réfléchissant à l’atteinte de ses objectifs que l’on peut planifier ses sous-objectifs.",
+                        "Main goal illustration": "/images/organize/trophy.png",
+                        "Sub goals": "Les sous_objectifs",
+                        "Sub goals text": "Ce sont les étapes ou les moyens mis en oeuvre pour atteindre son objectif principal. Ils permettent de progresser efficacement tout en renforçant sa motivation à chaque réussite.",
+                        "Sub goals illustration": "/images/organize/steps.png"
+                    },
+                    "Main quote": {
+                        "Athlete": "Usain Bolt",
+                        "Athlete description": "Athlète jamaïcain, détenteur des records du monde de la course du 100m, 200m et 4x100m.",
+                        "Quote": "Il faut toujours avoir des objectifs. Si vous voulez être le meilleur, vous devez vous fixer des objectifs. Et vos objectifs ont besoin d’être difficiles à atteindre si vous voulez être le meilleur.",
+                        "Image": "/images/organize/bolt-starting-blocks.png"
+                    },
+                    "Main part": {
+                        "Title": "Comment réussir_à s'organiser ?",
+                        "Parts": [
+                            {
+                                "Title": "Définir son objectif",
+                                "Short title": "Définition",
+                                "Text": "Un objectif et ses sous-objectifs doivent répondre au mieux à ces caractéristiques :",
+                                "Example": "Avoir le bac avec mention bien."
+                            },
+                            {
+                                "Title": "Faire le bilan",
+                                "Short title": "Faire le bilan",
+                                "Steps": [
+                                    {
+                                        "Title": "Définir les besoins pour atteindre cet objectif.",
+                                        "Text": "Qu’est-ce qui m’empêche actuellement d’atteindre cet objectif ? Quelles ressources sont nécessaires ? Information, attitude, sensation, soutien, argent, aide, amélioration technique..."
+                                    },
+                                    {
+                                        "Title": "Faire un tableau des points de progrès :",
+                                        "Text": "Lister les compétences ou les moyens requis et en déduire la marge de progression. Déterminer alors les points sur lesquels se concentrer pour mieux atteindre son objectif."
+                                    },
+                                    {
+                                        "Title": "Planifier des sous-objectifs,",
+                                        "Text": "pour chaque point de progression, à court, moyen et long terme.",
+                                        "ExampleSteps": [
+                                            "S’améliorer en SVT et en Histoire.",
+                                            "Viser un 15 aux prochains contrôles qui ont lieu dans deux semaines.",
+                                            "Augmenter sa moyenne de 2 points pour le trimestre prochain."
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "Title": "Définir des méthodes",
+                                "Short title": "Méthodes",
+                                "Text": "Une fois que les objectifs sont précisés, il reste à définir les méthodes qui vont permettre de les atteindre.",
+                                "Details": [
+                                    "Qu'allez-vous faire ?",
+                                    "Où allez-vous faire ?",
+                                    "Avez qui allez-vous faire ?"
+                                ],
+                                "ExampleSteps": [
+                                    "Prendre des cours particuliers en SVT tous les lundis soirs",
+                                    "Planifier des séances de révisions avec ses amis pour l’Histoire-Géo",
+                                    "Décider de lire le contenu de chaque cours d’histoire la veille de la classe pour se pré-familiariser avec son contenu et mieux le retenir."
+                                ]
+                            },
+                            {
+                                "Title": "Évaluer et maintenir les objectifs",
+                                "Short title": "Évaluer",
+                                "Text": "Faire régulièrement le point pour vérifier l’atteinte des objectifs intermédiaires, les adapter si nécessaire, soutenir sa motivation et se donner de nouveaux défis.",
+                                "Details": [
+                                    "Est-ce qu’ils étaient trop faciles/difficiles ?",
+                                    "Est-ce qu’on s’y est tenu et sinon, pourquoi ?"
+                                ]
+                            }
+                        ]
+                    }
                 }
             },
             {
