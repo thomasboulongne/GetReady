@@ -3,29 +3,67 @@
 		<div class="pageIntro">
 			<div class="definition">
 				<h4 v-t="'Definition'"></h4>
-				<p class="emphasedText" v-t="'categories.items[0].page[\'Definition text\']'"></p>
+				<p class="emphasedText" v-html="pageContent['Definition text']"></p>
 			</div>
-			<p v-t="'categories.items[0].page[\'Goal types\'][\'Intro text\']'"></p>
+			<p v-html="pageContent['Goal types']['Intro text']"></p>
 			<div class="blocks">
 				<div class="block">
 					<div class="illustration">
-						<img :src="$t('categories.items[0].page[\'Goal types\'][\'Main goal illustration\']')" alt="">
+						<img :src="pageContent['Goal types']['Main goal illustration']" alt="">
 					</div>
 					<div class="title">
-						<span>{{ $t('categories.items[0].page[\'Goal types\'][\'Main goal\']').split('_')[0] }}</span>
-						<span>{{ $t('categories.items[0].page[\'Goal types\'][\'Main goal\']').split('_')[1] }}</span>
+						<span>{{ pageContent['Goal types']['Main goal'].split('_')[0] }}</span>
+						<span>{{ pageContent['Goal types']['Main goal'].split('_')[1] }}</span>
 					</div>
-					<p v-t="'categories.items[0].page[\'Goal types\'][\'Main goal text\']'"></p>
+					<p v-html="pageContent['Goal types']['Main goal text']"></p>
 				</div>
 				<div class="block">
 					<div class="illustration">
-						<img :src="$t('categories.items[0].page[\'Goal types\'][\'Sub goals illustration\']')" alt="">
+						<img :src="pageContent['Goal types']['Sub goals illustration']" alt="">
 					</div>
 					<div class="title">
-						<span>{{ $t('categories.items[0].page[\'Goal types\'][\'Sub goals\']').split('_')[0] }}</span>
-						<span>{{ $t('categories.items[0].page[\'Goal types\'][\'Sub goals\']').split('_')[1] }}</span>
+						<span>{{ pageContent['Goal types']['Sub goals'].split('_')[0] }}</span>
+						<span>{{ pageContent['Goal types']['Sub goals'].split('_')[1] }}</span>
 					</div>
-					<p v-t="'categories.items[0].page[\'Goal types\'][\'Sub goals text\']'"></p>
+					<p v-html="pageContent['Goal types']['Sub goals text']"></p>
+				</div>
+			</div>
+		</div>
+		<div class="mainQuote">
+			<div class="background"></div>
+			<div class="content">
+				<div class="illustration">
+					<img class="shadow" :src="pageContent['Main quote']['Image']" alt="">
+					<img :src="pageContent['Main quote']['Image']" alt="">
+				</div>
+				<div class="text">
+					<svg width="40" height="32" viewBox="0 0 40 32">
+						<g fill="#FF7056" fill-rule="nonzero" stroke="#FF7056">
+							<path d="M27.895 17.404c.854.255 1.709.384 2.54.384a7.752 7.752 0 0 0 3.186-.676c-.801 3.035-2.725 8.272-6.557 8.862a.922.922 0 0 0-.742.678l-.838 3.1a.97.97 0 0 0 .116.771c.145.228.377.38.637.417.283.04.571.06.857.06 4.6 0 9.154-4.97 11.077-12.087 1.128-4.175 1.459-10.452-1.32-14.403C35.294 2.3 33.025 1.12 30.105 1h-.035c-3.603 0-6.797 2.512-7.77 6.108a8.561 8.561 0 0 0 .74 6.35 8.145 8.145 0 0 0 4.854 3.946zM2.042 13.457a8.144 8.144 0 0 0 4.853 3.947c.854.255 1.709.384 2.54.384a7.754 7.754 0 0 0 3.186-.675c-.8 3.034-2.724 8.271-6.557 8.86a.922.922 0 0 0-.742.679l-.838 3.1a.97.97 0 0 0 .116.771c.144.228.376.38.637.417.282.04.57.06.857.06 4.6 0 9.154-4.97 11.077-12.087 1.128-4.175 1.459-10.452-1.32-14.403C14.294 2.3 12.025 1.118 9.105 1H9.07C5.468 1 2.273 3.512 1.301 7.108a8.566 8.566 0 0 0 .74 6.35z"/>
+						</g>
+					</svg>
+					<div class="quote" v-html="pageContent['Main quote']['Quote']"></div>
+					<div class="athlete">
+						<span class="name" v-html="pageContent['Main quote']['Athlete']"></span>
+						<span class="description" v-html="pageContent['Main quote']['Athlete description']"></span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="mainPart">
+			<h2>
+				<span v-html="pageContent['Main part']['Title'].split('_')[0]"></span>
+				<span v-html="pageContent['Main part']['Title'].split('_')[1]"></span>
+			</h2>
+			<div class="blocks">
+				<div class="block block__1">
+					<h3 v-html="pageContent['Main part']['Parts'][0]['Title']"></h3>
+					<p v-html="pageContent['Main part']['Parts'][0]['Text']"></p>
+					<div class="cards">
+						<div class="card" v-for="card in $t('cards')" :key="card.title">
+							{{ card.title }}
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -37,6 +75,9 @@ export default {
 	computed: {
 		page: function() {
 			return this.$t('categories.items[0]');
+		},
+		pageContent: function() {
+			return this.page.page;
 		}
 	}
 };
@@ -49,10 +90,23 @@ export default {
 	top: -38vh;
 	position: relative;
 	padding-top: 20vh;
+	p {
+		line-height: 1.82;
+	}
+	h2 {
+		text-transform: uppercase;
+		color: var(--grey);
+		font-weight: bold;
+	}
+	h3 {
+		font-size: 2.05rem;
+		font-weight: bold;
+		color: var(--currentColor);
+	}
 	h4 {
 		color: var(--currentColor);
 	}
-	&::before {
+	&:before {
 		content: '';
 		position: absolute;
 		top: 0;
@@ -80,13 +134,16 @@ export default {
 			display: flex;
 			width: 100%;
 			justify-content: space-between;
+			margin-top: 12rem;
 			.block {
 				background-color: var(--lightGrey);
 				padding: 1.5em;
-				width: 48%;
+				padding-top: 8rem;
+				width: 46%;
 				box-sizing: border-box;
 				border-radius: 1em;
 				box-shadow: 0 0.4em 0.4em rgba(0, 0, 0, 0.05);
+				position: relative;
 				.title {
 					font-family: 'Antonio';
 					color: var(--grey);
@@ -101,6 +158,145 @@ export default {
 				}
 				p {
 					width: 100%;
+				}
+				.illustration {
+					position: absolute;
+					width: 33%;
+					top: 0;
+					right: 10%;
+					transform: translateY(-50%);
+					img {
+						width: 100%;
+					}
+				}
+				&:nth-child(1){
+					.illustration:after {
+						content: '';
+						position: absolute;
+						top: 110%;
+						height: 0.7rem;
+						width: 80%;
+						border-radius: 100%;
+						background: rgba(0, 0, 0, 0.05);
+						left: 50%;
+						transform: translateX(-50%);
+					}
+				}
+				&:nth-child(2){
+					transform: translateY(-5rem);
+					.illustration {
+						perspective: 100rem;
+						perspective-origin: bottom right;
+						&:after {
+							content: '';
+							position: absolute;
+							top: 110%;
+							height: 2rem;
+							width: 100%;
+							background: rgba(0, 0, 0, 0.05);
+							left: 50%;
+							transform: translateX(-50%);
+							--pathOffset: 20%;
+							clip-path: polygon(0 var(--pathOffset), var(--pathOffset) 0, 100% calc(100% - var(--pathOffset)), calc(100% - var(--pathOffset)) 100%);
+						}
+					}
+				}
+			}
+		}
+	}
+	.mainQuote {
+		margin-top: 2rem;
+		margin-bottom: 2rem;
+		padding: 6.5rem 0 0 0;
+		position: relative;
+		.background {
+			background-color: var(--lightGrey);
+			position: absolute;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			left: 0;
+			clip-path: polygon(0 15%, 100% 0%, 100% 93%, 0% 100%);
+		}
+		.content {
+			display: flex;
+			position: relative;
+			.illustration {
+				width: 33%;
+				position: relative;
+				img {
+					width: 100%;
+					display: block;
+					&.shadow {
+						position: absolute;
+						top: 50%;
+						left: 50%;
+						filter: grayscale(1) brightness(0);
+						opacity: 0.15;
+						transform: translate(-53%, -55%);
+					}
+				}
+			}
+			.text {
+				width: 66%;
+				svg {
+					* {
+						fill: var(--currentColor);
+					}
+				}
+				.quote {
+					width: 75%;
+					line-height: 2;
+					font-style: italic;
+					margin: 2rem 0;
+					font-size: 1.1rem;
+				}
+				.athlete {
+					.name {
+						font-family: Antonio;
+						font-size: 1.1rem;
+						font-weight: bold;
+						color: var(--currentColor);
+						text-transform: uppercase;
+						display: block;
+					}
+					.description {
+						font-style: italic;
+						font-size: 0.7rem;
+						margin-top: 1rem;
+						display: inline-block;
+						width: 33%;
+						font-weight: 300;
+					}
+				}
+			}
+		}
+	}
+	.mainPart {
+		margin-top: 6rem;
+		h2 {
+			display: block;
+			margin-left: var(--spacingHorizontal);
+			font-size: 2.6rem;
+			span {
+				display: block;
+				&:last-child {
+					font-size: 1.7em;
+					line-height: 1.1;
+				}
+			}
+		}
+		.blocks {
+			margin-top: 5rem;
+			display: flex;
+			flex-direction: column;
+			align-items: flex-end;
+			.block {
+				width: 66%;
+				&.block__1 {
+					p {
+						max-width: 70%;
+					}
 				}
 			}
 		}

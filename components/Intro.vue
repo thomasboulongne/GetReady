@@ -17,12 +17,14 @@
 				</h3>
 				<ul v-hammer:pan.horizontal="panGesture" ref="cardsList">
 					<li :class="['card', (cards.length - 1 - i) === currentCardIndex ? 'selected': '']" v-for="(card, i) in cards.slice().reverse()" ref="cards" :key="card.title + (cards.length - 1 - i)">
-						<div class="illustration">
-							<img :src="card.img" alt="" class="shadow">
-							<img :src="card.img" alt="">
-						</div>
-						<h3>{{ card.title }}</h3>
-						<p v-html="card.text"></p>
+						<!-- <div> -->
+							<div class="illustration">
+								<img :src="card.img" alt="" class="shadow">
+								<img :src="card.img" alt="">
+							</div>
+							<h3>{{ card.title }}</h3>
+							<p v-html="card.text"></p>
+						<!-- </div> -->
 					</li>
 				</ul>
 				<div class="nav" ref="cardsNav">
