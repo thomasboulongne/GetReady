@@ -66,6 +66,14 @@
 					</ul>
 					<div class="cardsSliderIndicator" :style="{'--cardsPercentage': cardsSliderPercentage + '%'}"></div>
 				</div>
+				<div class="block block__2">
+					<h3 v-html="pageContent['Main part']['Parts'][1]['Title']"></h3>
+					<ol>
+						<li v-for="(step, i) in pageContent['Main part']['Parts'][1]['Steps']" :key="i">
+							{{ step.Title }}
+						</li>
+					</ol>
+				</div>
 			</div>
 		</div>
 	</section>
@@ -370,6 +378,7 @@ export default {
 			align-items: flex-end;
 			.block {
 				width: 66%;
+				margin-bottom: 4rem;
 				&.block__1 {
 					p {
 						max-width: 70%;
@@ -408,6 +417,11 @@ export default {
 							height: 1px;
 							background-color: var(--currentColor);
 						}
+					}
+				}
+				&.block__2 {
+					ol {
+						list-style-type: decimal-leading-zero;
 					}
 				}
 			}
