@@ -64,6 +64,7 @@
 							<card-comp :card="card"></card-comp>
 						</li>
 					</ul>
+					<div class="cardsSliderIndicator" :style="{'--cardsPercentage': cardsSliderPercentage + '%'}"></div>
 				</div>
 			</div>
 		</div>
@@ -76,7 +77,9 @@ export default {
 	data() {
 		return {
 			cardsX: 0,
-			cardsCursor: false
+			cardsCursor: false,
+			cardsSliderPercentage: 0,
+			currentCardsX: 0
 		};
 	},
 	computed: {
@@ -90,15 +93,26 @@ export default {
 	components: {
 		CardComp
 	},
+	watch: {
+		'currentCardsX': function(x) {
+			const cards = Object.values(this.$t('cards'));
+			const cardWidth = this.$refs.cards.querySelector('.card').getBoundingClientRect().width;
+			const fullWidth = (cardWidth * cards.length) - cardWidth;
+			this.cardsSliderPercentage = (x * 100 / fullWidth).toFixed(2) * -1;
+		}
+	},
 	methods: {
 		cardsPan(event) {
 			const computedX = this.cardsX + event.deltaX;
 			const cards = Object.values(this.$t('cards'));
 			const cardWidth = this.$refs.cards.querySelector('.card').getBoundingClientRect().width;
-			const fullWidth = (cardWidth * cards.length) - cardWidth / 2.5;
+			const fullWidth = (cardWidth * cards.length) - cardWidth;
 			let newX = computedX;
 			TweenMax.set(this.$refs.cards, {
 				x: newX
+			});
+			TweenMax.set(this, {
+				currentCardsX: newX
 			});
 			if (event.isFinal) {
 				newX = computedX + event.velocityX * 100;
@@ -109,16 +123,26 @@ export default {
 					backX = fullWidth * -1;
 				}
 				const tl = new TimelineMax({ paused: true });
+
 				tl
 				.to(this.$refs.cards, backX === null ? 0.5 : 0.2, {
 					x: newX,
 					ease: backX === null ? Power2.easeOut : Power0.easeNone
-				});
+				})
+				.to(this, backX === null ? 0.5 : 0.2, {
+					currentCardsX: newX
+				}, 0);
+
 				if (backX !== null) {
-					tl.to(this.$refs.cards, 0.3, {
+					tl
+					.to(this.$refs.cards, 0.3, {
 						x: backX,
 						ease: Elastic.easeOut.config(0.8, 1)
-					});
+					})
+					.to(this, 0.3, {
+						currentCardsX: backX,
+						ease: Elastic.easeOut.config(0.8, 1)
+					}, '-=0.3');
 				}
 				tl.play();
 				this.cardsX = backX === null ? newX : backX;
@@ -356,7 +380,7 @@ export default {
 						flex-wrap: nowrap;
 						.card {
 							&:not(:last-child) {
-								margin-right: 2rem;
+								padding-right: 2rem;
 							}
 						}
 						.cardComp {
@@ -365,6 +389,24 @@ export default {
 							p {
 								max-width: none;
 							}
+						}
+					}
+					.cardsSliderIndicator {
+						width: var(--cardWidth);
+						height: 1px;
+						background-color: var(--mediumGrey);
+						margin-top: 3rem;
+						position: relative;
+						overflow: hidden;
+						&:after {
+							content: '';
+							position: absolute;
+							--cardsIndicatorWidth: 33%;
+							width: var(--cardsIndicatorWidth);
+							left: calc(var(--cardsPercentage) * 2/3);
+							top: 0;
+							height: 1px;
+							background-color: var(--currentColor);
 						}
 					}
 				}

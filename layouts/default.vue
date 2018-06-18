@@ -170,6 +170,7 @@ main {
 	--transitionDuration: 1.5s;
 	--grey: #5d666d;
 	--lightGrey: #f6f8fa;
+	--mediumGrey: #dbdbdb;
 
 	.intro {
 		position: absolute;
