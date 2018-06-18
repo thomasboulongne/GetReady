@@ -162,27 +162,33 @@
     "cards": {
         "1": {
             "title": "Positif",
-            "text": "Il doit être exprimé positivement car il n'est pas possible de se représenter une négation."
+            "text": "Il doit être exprimé positivement car il n'est pas possible de se représenter une négation.",
+            "img": "/images/cards/p.png"
         },
         "2": {
             "title": "Spécifique",
-            "text": "Suffisamment précis, présenter des caractéristiques propres."
+            "text": "Suffisamment précis, présenter des caractéristiques propres.",
+            "img": "/images/cards/s.png"
         },
         "3": {
             "title": "Mesurable",
-            "text": "Il peut avoir un indicateur de résultat, ou à défaut, nos sens doivent nous permettre de déterminer précisément à quel moment l’objectif sera atteint."
+            "text": "Il peut avoir un indicateur de résultat, ou à défaut, nos sens doivent nous permettre de déterminer précisément à quel moment l’objectif sera atteint.",
+            "img": "/images/cards/m.png"
         },
         "4": {
             "title": "En harmonie",
-            "text": "L’objectif doit être en accord avec vos valeurs et croyances et, compatible avec l’atteinte de ses autres objectifs."
+            "text": "L’objectif doit être en accord avec vos valeurs et croyances et, compatible avec l’atteinte de ses autres objectifs.",
+            "img": "/images/cards/a.png"
         },
         "5": {
             "title": "Réaliste",
-            "text": "Il prend en compte les facteurs extérieurs, qui ne peuvent pas être sous votre contrôle. Il peut être ambitieux pour représenter un défi motivant, tout en restant atteignable."
+            "text": "Il prend en compte les facteurs extérieurs, qui ne peuvent pas être sous votre contrôle. Il peut être ambitieux pour représenter un défi motivant, tout en restant atteignable.",
+            "img": "/images/cards/r.png"
         },
         "6": {
             "title": "Temporel",
-            "text": "Il doit être positionné dans le temps et donc avoir une échéance précise."
+            "text": "Il doit être positionné dans le temps et donc avoir une échéance précise.",
+            "img": "/images/cards/t.png"
         }
     }
 }

@@ -59,11 +59,11 @@
 				<div class="block block__1">
 					<h3 v-html="pageContent['Main part']['Parts'][0]['Title']"></h3>
 					<p v-html="pageContent['Main part']['Parts'][0]['Text']"></p>
-					<div class="cards">
-						<div class="card" v-for="card in $t('cards')" :key="card.title">
-							{{ card.title }}
-						</div>
-					</div>
+					<ul class="cards" v-hammer:pan.horizontal="cardsPan" ref="cards" @mousedown="cardsGrabCursor" @mouseup="cardsDefaultCursor" :style="{'cursor': cardsCursor ? '-webkit-grabbing' : '-webkit-grab'}">
+						<li class="card" v-for="card in $t('cards')" :key="card.title">
+							<card-comp :card="card"></card-comp>
+						</li>
+					</ul>
 				</div>
 			</div>
 		</div>
@@ -71,13 +71,64 @@
 </template>
 
 <script>
+import CardComp from '~/components/Card';
 export default {
+	data() {
+		return {
+			cardsX: 0,
+			cardsCursor: false
+		};
+	},
 	computed: {
 		page: function() {
 			return this.$t('categories.items[0]');
 		},
 		pageContent: function() {
 			return this.page.page;
+		}
+	},
+	components: {
+		CardComp
+	},
+	methods: {
+		cardsPan(event) {
+			const computedX = this.cardsX + event.deltaX;
+			const cards = Object.values(this.$t('cards'));
+			const cardWidth = this.$refs.cards.querySelector('.card').getBoundingClientRect().width;
+			const fullWidth = (cardWidth * cards.length) - cardWidth / 2.5;
+			let newX = computedX;
+			TweenMax.set(this.$refs.cards, {
+				x: newX
+			});
+			if (event.isFinal) {
+				newX = computedX + event.velocityX * 100;
+				let backX = null;
+				if (newX > 0) {
+					backX = 0;
+				} else if (newX < fullWidth * -1) {
+					backX = fullWidth * -1;
+				}
+				const tl = new TimelineMax({ paused: true });
+				tl
+				.to(this.$refs.cards, backX === null ? 0.5 : 0.2, {
+					x: newX,
+					ease: backX === null ? Power2.easeOut : Power0.easeNone
+				});
+				if (backX !== null) {
+					tl.to(this.$refs.cards, 0.3, {
+						x: backX,
+						ease: Elastic.easeOut.config(0.8, 1)
+					});
+				}
+				tl.play();
+				this.cardsX = backX === null ? newX : backX;
+			}
+		},
+		cardsGrabCursor() {
+			this.cardsCursor = true;
+		},
+		cardsDefaultCursor() {
+			this.cardsCursor = false;
 		}
 	}
 };
@@ -273,7 +324,9 @@ export default {
 		}
 	}
 	.mainPart {
+		overflow: hidden;
 		margin-top: 6rem;
+		padding-bottom: 3rem;
 		h2 {
 			display: block;
 			margin-left: var(--spacingHorizontal);
@@ -296,6 +349,23 @@ export default {
 				&.block__1 {
 					p {
 						max-width: 70%;
+					}
+					.cards {
+						margin-top:4rem;
+						display: flex;
+						flex-wrap: nowrap;
+						.card {
+							&:not(:last-child) {
+								margin-right: 2rem;
+							}
+						}
+						.cardComp {
+							--cardBoxShadowOpacity: 0.1;
+							background-color: var(--lightGrey);
+							p {
+								max-width: none;
+							}
+						}
 					}
 				}
 			}

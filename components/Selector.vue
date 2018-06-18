@@ -512,6 +512,7 @@ export default {
 					display: block;
 					transform: translateY(-150%);
 					transition: transform 0.5s var(--ease);
+					font-size: 1rem;
 					span {
 						font-size: 1.3em;
 					}
@@ -522,6 +523,8 @@ export default {
 		.callToAction {
 			position: absolute;
 			bottom: 10%;
+			z-index: 4;
+			user-select: initial;
 			.buttonWrapper {
 				--buttonColor: var(--backgroundColor);
 			}

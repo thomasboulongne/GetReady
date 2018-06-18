@@ -158,6 +158,7 @@ export default {
 #app {
 	--spacingHorizontal: 7.55rem;
 	--spacingHorizontalLarge: 9.9rem;
+	--cardWidth: 17rem;
 }
 main {
 	transition: filter var(--menuTransitionSpeed), transform var(--menuTransitionSpeed);

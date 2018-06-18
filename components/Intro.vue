@@ -17,14 +17,7 @@
 				</h3>
 				<ul v-hammer:pan.horizontal="panGesture" ref="cardsList">
 					<li :class="['card', (cards.length - 1 - i) === currentCardIndex ? 'selected': '']" v-for="(card, i) in cards.slice().reverse()" ref="cards" :key="card.title + (cards.length - 1 - i)">
-						<!-- <div> -->
-							<div class="illustration">
-								<img :src="card.img" alt="" class="shadow">
-								<img :src="card.img" alt="">
-							</div>
-							<h3>{{ card.title }}</h3>
-							<p v-html="card.text"></p>
-						<!-- </div> -->
+						<card-comp :card="card"></card-comp>
 					</li>
 				</ul>
 				<div class="nav" ref="cardsNav">
@@ -78,7 +71,8 @@
 	</div>
 </template>
 <script>
-import buttonComp from '~/components/Button';
+import ButtonComp from '~/components/Button';
+import CardComp from '~/components/Card';
 export default {
 	props: {
 		lastColor: {
@@ -93,44 +87,7 @@ export default {
 			cardDirection: -1,
 			allCardsAreDisplayed: false,
 			cardsLeftMargin: '20%',
-			cards: [
-				{
-					title: this.$t('cards.1.title'),
-					text: this.$t('cards.1.text'),
-					img: require('~/assets/images/cards/p.png'),
-					displayed: true
-				},
-				{
-					title: this.$t('cards.2.title'),
-					text: this.$t('cards.2.text'),
-					img: require('~/assets/images/cards/s.png'),
-					displayed: false
-				},
-				{
-					title: this.$t('cards.3.title'),
-					text: this.$t('cards.3.text'),
-					img: require('~/assets/images/cards/m.png'),
-					displayed: false
-				},
-				{
-					title: this.$t('cards.4.title'),
-					text: this.$t('cards.4.text'),
-					img: require('~/assets/images/cards/a.png'),
-					displayed: false
-				},
-				{
-					title: this.$t('cards.5.title'),
-					text: this.$t('cards.5.text'),
-					img: require('~/assets/images/cards/r.png'),
-					displayed: false
-				},
-				{
-					title: this.$t('cards.6.title'),
-					text: this.$t('cards.6.text'),
-					img: require('~/assets/images/cards/t.png'),
-					displayed: false
-				}
-			],
+			cards: Object.values(this.$t('cards')),
 			examples: [
 				this.$t('intro.step2.formPanel.examples.1'),
 				this.$t('intro.step2.formPanel.examples.2')
@@ -152,12 +109,7 @@ export default {
 			}
 		},
 		'currentCardIndex': function(currentCardIndex, prevCardIndex) {
-			this.cards[currentCardIndex].displayed = true;
-			let allDisplayed = true;
-			this.cards.forEach(card => {
-				allDisplayed = card.displayed;
-			});
-			this.allCardsAreDisplayed = allDisplayed;
+			this.allCardsAreDisplayed = currentCardIndex === this.cards.length - 1;
 			const tl = new TimelineMax({
 				paused: true
 			});
@@ -486,7 +438,8 @@ export default {
 		}
 	},
 	components: {
-		buttonComp
+		ButtonComp,
+		CardComp
 	}
 };
 </script>
@@ -561,7 +514,6 @@ export default {
 
 	.step2 {
 		position: relative;
-		--cardWidth: 20rem;
 		.cards {
 			position: absolute;
 			top: 50%;
@@ -589,50 +541,12 @@ export default {
 				box-shadow: 0 calc(var(--cardWidth) * 0.03) calc(var(--cardWidth) * 0.07) rgba(0, 0, 0, var(--boxShadowOpacity));
 				border-radius: calc(var(--cardWidth) / 15);
 				.card {
-					width: var(--cardWidth);
-					height: calc(var(--cardWidth) * 1.54);
-					background: white;
-					color: var(--black);
 					position: absolute;
 					left: 50%;
 					top: 50%;
-					border-radius: calc(var(--cardWidth) / 15);
-					--cardRotate: 0deg;
 					transform: translate(-50%, -50%) rotate(var(--cardRotate));
-					border: solid 1px rgba(0, 0, 0, 0.07);
-					padding: calc(var(--cardWidth) * 0.1);
-					box-sizing: border-box;
-					text-align: center;
-					opacity: 1;
-					--cardBoxShadowOpacity: 0;
-					box-shadow: 0 calc(var(--cardWidth) * 0.03) calc(var(--cardWidth) * 0.07) rgba(0, 0, 0, var(--cardBoxShadowOpacity));
-					.illustration {
-						position: relative;
-						width: 66%;
-						margin: auto;
-						img {
-							width: 100%;
-							position: relative;
-							&.shadow {
-								position: absolute;
-								top: 50%;
-								left: 50%;
-								transform: translate(-55%, -35%);
-								filter: brightness(0);
-								opacity: 0.05;
-							}
-						}
-					}
-					h3 {
-						margin-top: 2rem;
-						margin-bottom: 1rem;
-						font-size: 2rem;
-						color: var(--blue);
-						text-transform: uppercase;
-					}
-					p {
-						margin: 0;
-						font-weight: 300;
+					.cardComp {
+						border: solid 1px rgba(0, 0, 0, 0.07);
 					}
 					@for $i from 1 to 10 {
 						&:nth-child(#{$i}) {
