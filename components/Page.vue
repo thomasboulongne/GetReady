@@ -93,6 +93,7 @@
 										</ol>
 									</div>
 								</div>
+								<text-input-comp v-if="step['Input text']" :storeIdentifier="step['Input Store identifier']">{{ step['Input text'] }}</text-input-comp>
 							</div>
 						</li>
 					</ol>
@@ -100,6 +101,12 @@
 				<div class="block block__3">
 					<h3 v-html="pageContent['Main part']['Parts'][2]['Title']"></h3>
 					<p class="blockIntroText" v-html="pageContent['Main part']['Parts'][2]['Text']"></p>
+					<div class="detailsWrapper">
+						<ul class="details">
+							<li v-for="(detail, j) in pageContent['Main part']['Parts'][2]['Details']" :key="j" v-html="detail">
+							</li>
+						</ul>
+					</div>
 					<div class="example">
 						<span class="label" v-t="'Example'"></span>
 						<div class="multiple">
@@ -113,6 +120,16 @@
 						</div>
 					</div>
 				</div>
+				<div class="block block__4">
+					<h3 v-html="pageContent['Main part']['Parts'][3]['Title']"></h3>
+					<p class="blockIntroText" v-html="pageContent['Main part']['Parts'][3]['Text']"></p>
+					<div class="detailsWrapper">
+						<ul class="details">
+							<li v-for="(detail, j) in pageContent['Main part']['Parts'][3]['Details']" :key="j" v-html="detail">
+							</li>
+						</ul>
+					</div>
+				</div>
 			</div>
 		</div>
 	</section>
@@ -120,6 +137,7 @@
 
 <script>
 import CardComp from '~/components/Card';
+import TextInputComp from '~/components/TextInput';
 export default {
 	data() {
 		return {
@@ -138,7 +156,8 @@ export default {
 		}
 	},
 	components: {
-		CardComp
+		CardComp,
+		TextInputComp
 	},
 	watch: {
 		'currentCardsX': function(x) {
@@ -264,11 +283,11 @@ export default {
 			margin-right: 2rem;
 		}
 		.simple, li {
-			font-size: 0.9rem;
 			font-style: italic;
-			max-width: 70%;
+			width: 70%;
 			display: flex;
 			.sentence {
+				font-size: 0.9rem;
 				vertical-align: top;
 				position: relative;
 				display: inline;
@@ -280,8 +299,8 @@ export default {
 		.simple, .multiple li:first-child {
 			.sentence {
 				span {
-					// border-bottom: 0.5em solid  var(--lightBlue);
 					display: inline;
+					// border-bottom: 0.5em solid  var(--lightBlue);
 					// &:before {
 					// 	content: '';
 					// 	display: block;
@@ -291,12 +310,14 @@ export default {
 		}
 		.multiple {
 			li {
-				--opacity: 0.4;
-				&:before {
+				--opacity: 1;
+				font-size: 0.66rem;
+				--circleSize: 1.9em;
+				line-height: 1.8;
+				&:before { // Number
 					flex-shrink: 0;
 					content: attr(data-count);
 					border: solid var(--currentColor) 1px;
-					--circleSize: 1.7em;
 					height: var(--circleSize);
 					width: var(--circleSize);
 					display: inline-block;
@@ -306,7 +327,6 @@ export default {
 					font-weight: bold;
 					color: var(--currentColor);
 					line-height: calc(var(--circleSize));
-					font-size: 0.66rem;
 					margin-right: 1rem;
 					background: white;
 					position: relative;
@@ -325,19 +345,43 @@ export default {
 					}
 				}
 				&:not(:last-child) {
-					margin-bottom: 0.7rem;
+					padding-bottom: 0.7rem;
 					position: relative;
-					&:after {
+					&:after { // Line
 						content: '';
 						z-index: 0;
 						width: 1px;
-						height: calc(100% - 0.5em);
+						height: calc(100% - 0.8em);
 						background-color: var(--currentColor);
 						display: block;
 						position: absolute;
-						left: 0.67em;
-						top: 1.3em;
+						left: calc((var(--circleSize) / 2) + 1px);
+						top: var(--circleSize);
 					}
+				}
+			}
+		}
+	}
+
+	.detailsWrapper {
+		display: flex;
+		font-size: 1.16rem;
+		margin: 3rem 0 4rem;
+		&:before {
+			content: '';
+			width: 2.5rem;
+			flex-shrink: 0;
+			height: 1px;
+			background-color: var(--currentColor);
+			margin-right: 1.5rem;
+			transform: translateY(0.7em)
+		}
+		.details {
+			li {
+				font-style: italic;
+				font-weight: bold;
+				&:not(:last-child) {
+					margin-bottom: 1.5rem;
 				}
 			}
 		}

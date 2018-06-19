@@ -34,7 +34,12 @@ const store = () => new Vuex.Store({
 			menuOpen: false,
 			layoutMounted: false
 		},
-		goal: null,
+		userData: {
+			goal: null,
+			subGoals: [
+				''
+			]
+		},
 
 		currentSlide: 0,
 
@@ -81,13 +86,22 @@ const store = () => new Vuex.Store({
 			state.uiData.menuOpen = isOpen;
 		},
 		SET_GOAL(state, goal) {
-			state.goal = goal;
+			state.userData.goal = goal;
 		},
 		UPDATE_CURRENT_SLIDE(state, index) {
 			state.currentSlide = index;
 		},
 		LAYOUT_MOUNTED(state) {
 			state.uiData.layoutMounted = true;
+		},
+		USER_DATA_ADD_FIELD(state, key) {
+			state.userData[key].push('');
+		},
+		USER_DATA_REMOVE_FIELD(state, { key, i }) {
+			state.userData[key].splice(i, 1);
+		},
+		USER_DATA_UPDATE_FIELD(state, { key, i, value }) {
+			state.userData[key][i] = value;
 		}
 	},
 
@@ -147,6 +161,15 @@ const store = () => new Vuex.Store({
 		},
 		layoutMounted({ commit }) {
 			commit('LAYOUT_MOUNTED');
+		},
+		userDataAddField({ commit }, key) {
+			commit('USER_DATA_ADD_FIELD', key);
+		},
+		userDataRemoveField({ commit }, params) {
+			commit('USER_DATA_REMOVE_FIELD', params);
+		},
+		userDataUpdateField({ commit }, params) {
+			commit('USER_DATA_UPDATE_FIELD', params);
 		}
 	},
 
@@ -173,7 +196,8 @@ const store = () => new Vuex.Store({
 			return state.translations.find(t => t.identifier == identifier) ? state.translations.find(t => t.identifier == identifier).translations : identifier;
 		},
 		lang: state => state.uiData.lang,
-		goal: state => state.goal,
+		goal: state => state.userData.goal,
+		userData: state => key => state.userData[key],
 		currentSlide: state => state.currentSlide,
 		isLayoutMounted: state => state.uiData.layoutMounted
 	}

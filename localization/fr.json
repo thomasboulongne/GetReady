@@ -3,6 +3,7 @@
     "Gallery": "Galerie",
     "next": "suivant",
     "Example": "Exemple",
+    "Hide": "Masquer",
     "intro": {
         "step1": {
             "sentences": {
@@ -96,7 +97,9 @@
                                             "S’améliorer en SVT et en Histoire.",
                                             "Viser un 15 aux prochains contrôles qui ont lieu dans deux semaines.",
                                             "Augmenter sa moyenne de 2 points pour le trimestre prochain."
-                                        ]
+                                        ],
+                                        "Input text": "Écrire vos sous-objectifs",
+                                        "Input Store identifier": "subGoals"
                                     }
                                 ]
                             },
