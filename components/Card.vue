@@ -1,18 +1,18 @@
 <template>
 	<div class="cardComp">
 		<div class="illustration">
-			<img :src="card.img" alt="" class="shadow">
-			<img :src="card.img" alt="">
+			<img :src="item.img" alt="" class="shadow">
+			<img :src="item.img" alt="">
 		</div>
-		<h3>{{ card.title }}</h3>
-		<p v-html="card.text"></p>
+		<h3>{{ item.title }}</h3>
+		<p v-html="item.text"></p>
 	</div>
 </template>
 
 <script>
 export default {
 	props: {
-		card: {
+		item: {
 			default: function() {
 				return {};
 			}

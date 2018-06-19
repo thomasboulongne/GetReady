@@ -38,6 +38,9 @@ const store = () => new Vuex.Store({
 			goal: null,
 			subGoals: [
 				''
+			],
+			methods: [
+				''
 			]
 		},
 

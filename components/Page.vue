@@ -32,7 +32,7 @@
 		<div class="mainQuote">
 			<div class="background"></div>
 			<div class="content">
-				<div class="illustration">
+				<div class="illustration withShadow">
 					<img class="shadow" :src="pageContent['Main quote']['Image']" alt="">
 					<img :src="pageContent['Main quote']['Image']" alt="">
 				</div>
@@ -59,12 +59,7 @@
 				<div class="block block__1">
 					<h3 v-html="pageContent['Main part']['Parts'][0]['Title']"></h3>
 					<p class="blockIntroText" v-html="pageContent['Main part']['Parts'][0]['Text']"></p>
-					<ul class="cards" v-hammer:pan.horizontal="cardsPan" ref="cards" @mousedown="cardsGrabCursor" @mouseup="cardsDefaultCursor" :style="{'cursor': cardsCursor ? '-webkit-grabbing' : '-webkit-grab'}">
-						<li class="card" v-for="card in $t('cards')" :key="card.title">
-							<card-comp :card="card"></card-comp>
-						</li>
-					</ul>
-					<div class="cardsSliderIndicator" :style="{'--cardsPercentage': cardsSliderPercentage + '%'}"></div>
+					<slider-comp :items="$t('cards')"></slider-comp>
 				</div>
 				<div class="block block__2">
 					<h3 v-html="pageContent['Main part']['Parts'][1]['Title']"></h3>
@@ -119,6 +114,7 @@
 							</ol>
 						</div>
 					</div>
+					<text-input-comp v-if="pageContent['Main part']['Parts'][2]['Input text']" :storeIdentifier="pageContent['Main part']['Parts'][2]['Input Store identifier']">{{ pageContent['Main part']['Parts'][2]['Input text'] }}</text-input-comp>
 				</div>
 				<div class="block block__4">
 					<h3 v-html="pageContent['Main part']['Parts'][3]['Title']"></h3>
@@ -132,21 +128,18 @@
 				</div>
 			</div>
 		</div>
+		<div class="quotes">
+			<div class="background"></div>
+			<div class="content">
+				
+			</div>
+		</div>
 	</section>
 </template>
 
 <script>
-import CardComp from '~/components/Card';
 import TextInputComp from '~/components/TextInput';
 export default {
-	data() {
-		return {
-			cardsX: 0,
-			cardsCursor: false,
-			cardsSliderPercentage: 0,
-			currentCardsX: 0
-		};
-	},
 	computed: {
 		page: function() {
 			return this.$t('categories.items[0]');
@@ -156,70 +149,7 @@ export default {
 		}
 	},
 	components: {
-		CardComp,
 		TextInputComp
-	},
-	watch: {
-		'currentCardsX': function(x) {
-			const cards = Object.values(this.$t('cards'));
-			const cardWidth = this.$refs.cards.querySelector('.card').getBoundingClientRect().width;
-			const fullWidth = (cardWidth * cards.length) - cardWidth;
-			this.cardsSliderPercentage = (x * 100 / fullWidth).toFixed(2) * -1;
-		}
-	},
-	methods: {
-		cardsPan(event) {
-			const computedX = this.cardsX + event.deltaX;
-			const cards = Object.values(this.$t('cards'));
-			const cardWidth = this.$refs.cards.querySelector('.card').getBoundingClientRect().width;
-			const fullWidth = (cardWidth * cards.length) - cardWidth;
-			let newX = computedX;
-			TweenMax.set(this.$refs.cards, {
-				x: newX
-			});
-			TweenMax.set(this, {
-				currentCardsX: newX
-			});
-			if (event.isFinal) {
-				newX = computedX + event.velocityX * 50;
-				let backX = null;
-				if (newX > 0) {
-					backX = 0;
-				} else if (newX < fullWidth * -1) {
-					backX = fullWidth * -1;
-				}
-				const tl = new TimelineMax({ paused: true });
-
-				tl
-				.to(this.$refs.cards, backX === null ? 0.5 : 0.1, {
-					x: newX
-				})
-				.to(this, backX === null ? 0.5 : 0.1, {
-					currentCardsX: newX
-				}, 0);
-
-				if (backX !== null) {
-					const backDuration = 0.9;
-					tl
-					.to(this.$refs.cards, backDuration, {
-						x: backX,
-						ease: Power4.easeOut
-					})
-					.to(this, backDuration, {
-						currentCardsX: backX,
-						ease: Power4.easeOut
-					}, '-=' + backDuration);
-				}
-				tl.play();
-				this.cardsX = backX === null ? newX : backX;
-			}
-		},
-		cardsGrabCursor() {
-			this.cardsCursor = true;
-		},
-		cardsDefaultCursor() {
-			this.cardsCursor = false;
-		}
 	}
 };
 </script>
@@ -269,7 +199,21 @@ export default {
 		max-width: 30rem;
 		font-weight: normal;
 	}
-
+	.illustration.withShadow {
+		position: relative;
+		img {
+			width: 100%;
+			display: block;
+			&.shadow {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				filter: grayscale(1) brightness(0);
+				opacity: 0.15;
+				transform: translate(-53%, -55%);
+			}
+		}
+	}
 	.example {
 		display: flex;
 		margin-top: 2rem;
@@ -487,19 +431,6 @@ export default {
 			position: relative;
 			.illustration {
 				width: 33%;
-				position: relative;
-				img {
-					width: 100%;
-					display: block;
-					&.shadow {
-						position: absolute;
-						top: 50%;
-						left: 50%;
-						filter: grayscale(1) brightness(0);
-						opacity: 0.15;
-						transform: translate(-53%, -55%);
-					}
-				}
 			}
 			.text {
 				width: 66%;
@@ -564,39 +495,13 @@ export default {
 					max-width: 70%;
 				}
 				&.block__1 {
-					.cards {
-						margin-top:4rem;
-						display: flex;
-						flex-wrap: nowrap;
-						.card {
-							&:not(:last-child) {
-								padding-right: 2rem;
-							}
-						}
+					.items {
 						.cardComp {
 							--cardBoxShadowOpacity: 0.1;
 							background-color: var(--lightGrey);
 							p {
 								max-width: none;
 							}
-						}
-					}
-					.cardsSliderIndicator {
-						width: var(--cardWidth);
-						height: 1px;
-						background-color: var(--mediumGrey);
-						margin-top: 3rem;
-						position: relative;
-						overflow: hidden;
-						&:after {
-							content: '';
-							position: absolute;
-							--cardsIndicatorWidth: 33%;
-							width: var(--cardsIndicatorWidth);
-							left: calc(var(--cardsPercentage) * 2/3);
-							top: 0;
-							height: 1px;
-							background-color: var(--currentColor);
 						}
 					}
 				}

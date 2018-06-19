@@ -116,7 +116,9 @@
                                     "Prendre des cours particuliers en SVT tous les lundis soirs",
                                     "Planifier des séances de révisions avec ses amis pour l’Histoire-Géo",
                                     "Décider de lire le contenu de chaque cours d’histoire la veille de la classe pour se pré-familiariser avec son contenu et mieux le retenir."
-                                ]
+                                ],
+                                "Input text": "Définir vos méthodes",
+                                "Input Store identifier": "methods"
                             },
                             {
                                 "Title": "Évaluer et maintenir les objectifs",
@@ -128,7 +130,14 @@
                                 ]
                             }
                         ]
-                    }
+                    },
+                    "Quotes": [
+                        {
+                            "Name": "LeBron James",
+                            "Description": "Basketteur américain, élu 4 fois meilleur joueur de NBA",
+                            "Image": "/images/organize/james.png"
+                        }
+                    ]
                 }
             },
             {
