@@ -171,6 +171,7 @@ main {
 	--grey: #5d666d;
 	--lightGrey: #f6f8fa;
 	--mediumGrey: #dbdbdb;
+	--lightBlue: #e5edf4;
 
 	.intro {
 		position: absolute;

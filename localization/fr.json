@@ -86,7 +86,8 @@
                                     },
                                     {
                                         "Title": "Faire un tableau des points de progrès :",
-                                        "Text": "Lister les compétences ou les moyens requis et en déduire la marge de progression. Déterminer alors les points sur lesquels se concentrer pour mieux atteindre son objectif."
+                                        "Text": "Lister les compétences ou les moyens requis et en déduire la marge de progression. Déterminer alors les points sur lesquels se concentrer pour mieux atteindre son objectif.",
+                                        "Example": "Analyser son bulletin de notes pour voir les matières qui ont besoin d’être améliorées."
                                     },
                                     {
                                         "Title": "Planifier des sous-objectifs,",

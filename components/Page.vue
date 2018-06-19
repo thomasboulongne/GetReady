@@ -58,7 +58,7 @@
 			<div class="blocks">
 				<div class="block block__1">
 					<h3 v-html="pageContent['Main part']['Parts'][0]['Title']"></h3>
-					<p v-html="pageContent['Main part']['Parts'][0]['Text']"></p>
+					<p class="blockIntroText" v-html="pageContent['Main part']['Parts'][0]['Text']"></p>
 					<ul class="cards" v-hammer:pan.horizontal="cardsPan" ref="cards" @mousedown="cardsGrabCursor" @mouseup="cardsDefaultCursor" :style="{'cursor': cardsCursor ? '-webkit-grabbing' : '-webkit-grab'}">
 						<li class="card" v-for="card in $t('cards')" :key="card.title">
 							<card-comp :card="card"></card-comp>
@@ -68,11 +68,50 @@
 				</div>
 				<div class="block block__2">
 					<h3 v-html="pageContent['Main part']['Parts'][1]['Title']"></h3>
-					<ol>
-						<li v-for="(step, i) in pageContent['Main part']['Parts'][1]['Steps']" :key="i">
-							{{ step.Title }}
+					<ol class="blockSteps">
+						<li class="blockStep" v-for="(step, i) in pageContent['Main part']['Parts'][1]['Steps']" :key="i" :data-count="i + 1 < 10 ? '0' + (i + 1) : i + 1">
+							<div class="stepContent">
+								<div class="title" v-html="step.Title"></div>
+								<div class="text" v-html="step.Text"></div>
+								<div class="example" v-if="step.Example">
+									<span class="label" v-t="'Example'"></span>
+									<div class="simple">
+										<div class="sentence">
+											<span v-html="step.Example"></span>
+										</div>
+									</div>
+								</div>
+								<div class="example" v-if="step.ExampleSteps">
+									<span class="label" v-t="'Example'"></span>
+									<div class="multiple">
+										<ol>
+											<li v-for="(exampleStep, j) in step.ExampleSteps" :key="j" :data-count="j + 1">
+												<div class="sentence">
+													<span v-html="exampleStep"></span>
+												</div>
+											</li>
+										</ol>
+									</div>
+								</div>
+							</div>
 						</li>
 					</ol>
+				</div>
+				<div class="block block__3">
+					<h3 v-html="pageContent['Main part']['Parts'][2]['Title']"></h3>
+					<p class="blockIntroText" v-html="pageContent['Main part']['Parts'][2]['Text']"></p>
+					<div class="example">
+						<span class="label" v-t="'Example'"></span>
+						<div class="multiple">
+							<ol>
+								<li v-for="(exampleStep, j) in pageContent['Main part']['Parts'][2]['ExampleSteps']" :key="j" :data-count="j + 1">
+									<div class="sentence">
+										<span v-html="exampleStep"></span>
+									</div>
+								</li>
+							</ol>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -123,7 +162,7 @@ export default {
 				currentCardsX: newX
 			});
 			if (event.isFinal) {
-				newX = computedX + event.velocityX * 100;
+				newX = computedX + event.velocityX * 50;
 				let backX = null;
 				if (newX > 0) {
 					backX = 0;
@@ -133,24 +172,24 @@ export default {
 				const tl = new TimelineMax({ paused: true });
 
 				tl
-				.to(this.$refs.cards, backX === null ? 0.5 : 0.2, {
-					x: newX,
-					ease: backX === null ? Power2.easeOut : Power0.easeNone
+				.to(this.$refs.cards, backX === null ? 0.5 : 0.1, {
+					x: newX
 				})
-				.to(this, backX === null ? 0.5 : 0.2, {
+				.to(this, backX === null ? 0.5 : 0.1, {
 					currentCardsX: newX
 				}, 0);
 
 				if (backX !== null) {
+					const backDuration = 0.9;
 					tl
-					.to(this.$refs.cards, 0.3, {
+					.to(this.$refs.cards, backDuration, {
 						x: backX,
-						ease: Elastic.easeOut.config(0.8, 1)
+						ease: Power4.easeOut
 					})
-					.to(this, 0.3, {
+					.to(this, backDuration, {
 						currentCardsX: backX,
-						ease: Elastic.easeOut.config(0.8, 1)
-					}, '-=0.3');
+						ease: Power4.easeOut
+					}, '-=' + backDuration);
 				}
 				tl.play();
 				this.cardsX = backX === null ? newX : backX;
@@ -189,6 +228,11 @@ export default {
 	h4 {
 		color: var(--currentColor);
 	}
+	ol {
+		list-style-type: none;
+		margin: 0;
+		padding: 0;
+	}
 	&:before {
 		content: '';
 		position: absolute;
@@ -206,6 +250,99 @@ export default {
 		max-width: 30rem;
 		font-weight: normal;
 	}
+
+	.example {
+		display: flex;
+		margin-top: 2rem;
+		.label {
+			font-size: 0.72rem;
+			text-transform: uppercase;
+			font-weight: normal;
+			line-height: 2.5;
+			color: var(--mediumGrey);
+			vertical-align: baseline;
+			margin-right: 2rem;
+		}
+		.simple, li {
+			font-size: 0.9rem;
+			font-style: italic;
+			max-width: 70%;
+			display: flex;
+			.sentence {
+				vertical-align: top;
+				position: relative;
+				display: inline;
+				span {
+					position: relative;
+				}
+			}
+		}
+		.simple, .multiple li:first-child {
+			.sentence {
+				span {
+					// border-bottom: 0.5em solid  var(--lightBlue);
+					display: inline;
+					// &:before {
+					// 	content: '';
+					// 	display: block;
+					// }
+				}
+			}
+		}
+		.multiple {
+			li {
+				--opacity: 0.4;
+				&:before {
+					flex-shrink: 0;
+					content: attr(data-count);
+					border: solid var(--currentColor) 1px;
+					--circleSize: 1.7em;
+					height: var(--circleSize);
+					width: var(--circleSize);
+					display: inline-block;
+					border-radius: var(--circleSize);
+					text-align: center;
+					font-style: normal;
+					font-weight: bold;
+					color: var(--currentColor);
+					line-height: calc(var(--circleSize));
+					font-size: 0.66rem;
+					margin-right: 1rem;
+					background: white;
+					position: relative;
+					z-index: 1;
+				}
+				opacity: var(--opacity);
+				&:first-child {
+					opacity: 1;
+					&:before {
+						border: solid var(--currentColor) 1px;
+						background-color: var(--currentColor);
+						color: white;
+					}
+					&:after {
+						opacity: var(--opacity);
+					}
+				}
+				&:not(:last-child) {
+					margin-bottom: 0.7rem;
+					position: relative;
+					&:after {
+						content: '';
+						z-index: 0;
+						width: 1px;
+						height: calc(100% - 0.5em);
+						background-color: var(--currentColor);
+						display: block;
+						position: absolute;
+						left: 0.67em;
+						top: 1.3em;
+					}
+				}
+			}
+		}
+	}
+
 	.pageIntro {
 		margin: 0 var(--spacingHorizontalLarge);
 		.definition {
@@ -379,10 +516,10 @@ export default {
 			.block {
 				width: 66%;
 				margin-bottom: 4rem;
+				.blockIntroText {
+					max-width: 70%;
+				}
 				&.block__1 {
-					p {
-						max-width: 70%;
-					}
 					.cards {
 						margin-top:4rem;
 						display: flex;
@@ -420,8 +557,32 @@ export default {
 					}
 				}
 				&.block__2 {
-					ol {
-						list-style-type: decimal-leading-zero;
+					.blockSteps {
+						.blockStep {
+							display: flex;
+							&:not(:last-child) {
+								margin-bottom: 3rem;
+							}
+							&:before {
+								content: attr(data-count);
+								display: inline-block;
+								color: var(--currentColor);
+								font-family: 'Antonio';
+								font-weight: bold;
+								font-size: 1.2rem;
+							}
+							.stepContent {
+								margin-left: 2rem;
+								line-height: 1.8;
+								.title {
+									font-weight: bold;
+									max-width: 66%;
+								}
+								.text {
+									max-width: 66%;
+								}
+							}
+						}
 					}
 				}
 			}
