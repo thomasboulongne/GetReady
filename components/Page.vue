@@ -38,7 +38,7 @@
 				</div>
 				<div class="text">
 					<svg width="40" height="32" viewBox="0 0 40 32">
-						<g fill="#FF7056" fill-rule="nonzero" stroke="#FF7056">
+						<g fill="#FF7056" fill-rule="nonzero">
 							<path d="M27.895 17.404c.854.255 1.709.384 2.54.384a7.752 7.752 0 0 0 3.186-.676c-.801 3.035-2.725 8.272-6.557 8.862a.922.922 0 0 0-.742.678l-.838 3.1a.97.97 0 0 0 .116.771c.145.228.377.38.637.417.283.04.571.06.857.06 4.6 0 9.154-4.97 11.077-12.087 1.128-4.175 1.459-10.452-1.32-14.403C35.294 2.3 33.025 1.12 30.105 1h-.035c-3.603 0-6.797 2.512-7.77 6.108a8.561 8.561 0 0 0 .74 6.35 8.145 8.145 0 0 0 4.854 3.946zM2.042 13.457a8.144 8.144 0 0 0 4.853 3.947c.854.255 1.709.384 2.54.384a7.754 7.754 0 0 0 3.186-.675c-.8 3.034-2.724 8.271-6.557 8.86a.922.922 0 0 0-.742.679l-.838 3.1a.97.97 0 0 0 .116.771c.144.228.376.38.637.417.282.04.57.06.857.06 4.6 0 9.154-4.97 11.077-12.087 1.128-4.175 1.459-10.452-1.32-14.403C14.294 2.3 12.025 1.118 9.105 1H9.07C5.468 1 2.273 3.512 1.301 7.108a8.566 8.566 0 0 0 .74 6.35z"/>
 						</g>
 					</svg>
@@ -59,7 +59,7 @@
 				<div class="block block__1">
 					<h3 v-html="pageContent['Main part']['Parts'][0]['Title']"></h3>
 					<p class="blockIntroText" v-html="pageContent['Main part']['Parts'][0]['Text']"></p>
-					<slider-comp :items="$t('cards')"></slider-comp>
+					<slider-comp :items="Object.values($t('cards'))" :componentType="'CardComp'"></slider-comp>
 				</div>
 				<div class="block block__2">
 					<h3 v-html="pageContent['Main part']['Parts'][1]['Title']"></h3>
@@ -139,6 +139,7 @@
 
 <script>
 import TextInputComp from '~/components/TextInput';
+import SliderComp from '~/components/Slider';
 export default {
 	computed: {
 		page: function() {
@@ -149,7 +150,8 @@ export default {
 		}
 	},
 	components: {
-		TextInputComp
+		TextInputComp,
+		SliderComp
 	}
 };
 </script>
@@ -495,6 +497,7 @@ export default {
 					max-width: 70%;
 				}
 				&.block__1 {
+					--sliderIndicatorWidth: var(--cardWidth);
 					.items {
 						.cardComp {
 							--cardBoxShadowOpacity: 0.1;

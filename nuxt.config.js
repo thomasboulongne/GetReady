@@ -59,7 +59,8 @@ module.exports = {
 		],
 		link: [
 			{ rel: 'manifest', href: '/manifest.json' },
-			{ rel: 'mask-icon', color: '#f9f4ef', href: '/safari-pinned-tab.svg' }
+			{ rel: 'mask-icon', color: '#f9f4ef', href: '/safari-pinned-tab.svg' },
+			{ rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Open+Sans:300,400,700,600,600i,300i' }
 		]
 	},
 	css: [
