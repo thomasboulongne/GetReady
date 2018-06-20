@@ -1,5 +1,6 @@
 import Vuex from 'vuex';
 import CookiesClient from 'js-cookie';
+import Vue from 'vue';
 
 const store = () => new Vuex.Store({
 	state: {
@@ -35,13 +36,7 @@ const store = () => new Vuex.Store({
 			layoutMounted: false
 		},
 		userData: {
-			goal: null,
-			subGoals: [
-				''
-			],
-			methods: [
-				''
-			]
+			goal: null
 		},
 
 		currentSlide: 0,
@@ -97,8 +92,14 @@ const store = () => new Vuex.Store({
 		LAYOUT_MOUNTED(state) {
 			state.uiData.layoutMounted = true;
 		},
-		USER_DATA_ADD_FIELD(state, key) {
-			state.userData[key].push('');
+		USER_DATA_ADD_FIELD(state, {key, value}) {
+			if (state.userData[key] !== undefined) {
+				console.log('hello', state.userData[key]);
+				state.userData[key].push(value);
+			} else {
+				Vue.set(state.userData, key, [value]);
+				console.log('adele', state.userData[key]);
+			}
 		},
 		USER_DATA_REMOVE_FIELD(state, { key, i }) {
 			state.userData[key].splice(i, 1);
@@ -165,8 +166,8 @@ const store = () => new Vuex.Store({
 		layoutMounted({ commit }) {
 			commit('LAYOUT_MOUNTED');
 		},
-		userDataAddField({ commit }, key) {
-			commit('USER_DATA_ADD_FIELD', key);
+		userDataAddField({ commit }, params) {
+			commit('USER_DATA_ADD_FIELD', params);
 		},
 		userDataRemoveField({ commit }, params) {
 			commit('USER_DATA_REMOVE_FIELD', params);

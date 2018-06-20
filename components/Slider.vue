@@ -38,9 +38,9 @@ export default {
 		}
 	},
 	mounted() {
-		// window.addEventListener('keydown', e => {
-		// 	e.key === 'ArrowLeft' ? this.prev() : e.key === 'ArrowRight' ? this.next() : '';
-		// });
+		window.addEventListener('keydown', e => {
+			e.key === 'ArrowLeft' ? this.prev() : e.key === 'ArrowRight' ? this.next() : '';
+		});
 	},
 	methods: {
 		pan(event) {

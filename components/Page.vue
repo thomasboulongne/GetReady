@@ -143,6 +143,36 @@
 				<span v-html="pageContent['Last part'].Title.split('_')[0]"></span>
 				<span v-html="pageContent['Last part'].Title.split('_')[1]"></span>
 			</h2>
+			<div class="blocks">
+				<div class="block">
+					<div class="illustration">
+						<video autoplay="true" playsinline muted loop :src="pageContent['Last part']['Blocks'][0].Animation"></video>
+					</div>
+					<div class="content">
+						<h3 v-html="pageContent['Last part']['Blocks'][0].Title"></h3>
+						<div v-html="'<p>' + pageContent['Last part']['Blocks'][0].Text.split('\n').join('</p><p>') + '</p>'"></div>
+					</div>
+				</div>
+				<div class="block">
+					<div class="illustration">
+						<video autoplay="true" playsinline muted loop :src="pageContent['Last part']['Blocks'][1].Animation"></video>
+					</div>
+					<div class="content">
+						<h3 v-html="pageContent['Last part']['Blocks'][1].Title"></h3>
+						<div v-html="'<p>' + pageContent['Last part']['Blocks'][1].Text.split('\n').join('</p><p>') + '</p>'"></div>
+						<text-input-comp :storeIdentifier="'coucou'"></text-input-comp>
+					</div>
+				</div>
+				<div class="block">
+					<div class="illustration">
+						<video autoplay="true" playsinline muted loop :src="pageContent['Last part']['Blocks'][2].Animation"></video>
+					</div>
+					<div class="content">
+						<h3 v-html="pageContent['Last part']['Blocks'][2].Title"></h3>
+						<div v-html="'<p>' + pageContent['Last part']['Blocks'][2].Text.split('\n').join('</p><p>') + '</p>'"></div>
+					</div>
+				</div>
+			</div>
 		</div>
 	</section>
 </template>
@@ -218,6 +248,10 @@ export default {
 		left: var(--spacingHorizontalLarge);
 		display: block;
 		background: #c1cbe0;
+	}
+	b {
+		font-weight: 600;
+		font-style: italic;
 	}
 	.emphasedText {
 		font-size: 1.77rem;
@@ -581,6 +615,41 @@ export default {
 	}
 	.lastPart {
 		margin-top: 6rem;
+		.blocks {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			padding: 0 var(--spacingHorizontalLarge);
+			.block {
+				width: 100%;
+				max-width: 80rem;
+				display: flex;
+				margin-top: 6rem;
+				.illustration {
+					width: 50%;
+					flex-shrink: 0;
+					display: flex;
+					video {
+						border-radius: 1rem;
+						object-fit: cover;
+						width: calc(100% - 10rem);
+					}
+				}
+				.content {
+					h3 {
+						margin-top: 0;
+						display: inline-block;
+						max-width: 50%;
+					}
+				}
+				&:nth-child(2n) {
+					.illustration {
+						order: 2;
+						justify-content: flex-end;
+					}
+				}
+			}
+		}
 	}
 }
 </style>

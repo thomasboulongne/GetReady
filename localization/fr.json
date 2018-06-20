@@ -159,7 +159,24 @@
                         }
                     ],
                     "Last part": {
-                        "Title": "Quelques conseils pour_aller plus loin"
+                        "Title": "Quelques conseils pour_aller plus loin",
+                        "Blocks": [
+                            {
+                                "Title": "Lâcher prise sur l'incontrôlable",
+                                "Animation": "/images/organize/implementation.mp4",
+                                "Text": "Écrire noir sur blanc les sources de stress liées aux objectifs puis les classer en deux catégories : celles qui dépendent de nous et celles sur lesquelles nous n’avons pas d’emprise.\n Cela permet de décider d’agir pour changer les premières et de tendre à accepter les secondes, sur lesquelles nous n’avons aucun pouvoir. "
+                            },
+                            {
+                                "Title": "S’entourer des bonnes personnes",
+                                "Animation": "/images/organize/implementation.mp4",
+                                "Text": "Proposer à un ami, un collègue, un membre de votre famille ou un professionnel de suivre sa progression, peut permettre de mieux l’évaluer et d’augmenter sa motivation."
+                            },
+                            {
+                                "Title": "Utiliser les implémentations d’intentions",
+                                "Animation": "/images/organize/implementation.mp4",
+                                "Text": "Prévoir les diverses alternatives possibles face à certaines situations permet d’augmenter les chances de faire le bon choix.\n<b>Si j’ai ... alors je sais que...</b></br><b>Si j’ai</b> le choix entre plusieurs desserts, <b>alors je</b> choisis un fruit.</br><b>Si j’ai</b> un créneau qui se libère dans la journée, <b>alors je</b> l’utiliserai pour travailler."
+                            }
+                        ]
                     }
                 }
             },
