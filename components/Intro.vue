@@ -17,7 +17,7 @@
 				</h3>
 				<ul v-hammer:pan.horizontal="panGesture" ref="cardsList">
 					<li :class="['card', (cards.length - 1 - i) === currentCardIndex ? 'selected': '']" v-for="(card, i) in cards.slice().reverse()" ref="cards" :key="card.title + (cards.length - 1 - i)">
-						<card-comp :card="card"></card-comp>
+						<card-comp :item="card"></card-comp>
 					</li>
 				</ul>
 				<div class="nav" ref="cardsNav">
