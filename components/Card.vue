@@ -46,6 +46,7 @@ export default {
 		width: 66%;
 		height: 7.5em;
 		margin: auto;
+		pointer-events: none;
 		img {
 			width: 100%;
 			height: 100%;

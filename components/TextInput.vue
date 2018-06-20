@@ -1,5 +1,5 @@
 <template>
-	<div class="textInputComp">
+	<div :class="['textInputComp', numbered ? 'numbered' : '', labeled ? 'labeled' : '']">
 		<div class="opening" v-if="$slots.default !== undefined">
 			<div class="open" v-if="!open" @click="() => {this.open = true;}">
 				<svg class="editIcon icon" width="14" height="14" viewBox="0 0 14 14">
@@ -18,8 +18,8 @@
 			</div>
 		</div>
 		<div class="inputs" v-if="open || $slots.default === undefined">
-			<div class="example">
-				<span class="label" v-t="'Example'"></span>
+			<div :class="[example ? 'example' : '', 'inputsWrapper']">
+				<span class="label" v-if="labeled" v-t="'Example'"></span>
 				<div class="multiple">
 					<ol>
 						<li v-for="(field, i) in fields" :key="i" :data-count="i + 1">
@@ -38,6 +38,14 @@
 						<li :data-count="fields.length + 1">
 							<div class="sentence">
 								<input @input="addNewField()" type="text" :class="'last'">
+								<svg width="36" height="36" viewBox="0 -1 36 36" @click="removeField(i)">
+									<g fill="none" fill-rule="evenodd">
+										<text fill="#797979" font-family="Open Sans" font-size="18" font-weight="600" letter-spacing="1.523">
+											<tspan x="6" y="32">+</tspan>
+										</text>
+										<circle cx="17" cy="17" r="17" stroke="#797979"/>
+									</g>
+								</svg>
 							</div>
 						</li>
 					</ol>
@@ -51,6 +59,15 @@ export default {
 	props: {
 		storeIdentifier: {
 			default: ''
+		},
+		numbered: {
+			default: true
+		},
+		labeled: {
+			default: true
+		},
+		example: {
+			default: true
 		}
 	},
 	data() {
@@ -128,7 +145,9 @@ export default {
 		}
 	}
 	.inputs {
-		.example {
+		.inputsWrapper {
+			display: flex;
+			margin-top: 2rem;
 			.label {
 				opacity: 0;
 			}
@@ -163,6 +182,10 @@ export default {
 								opacity: 0;
 								pointer-events: none;
 							}
+						}
+						&:not(:last-child) {
+							padding-bottom: 0.7rem;
+							position: relative;
 						}
 					}
 				}

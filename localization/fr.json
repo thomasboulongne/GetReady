@@ -169,12 +169,18 @@
                             {
                                 "Title": "S’entourer des bonnes personnes",
                                 "Animation": "/images/organize/implementation.mp4",
-                                "Text": "Proposer à un ami, un collègue, un membre de votre famille ou un professionnel de suivre sa progression, peut permettre de mieux l’évaluer et d’augmenter sa motivation."
+                                "Text": "Proposer à un ami, un collègue, un membre de votre famille ou un professionnel de suivre sa progression, peut permettre de mieux l’évaluer et d’augmenter sa motivation.",
+                                "Input question": "À qui pensez-vous ?"
                             },
                             {
                                 "Title": "Utiliser les implémentations d’intentions",
                                 "Animation": "/images/organize/implementation.mp4",
                                 "Text": "Prévoir les diverses alternatives possibles face à certaines situations permet d’augmenter les chances de faire le bon choix.\n<b>Si j’ai ... alors je sais que...</b></br><b>Si j’ai</b> le choix entre plusieurs desserts, <b>alors je</b> choisis un fruit.</br><b>Si j’ai</b> un créneau qui se libère dans la journée, <b>alors je</b> l’utiliserai pour travailler."
+                            },
+                            {
+                                "Title": "Faire appel à un professionnel",
+                                "Animation": "/images/organize/implementation.mp4",
+                                "Text": "Si votre objectif nécessite une planification précise ou que vous avez besoin de plus de ressources pour y parvenir, vous pouvez faire appel à un préparateur mental.\nLa <a href=\"https://www.sfpsport.fr/\" target=\"_blank\" rel=\"noopener\">Société française de Psychologie du Sport</a> vous permet de contacter des membres accrédités en préparation mentale pour répondre à vos questions et partager leur expérience."
                             }
                         ]
                     }

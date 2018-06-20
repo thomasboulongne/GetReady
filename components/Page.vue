@@ -160,7 +160,8 @@
 					<div class="content">
 						<h3 v-html="pageContent['Last part']['Blocks'][1].Title"></h3>
 						<div v-html="'<p>' + pageContent['Last part']['Blocks'][1].Text.split('\n').join('</p><p>') + '</p>'"></div>
-						<text-input-comp :storeIdentifier="'coucou'"></text-input-comp>
+						<span class="inputQuestion" v-html="pageContent['Last part']['Blocks'][1]['Input question']"></span>
+						<text-input-comp :storeIdentifier="'coucou'" :example="false" :labeled="false" :numbered="false"></text-input-comp>
 					</div>
 				</div>
 				<div class="block">
@@ -172,8 +173,20 @@
 						<div v-html="'<p>' + pageContent['Last part']['Blocks'][2].Text.split('\n').join('</p><p>') + '</p>'"></div>
 					</div>
 				</div>
+				<div class="block">
+					<div class="illustration">
+						<video autoplay="true" playsinline muted loop :src="pageContent['Last part']['Blocks'][3].Animation"></video>
+					</div>
+					<div class="content">
+						<h3 v-html="pageContent['Last part']['Blocks'][3].Title"></h3>
+						<div v-html="'<p>' + pageContent['Last part']['Blocks'][3].Text.split('\n').join('</p><p>') + '</p>'"></div>
+					</div>
+				</div>
 			</div>
 		</div>
+		<footer>
+			slt c le footer
+		</footer>
 	</section>
 </template>
 
@@ -253,6 +266,11 @@ export default {
 		font-weight: 600;
 		font-style: italic;
 	}
+	a {
+		color: black;
+		font-style: italic;
+		font-weight: 600;
+	}
 	.emphasedText {
 		font-size: 1.77rem;
 		color: var(--grey);
@@ -279,6 +297,7 @@ export default {
 	.example {
 		display: flex;
 		margin-top: 2rem;
+		max-width: 80%;
 		.label {
 			font-size: 0.72rem;
 			text-transform: uppercase;
@@ -573,6 +592,7 @@ export default {
 							.stepContent {
 								margin-left: 2rem;
 								line-height: 1.8;
+								width: 100%;
 								.title {
 									font-weight: bold;
 									max-width: 66%;
@@ -647,6 +667,14 @@ export default {
 						order: 2;
 						justify-content: flex-end;
 					}
+				}
+				.inputQuestion {
+					font-size: 0.9rem;
+					font-weight: bold;
+					color: var(--grey);
+				}
+				.inputsWrapper {
+					margin-top: 1rem;
 				}
 			}
 		}
