@@ -1,8 +1,8 @@
 <template>
 	<div class="celebrityComp">
 		<div class="illustration withShadow">
-			<img :src="item.Image" alt="" class="shadow">
-			<img :src="item.Image" alt="">
+			<img :src="PATH + item.Image" alt="" class="shadow">
+			<img :src="PATH + item.Image" alt="">
 		</div>
 		<div class="content">
 			<h3>{{ item.Name }}</h3>
@@ -20,6 +20,11 @@ export default {
 				return {};
 			}
 		}
+	},
+	data() {
+		return {
+			PATH: process.env.PATH
+		};
 	}
 };
 </script>

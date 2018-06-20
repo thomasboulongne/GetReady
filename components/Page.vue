@@ -9,7 +9,7 @@
 			<div class="blocks">
 				<div class="block">
 					<div class="illustration">
-						<img :src="pageContent['Goal types']['Main goal illustration']" alt="">
+						<img :src="PATH + pageContent['Goal types']['Main goal illustration']" alt="">
 					</div>
 					<div class="title">
 						<span>{{ pageContent['Goal types']['Main goal'].split('_')[0] }}</span>
@@ -19,7 +19,7 @@
 				</div>
 				<div class="block">
 					<div class="illustration">
-						<img :src="pageContent['Goal types']['Sub goals illustration']" alt="">
+						<img :src="PATH + pageContent['Goal types']['Sub goals illustration']" alt="">
 					</div>
 					<div class="title">
 						<span>{{ pageContent['Goal types']['Sub goals'].split('_')[0] }}</span>
@@ -33,8 +33,8 @@
 			<div class="coloredBackground"></div>
 			<div class="content">
 				<div class="illustration withShadow">
-					<img class="shadow" :src="pageContent['Main quote']['Image']" alt="">
-					<img :src="pageContent['Main quote']['Image']" alt="">
+					<img class="shadow" :src="PATH + pageContent['Main quote']['Image']" alt="">
+					<img :src="PATH + pageContent['Main quote']['Image']" alt="">
 				</div>
 				<div class="text">
 					<svg width="40" height="32" viewBox="0 0 40 32">
@@ -151,6 +151,11 @@
 import TextInputComp from '~/components/TextInput';
 import SliderComp from '~/components/Slider';
 export default {
+	data() {
+		return {
+			PATH: process.env.PATH
+		};
+	},
 	computed: {
 		page: function() {
 			return this.$t('categories.items[0]');

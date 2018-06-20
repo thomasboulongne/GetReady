@@ -1,8 +1,8 @@
 <template>
 	<div class="cardComp">
 		<div class="illustration">
-			<img :src="item.img" alt="" class="shadow">
-			<img :src="item.img" alt="">
+			<img :src="PATH + item.img" alt="" class="shadow">
+			<img :src="PATH + item.img" alt="">
 		</div>
 		<h3>{{ item.title }}</h3>
 		<p v-html="item.text"></p>
@@ -17,6 +17,11 @@ export default {
 				return {};
 			}
 		}
+	},
+	data() {
+		return {
+			PATH: process.env.PATH
+		};
 	}
 };
 </script>

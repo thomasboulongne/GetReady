@@ -39,7 +39,6 @@ module.exports = {
 	*/
 	env: {
 		URL: config.url,
-		PATH: config.path,
 		__PROD__: process.env.NODE_ENV == 'production'
 	},
 	head: {
