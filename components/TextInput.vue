@@ -46,23 +46,16 @@ export default {
 			default: ''
 		}
 	},
-
 	data() {
 		return {
 			open: false
 		};
 	},
-
-	mounted() {
-		console.log(this.fields);
-	},
-
 	computed: {
 		fields: function() {
 			return this.$store.getters.userData(this.storeIdentifier);
 		}
 	},
-
 	methods: {
 		addNewField() {
 			this.$store.dispatch('userDataAddField', this.storeIdentifier);
@@ -74,7 +67,6 @@ export default {
 			this.$store.dispatch('userDataUpdateField', {key: this.storeIdentifier, i: i, value: this.$el.querySelectorAll('input')[i].value});
 		},
 		removeField(i) {
-			console.log(i);
 			this.$store.dispatch('userDataRemoveField', {key: this.storeIdentifier, i: i});
 		}
 	}

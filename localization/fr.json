@@ -4,6 +4,8 @@
     "next": "suivant",
     "Example": "Exemple",
     "Hide": "Masquer",
+    "Definition": "Définition",
+    "These celebrities approve": "Des personnalités_approuvent",
     "intro": {
         "step1": {
             "sentences": {
@@ -51,7 +53,6 @@
                     "y": 0
                 },
                 "page": {
-                    "Definition": "Définition",
                     "Definition text": "Un objectif est un résultat spécifique que l'on décide d'atteindre dans un temps donné.",
                     "Goal types": {
                         "Intro text": "La réalisation d'un objectif complexe, ou à long terme, peut nécessiter la mise en place d'étapes, ou objectifs intermédiaires. On évoque par exemple :",
@@ -60,7 +61,7 @@
                         "Main goal illustration": "/images/organize/trophy.png",
                         "Sub goals": "Les sous_objectifs",
                         "Sub goals text": "Ce sont les étapes ou les moyens mis en oeuvre pour atteindre son objectif principal. Ils permettent de progresser efficacement tout en renforçant sa motivation à chaque réussite.",
-                        "Sub goals illustration": "/images/organize/trophy.png"
+                        "Sub goals illustration": "/images/organize/steps.png"
                     },
                     "Main quote": {
                         "Athlete": "Usain Bolt",
@@ -135,9 +136,31 @@
                         {
                             "Name": "LeBron James",
                             "Description": "Basketteur américain, élu 4 fois meilleur joueur de NBA",
+                            "Text": "« J’ai des objectifs courts - m'améliorer chaque jour, aider mes coéquipiers tous les jours - mais mon but ultime est de gagner un championnat NBA. C'est tout ce qui compte. J'en rêve tout le temps, à quoi cela ressemblerait, comment je me sentirai. Ce serait tellement incroyable. »",
+                            "Image": "/images/organize/james.png"
+                        },
+                        {
+                            "Name": "LeBron James",
+                            "Description": "Basketteur américain, élu 4 fois meilleur joueur de NBA",
+                            "Text": "« J’ai des objectifs courts - m'améliorer chaque jour, aider mes coéquipiers tous les jours - mais mon but ultime est de gagner un championnat NBA. C'est tout ce qui compte. J'en rêve tout le temps, à quoi cela ressemblerait, comment je me sentirai. Ce serait tellement incroyable. »",
+                            "Image": "/images/organize/james.png"
+                        },
+                        {
+                            "Name": "LeBron James",
+                            "Description": "Basketteur américain, élu 4 fois meilleur joueur de NBA",
+                            "Text": "« J’ai des objectifs courts - m'améliorer chaque jour, aider mes coéquipiers tous les jours - mais mon but ultime est de gagner un championnat NBA. C'est tout ce qui compte. J'en rêve tout le temps, à quoi cela ressemblerait, comment je me sentirai. Ce serait tellement incroyable. »",
+                            "Image": "/images/organize/james.png"
+                        },
+                        {
+                            "Name": "LeBron James",
+                            "Description": "Basketteur américain, élu 4 fois meilleur joueur de NBA",
+                            "Text": "« J’ai des objectifs courts - m'améliorer chaque jour, aider mes coéquipiers tous les jours - mais mon but ultime est de gagner un championnat NBA. C'est tout ce qui compte. J'en rêve tout le temps, à quoi cela ressemblerait, comment je me sentirai. Ce serait tellement incroyable. »",
                             "Image": "/images/organize/james.png"
                         }
-                    ]
+                    ],
+                    "Last part": {
+                        "Title": "Quelques conseils pour_aller plus loin"
+                    }
                 }
             },
             {

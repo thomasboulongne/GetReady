@@ -10,7 +10,7 @@
 </template>
 <script>
 import CardComp from '~/components/Card';
-
+import CelebrityComp from '~/components/Celebrity';
 export default {
 	props: {
 		items: {
@@ -32,15 +32,20 @@ export default {
 	},
 	watch: {
 		'currentX': function(x) {
-			const itemWidth = this.$refs.items.querySelector('.item').getBoundingClientRect().width;
+			const itemWidth = this.$el.querySelector('.item').getBoundingClientRect().width;
 			const fullWidth = (itemWidth * this.items.length) - itemWidth;
 			this.sliderPercentage = (x * 100 / fullWidth).toFixed(2) * -1;
 		}
 	},
+	mounted() {
+		// window.addEventListener('keydown', e => {
+		// 	e.key === 'ArrowLeft' ? this.prev() : e.key === 'ArrowRight' ? this.next() : '';
+		// });
+	},
 	methods: {
 		pan(event) {
 			const computedX = this.x + event.deltaX;
-			const itemWidth = this.$refs.items.querySelector('.item').getBoundingClientRect().width;
+			const itemWidth = this.$el.querySelector('.item').getBoundingClientRect().width;
 			const fullWidth = (itemWidth * this.items.length) - itemWidth;
 			let newX = computedX;
 			TweenMax.set(this.$refs.items, {
@@ -88,10 +93,48 @@ export default {
 		},
 		defaultCursor() {
 			this.cursor = false;
+		},
+		next() {
+			const itemWidth = this.$el.querySelector('.item').getBoundingClientRect().width;
+			const computedX = this.x - itemWidth;
+			const fullWidth = (itemWidth * this.items.length) - itemWidth;
+			if (computedX >= fullWidth * -1) {
+				const tl = new TimelineMax({ paused: true });
+				tl
+				.to(this.$refs.items, 0.5, {
+					x: computedX,
+					ease: Power4.easeOut
+				})
+				.to(this, 0.5, {
+					currentX: computedX,
+					ease: Power4.easeOut
+				}, 0);
+				tl.play();
+				this.x = computedX;
+			}
+		},
+		prev() {
+			const itemWidth = this.$el.querySelector('.item').getBoundingClientRect().width;
+			const computedX = this.x + itemWidth;
+			if (computedX <= 0) {
+				const tl = new TimelineMax({ paused: true });
+				tl
+				.to(this.$refs.items, 0.5, {
+					x: computedX,
+					ease: Power4.easeOut
+				})
+				.to(this, 0.5, {
+					currentX: computedX,
+					ease: Power4.easeOut
+				}, 0);
+				tl.play();
+				this.x = computedX;
+			}
 		}
 	},
 	components: {
-		CardComp
+		CardComp,
+		CelebrityComp
 	}
 };
 </script>
@@ -108,6 +151,9 @@ export default {
 			&:not(:last-child) {
 				padding-right: 2rem;
 			}
+			img {
+				user-select: none;
+			}
 		}
 	}
 	.sliderIndicator {
@@ -122,7 +168,7 @@ export default {
 			content: '';
 			position: absolute;
 			--selectionWidth: 33%;
-			width: var(--selectionWidth);
+			width: calc(var(--selectionWidth) + 1px);
 			left: calc(var(--percentage) * 2/3);
 			top: 0;
 			height: 100%;

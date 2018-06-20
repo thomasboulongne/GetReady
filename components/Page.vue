@@ -30,7 +30,7 @@
 			</div>
 		</div>
 		<div class="mainQuote">
-			<div class="background"></div>
+			<div class="coloredBackground"></div>
 			<div class="content">
 				<div class="illustration withShadow">
 					<img class="shadow" :src="pageContent['Main quote']['Image']" alt="">
@@ -129,10 +129,20 @@
 			</div>
 		</div>
 		<div class="quotes">
-			<div class="background"></div>
+			<div class="coloredBackground"></div>
 			<div class="content">
-				
+				<h2>
+					<span v-html="$t('These celebrities approve').split('_')[0]"></span>
+					<span v-html="$t('These celebrities approve').split('_')[1]"></span>
+				</h2>
+				<slider-comp :items="pageContent['Quotes']" :componentType="'CelebrityComp'"></slider-comp>
 			</div>
+		</div>
+		<div class="lastPart">
+			<h2>
+				<span v-html="pageContent['Last part'].Title.split('_')[0]"></span>
+				<span v-html="pageContent['Last part'].Title.split('_')[1]"></span>
+			</h2>
 		</div>
 	</section>
 </template>
@@ -170,6 +180,16 @@ export default {
 		text-transform: uppercase;
 		color: var(--grey);
 		font-weight: bold;
+		display: block;
+		margin-left: var(--spacingHorizontal);
+		font-size: 2.6rem;
+		span {
+			display: block;
+			&:last-child {
+				font-size: 1.7em;
+				line-height: 1.1;
+			}
+		}
 	}
 	h3 {
 		font-size: 2.05rem;
@@ -206,6 +226,7 @@ export default {
 		img {
 			width: 100%;
 			display: block;
+			position: relative;
 			&.shadow {
 				position: absolute;
 				top: 50%;
@@ -308,7 +329,15 @@ export default {
 			}
 		}
 	}
-
+	.coloredBackground {
+		background-color: var(--lightGrey);
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		clip-path: polygon(0 15%, 100% 0%, 100% 100%, 0% 100%);
+	}
 	.detailsWrapper {
 		display: flex;
 		font-size: 1.16rem;
@@ -332,17 +361,16 @@ export default {
 			}
 		}
 	}
-
 	.pageIntro {
 		margin: 0 var(--spacingHorizontalLarge);
-		.definition {
-		}
 		p {
 			max-width: 30rem;
 		}
 		.blocks {
 			display: flex;
 			width: 100%;
+			max-width: 70rem;
+			margin: auto;
 			justify-content: space-between;
 			margin-top: 12rem;
 			.block {
@@ -371,7 +399,7 @@ export default {
 				}
 				.illustration {
 					position: absolute;
-					width: 33%;
+					width: 25%;
 					top: 0;
 					right: 10%;
 					transform: translateY(-50%);
@@ -379,7 +407,7 @@ export default {
 						width: 100%;
 					}
 				}
-				&:nth-child(1){
+				&:nth-child(1) {
 					.illustration:after {
 						content: '';
 						position: absolute;
@@ -395,6 +423,7 @@ export default {
 				&:nth-child(2){
 					transform: translateY(-5rem);
 					.illustration {
+						width: 36%;
 						perspective: 100rem;
 						perspective-origin: bottom right;
 						&:after {
@@ -419,15 +448,6 @@ export default {
 		margin-bottom: 2rem;
 		padding: 6.5rem 0 0 0;
 		position: relative;
-		.background {
-			background-color: var(--lightGrey);
-			position: absolute;
-			top: 0;
-			right: 0;
-			bottom: 0;
-			left: 0;
-			clip-path: polygon(0 15%, 100% 0%, 100% 93%, 0% 100%);
-		}
 		.content {
 			display: flex;
 			position: relative;
@@ -473,18 +493,6 @@ export default {
 		overflow: hidden;
 		margin-top: 6rem;
 		padding-bottom: 3rem;
-		h2 {
-			display: block;
-			margin-left: var(--spacingHorizontal);
-			font-size: 2.6rem;
-			span {
-				display: block;
-				&:last-child {
-					font-size: 1.7em;
-					line-height: 1.1;
-				}
-			}
-		}
 		.blocks {
 			margin-top: 5rem;
 			display: flex;
@@ -539,6 +547,35 @@ export default {
 				}
 			}
 		}
+	}
+	.quotes {
+		position: relative;
+		padding-bottom: 8rem;
+		h2 {
+			position: relative;
+			z-index: 1;
+			margin-bottom: 0;
+		}
+		.coloredBackground {
+			top: 1.9rem;
+			clip-path: polygon(0 0%, 100% 0%, 100% 85%, 0% 100%);
+		}
+		.slider {
+			overflow: hidden;
+			.items {
+				margin-top: 1rem;
+				--celebrityWidth: 39rem;
+				position: relative;
+				left: calc(50% - var(--celebrityWidth) / 2);
+			}
+			.sliderIndicator {
+				margin-left: var(--spacingHorizontal);
+				width: 25%;
+			}
+		}
+	}
+	.lastPart {
+		margin-top: 6rem;
 	}
 }
 </style>

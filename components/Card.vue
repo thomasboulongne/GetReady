@@ -21,7 +21,6 @@ export default {
 };
 </script>
 
-
 <style lang="scss">
 .cardComp {
 	width: var(--cardWidth);

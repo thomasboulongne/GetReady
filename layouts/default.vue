@@ -27,7 +27,7 @@ export default {
 			menuItems: [
 				{
 					title: this.$t('Gallery'),
-					slug: ''
+					slug: '/'
 				},
 				{
 					title: this.$t('categories.items[0].title'),
@@ -123,14 +123,16 @@ export default {
 		},
 
 		updateMousePosition(e) {
-			this.mousePosition = {
-				x: e.clientX,
-				y: e.clientY
-			};
-			TweenMax.to(this.easedMousePosition, 1.5, {
-				x: e.clientX,
-				y: e.clientY
-			});
+			if (this.$store.getters.scrollPosition.y === 0 && !this.menuIsOpen) {
+				this.mousePosition = {
+					x: e.clientX,
+					y: e.clientY
+				};
+				TweenMax.to(this.easedMousePosition, 1.5, {
+					x: e.clientX,
+					y: e.clientY
+				});
+			}
 		},
 
 		addEventListeners() {
@@ -199,6 +201,7 @@ main {
 		transform: scale(1.02) translate3d(0, 0, 0);
 		&:after {
 			opacity: 0.65;
+			z-index: 1;
 		}
 		@-moz-document url-prefix() {
 			filter: none;

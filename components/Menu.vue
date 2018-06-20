@@ -3,11 +3,11 @@
 		<nav :class="['menu']">
 			<ul class="menuItems">
 				<li v-for="(item, i) in items" :key="i" class="menuItem" ref="items">
-					<div class="navTitleWrapper MTKnox">
-						<nuxt-link tag="div" :to="item.slug" v-for="(letter, j) in item.title" :key="letter + j" class="letterWrapper">
+					<nuxt-link :to="item.slug" class="navTitleWrapper MTKnox">
+						<div v-for="(letter, j) in item.title" :key="letter + j" class="letterWrapper">
 							<span class="letter">{{ letter }}</span>
-						</nuxt-link>
-					</div>
+						</div>
+					</nuxt-link>
 				</li>
 			</ul>
 		</nav>
@@ -31,6 +31,12 @@ export default {
 	computed: {
 		menuIsOpen: function() {
 			return this.$store.getters.menuIsOpen;
+		}
+	},
+
+	watch: {
+		'$route': function() {
+			this.$store.dispatch('closeMenu');
 		}
 	},
 
@@ -74,6 +80,7 @@ export default {
 					color: white;
 					cursor: pointer;
 					position: relative;
+					display: block;
 					&:after {
 						content: '';
 						transition: all 0.4s var(--ease);
