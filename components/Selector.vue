@@ -378,7 +378,7 @@ export default {
 
 <style lang="scss">
 .selector {
-	height: var(--vh);
+	height: 100vh;
 	width: var(--vw);
 	--mask: 0;
 	--pageTransitionDuration: 1s;
