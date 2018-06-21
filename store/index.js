@@ -94,11 +94,9 @@ const store = () => new Vuex.Store({
 		},
 		USER_DATA_ADD_FIELD(state, {key, value}) {
 			if (state.userData[key] !== undefined) {
-				console.log('hello', state.userData[key]);
 				state.userData[key].push(value);
 			} else {
 				Vue.set(state.userData, key, [value]);
-				console.log('adele', state.userData[key]);
 			}
 		},
 		USER_DATA_REMOVE_FIELD(state, { key, i }) {

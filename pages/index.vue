@@ -19,14 +19,13 @@ export default {
 	// 	}
 	// 	if (goal) {
 	// 		store.dispatch('setGoal', goal);
-	// 	}
-	// 	if (store.getters.goal === null) {
+	// 	} else if (store.getters.goal === null) {
 	// 		return redirect('/intro');
 	// 	}
 	// },
 	created() {
 		const goal = CookiesClient.get('reachyourgoal_goal');
-		if (goal) {
+		if (goal !== undefined) {
 			this.$store.dispatch('setGoal', goal);
 		}
 		if (this.$store.getters.goal === null) {

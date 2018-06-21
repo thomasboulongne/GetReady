@@ -161,7 +161,7 @@
 						<h3 v-html="pageContent['Last part']['Blocks'][1].Title"></h3>
 						<div v-html="'<p>' + pageContent['Last part']['Blocks'][1].Text.split('\n').join('</p><p>') + '</p>'"></div>
 						<span class="inputQuestion" v-html="pageContent['Last part']['Blocks'][1]['Input question']"></span>
-						<text-input-comp :storeIdentifier="'coucou'" :example="false" :labeled="false" :numbered="false"></text-input-comp>
+						<text-input-comp :storeIdentifier="pageContent['Last part']['Blocks'][1]['Input store identifier']" :example="false" :labeled="false" :numbered="false"></text-input-comp>
 					</div>
 				</div>
 				<div class="block">
@@ -171,6 +171,7 @@
 					<div class="content">
 						<h3 v-html="pageContent['Last part']['Blocks'][2].Title"></h3>
 						<div v-html="'<p>' + pageContent['Last part']['Blocks'][2].Text.split('\n').join('</p><p>') + '</p>'"></div>
+						<double-text-input-comp :storeIdentifier="pageContent['Last part']['Blocks'][2]['Input store identifier']" :prefix="pageContent['Last part']['Blocks'][2]['Input prefix']" :conjunction="pageContent['Last part']['Blocks'][2]['Input conjunction']"></double-text-input-comp>
 					</div>
 				</div>
 				<div class="block">
@@ -192,6 +193,7 @@
 
 <script>
 import TextInputComp from '~/components/TextInput';
+import DoubleTextInputComp from '~/components/DoubleTextInput';
 import SliderComp from '~/components/Slider';
 export default {
 	data() {
@@ -209,6 +211,7 @@ export default {
 	},
 	components: {
 		TextInputComp,
+		DoubleTextInputComp,
 		SliderComp
 	}
 };
