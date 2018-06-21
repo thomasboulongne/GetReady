@@ -94,16 +94,17 @@ const store = () => new Vuex.Store({
 		},
 		USER_DATA_ADD_FIELD(state, {key, value}) {
 			if (state.userData[key] !== undefined) {
-				state.userData[key].push(value);
+				Vue.set(state.userData[key], state.userData[key].length, value);
 			} else {
-				Vue.set(state.userData, key, [value]);
+				Vue.set(state.userData, key, []);
+				Vue.set(state.userData[key], 0, value);
 			}
 		},
 		USER_DATA_REMOVE_FIELD(state, { key, i }) {
 			state.userData[key].splice(i, 1);
 		},
 		USER_DATA_UPDATE_FIELD(state, { key, i, value }) {
-			state.userData[key][i] = value;
+			Vue.set(state.userData[key], i, value);
 		}
 	},
 
@@ -199,6 +200,7 @@ const store = () => new Vuex.Store({
 		},
 		lang: state => state.uiData.lang,
 		goal: state => state.userData.goal,
+		userDataComplete: state => state.userData,
 		userData: state => key => state.userData[key],
 		currentSlide: state => state.currentSlide,
 		isLayoutMounted: state => state.uiData.layoutMounted

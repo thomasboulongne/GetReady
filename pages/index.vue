@@ -102,6 +102,17 @@ export default {
 	position: relative;
 	padding-top: 20vh;
 	padding-bottom: var(--spacingHorizontal);
+	&:before {
+		content: '';
+		position: absolute;
+		top: 0;
+		height: 17vh;
+		width: 1px;
+		left: var(--spacingHorizontalLarge);
+		display: block;
+		background: #c1cbe0;
+		background: var(--currentColor);
+	}
 	p {
 		line-height: 1.82;
 	}
@@ -132,16 +143,6 @@ export default {
 		list-style-type: none;
 		margin: 0;
 		padding: 0;
-	}
-	&:before {
-		content: '';
-		position: absolute;
-		top: 0;
-		height: 20vh;
-		width: 1px;
-		left: var(--spacingHorizontalLarge);
-		display: block;
-		background: #c1cbe0;
 	}
 	b {
 		font-weight: 600;
@@ -275,7 +276,7 @@ export default {
 		right: 0;
 		bottom: 0;
 		left: 0;
-		clip-path: polygon(0 15%, 100% 0%, 100% 100%, 0% 100%);
+		clip-path: polygon(0 10%, 100% 0%, 100% 100%, 0% 100%);
 	}
 	.detailsWrapper {
 		display: flex;

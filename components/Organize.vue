@@ -89,6 +89,7 @@
 									</div>
 								</div>
 								<text-input-comp v-if="step['Input text']" :storeIdentifier="step['Input Store identifier']">{{ step['Input text'] }}</text-input-comp>
+								<table-comp v-if="step['Column names']" :storeIdentifier="step['Input Store identifier']" :columnNames="step['Column names']" :values="step['Table values']">{{ step['Table text'] }}</table-comp>
 							</div>
 						</li>
 					</ol>
@@ -189,6 +190,7 @@
 </template>
 <script>
 import TextInputComp from '~/components/TextInput';
+import TableComp from '~/components/Table';
 import DoubleTextInputComp from '~/components/DoubleTextInput';
 import SliderComp from '~/components/Slider';
 export default {
@@ -206,6 +208,7 @@ export default {
 	},
 	components: {
 		TextInputComp,
+		TableComp,
 		DoubleTextInputComp,
 		SliderComp
 	}

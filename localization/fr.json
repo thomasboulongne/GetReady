@@ -90,7 +90,24 @@
                                     {
                                         "Title": "Faire un tableau des points de progrès :",
                                         "Text": "Lister les compétences ou les moyens requis et en déduire la marge de progression. Déterminer alors les points sur lesquels se concentrer pour mieux atteindre son objectif.",
-                                        "Example": "Analyser son bulletin de notes pour voir les matières qui ont besoin d’être améliorées."
+                                        "Example": "Analyser son bulletin de notes pour voir les matières qui ont besoin d’être améliorées.",
+                                        "Column names": [
+                                            "Compétence requise",
+                                            "Niveau idéal recherché",
+                                            "Niveau actuel",
+                                            "Différence à combler"
+                                        ],
+                                        "Table text": "Créer votre tableau",
+                                        "Table values": {
+                                            "Mathématiques": [10, 8],
+                                            "Physique-chimie": [10, 8],
+                                            "SVT": [8, 2],
+                                            "Anglais": [10, 9],
+                                            "Histoire": [10, 4],
+                                            "Français": [10, 9],
+                                            "Éducation physique": [8, 8]
+                                        },
+                                        "Input Store identifier": "Progress table"
                                     },
                                     {
                                         "Title": "Planifier des sous-objectifs,",
