@@ -5,7 +5,7 @@ html, body, #__nuxt {
 	line-height: 1.5;
 	letter-spacing: 0.05em;
 	font-size: 18px;
-	color: var(--black);
+	color: var(--black, #494949);
 }
 
 .MTKnox {

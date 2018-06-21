@@ -105,26 +105,6 @@ module.exports = {
 				'THREE': 'three'
 			})
 		],
-		postcss: {
-			plugins: {
-				'postcss-cssnext': {
-					features: {
-						customProperties: {
-							variables: {
-								spacing: '1.5rem',
-								menuTransitionSpeed: '0.2s',
-								ease: 'cubic-bezier(0.165, 0.84, 0.44, 1)',
-								darkOrange: '#f35a3e',
-								lightOrange: '#fd6246',
-								black: '#494949',
-								blue: '#4b80ff',
-								lightBlue: '#c1cbe0'
-							}
-						}
-					}
-				}
-			}
-		},
 		vendor: [
 			'gsap/TweenMax',
 			'marked',

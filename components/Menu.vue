@@ -11,11 +11,20 @@
 				</li>
 			</ul>
 		</nav>
-		<div class="burger" @click="toggleMenu">
-			<img src="~/assets/images/burger.svg" class="open" />
-			<img src="~/assets/images/close.svg" class="close" />
-			<!-- MENU -->
-		</div>
+		<header :class="showHeader ? 'show' : ''">
+			<div class="back">
+				<img src="~/assets/images/arrow.svg" />
+				<span v-t="'Back'"></span>
+			</div>
+			<div class="goalWrapper">
+				<span v-t="'Your goal'"></span>
+				<span class="goal" v-html="$store.getters.goal"></span>
+			</div>
+			<div class="burger" @click="toggleMenu">
+				<img src="~/assets/images/burger.svg" class="open" />
+				<img src="~/assets/images/close.svg" class="close" />
+			</div>
+		</header>
 	</div>
 </template>
 <script>
@@ -28,6 +37,12 @@ export default {
 		}
 	},
 
+	data() {
+		return {
+			showHeader: false
+		};
+	},
+
 	computed: {
 		menuIsOpen: function() {
 			return this.$store.getters.menuIsOpen;
@@ -37,6 +52,13 @@ export default {
 	watch: {
 		'$route': function() {
 			this.$store.dispatch('closeMenu');
+		},
+		'$store.getters.scrollPosition.y': function(y) {
+			if (this.$route.name === 'page' && y > this.$store.getters.viewportSize.height * 0.55) {
+				this.showHeader = true;
+			} else {
+				this.showHeader = false;
+			}
 		}
 	},
 
@@ -58,6 +80,80 @@ export default {
 	bottom: 0;
 	pointer-events: none;
 	z-index: 2;
+	color: white;
+	header {
+		display: flex;
+		width: 100%;
+		justify-content: space-between;
+		align-items: flex-start;
+		pointer-events: all;
+		clip-path: polygon(0% 0%, 100% 0%, 100% 80%, 0% 100%);
+		transition: background-color 0.3s;
+		.back {
+			width: 10%;
+			flex-grow: 0;
+			flex-shrink: 0;
+			margin: calc(2 / 3 * var(--spacing)) 0 var(--spacing) var(--spacing);
+			opacity: 0;
+			pointer-events: none;
+			transition: opacity 0.3s;
+			span {
+				text-transform: uppercase;
+				font-weight: 300;
+				font-size: 0.77rem;
+				letter-spacing: 1.4;
+				margin-left: 1rem;
+			}
+		}
+		.goalWrapper {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			margin: calc(var(--spacing) / 2) 0 var(--spacing);
+			flex-grow: 1;
+			opacity: 0;
+			pointer-events: none;
+			transition: opacity 0.3s;
+			span:not(.goal) {
+				text-transform: uppercase;
+				font-weight: 300;
+				font-size: 0.77rem;
+				letter-spacing: 1.4;
+			}
+			.goal {
+				font-family: 'Antonio';
+				font-size: 1.66rem;
+				font-weight: 600;
+			}
+		}
+		.burger {
+			display: flex;
+			justify-content: flex-end;
+			align-items: flex-start;
+			width: 10%;
+			flex-grow: 0;
+			flex-shrink: 0;
+			margin: calc(2 / 3 * var(--spacing)) var(--spacing) var(--spacing) 0;
+			pointer-events: all;
+			color: white;
+			cursor: pointer;
+			img {
+				width: 2rem;
+			}
+			.close {
+				display: none;
+				width: 1.5rem;
+			}
+		}
+
+		&.show {
+			background-color: var(--currentColor);
+			.goalWrapper, .back {
+				opacity: 1;
+				pointer-events: all;
+			}
+		}
+	}
 	.menu {
 		position: absolute;
 		top: 0;
@@ -110,21 +206,6 @@ export default {
 					}
 				}
 			}
-		}
-	}
-	.burger {
-		position: absolute;
-		top: var(--spacing);
-		right: var(--spacing);
-		pointer-events: all;
-		color: white;
-		cursor: pointer;
-		img {
-			width: 2rem;
-		}
-		.close {
-			display: none;
-			width: 1.5rem;
 		}
 	}
 	&.open {

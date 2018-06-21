@@ -1,7 +1,8 @@
 <template>
 	<div id="app" :style="{
 		'--vw': $store.getters.viewportSize.width + 'px',
-		'--vh': $store.getters.viewportSize.height + 'px'
+		'--vh': $store.getters.viewportSize.height + 'px',
+		'--currentColor': $store.getters.currentColor
 	}">
 		<menu-comp :items="menuItems"></menu-comp>
 		<main :class="[menuIsOpen ? 'menuOpen' : '', $route.name === 'intro' ? 'introLayout' : 'selectorLayout']">
@@ -160,7 +161,10 @@ export default {
 #app {
 	--spacingHorizontal: 7.55rem;
 	--spacingHorizontalLarge: 9.9rem;
-	--cardWidth: 17rem;
+	--spacing: 3rem;
+	--menuTransitionSpeed: 0.2s;
+	--ease: cubic-bezier(0.165, 0.84, 0.44, 1);
+	--blue: #4b80ff;
 }
 main {
 	transition: filter var(--menuTransitionSpeed), transform var(--menuTransitionSpeed);
@@ -174,6 +178,8 @@ main {
 	--lightGrey: #f6f8fa;
 	--mediumGrey: #dbdbdb;
 	--lightBlue: #e5edf4;
+	--black: #494949;
+	--cardWidth: 17rem;
 
 	.intro {
 		position: absolute;

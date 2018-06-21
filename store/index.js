@@ -33,7 +33,8 @@ const store = () => new Vuex.Store({
 			},
 			locale: 'fr',
 			menuOpen: false,
-			layoutMounted: false
+			layoutMounted: false,
+			currentColor: 'white'
 		},
 		userData: {
 			goal: null
@@ -88,6 +89,9 @@ const store = () => new Vuex.Store({
 		},
 		UPDATE_CURRENT_SLIDE(state, index) {
 			state.currentSlide = index;
+		},
+		UPDATE_CURRENT_COLOR(state, color) {
+			state.uiData.currentColor = color;
 		},
 		LAYOUT_MOUNTED(state) {
 			state.uiData.layoutMounted = true;
@@ -162,6 +166,9 @@ const store = () => new Vuex.Store({
 		updateCurrentSlide({ commit }, index) {
 			commit('UPDATE_CURRENT_SLIDE', index);
 		},
+		updateCurrentColor({ commit }, color) {
+			commit('UPDATE_CURRENT_COLOR', color);
+		},
 		layoutMounted({ commit }) {
 			commit('LAYOUT_MOUNTED');
 		},
@@ -203,6 +210,7 @@ const store = () => new Vuex.Store({
 		userDataComplete: state => state.userData,
 		userData: state => key => state.userData[key],
 		currentSlide: state => state.currentSlide,
+		currentColor: state => state.uiData.currentColor,
 		isLayoutMounted: state => state.uiData.layoutMounted
 	}
 });

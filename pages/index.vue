@@ -1,5 +1,5 @@
 <template>
-	<div v-show="isPage" :style="{ '--currentColor': page ? page.color : 'white' }">
+	<div v-show="isPage">
 		<section :class="['page', 'container']">
 			<component :is="component" :content="page.page" v-if="isPage"></component>
 		</section>
@@ -60,6 +60,7 @@ export default {
 		if (this.$store.getters.goal === null) {
 			this.$router.push('/intro');
 		}
+		this.$store.dispatch('updateCurrentColor', this.page.color);
 	},
 	data() {
 		return {
