@@ -137,6 +137,9 @@ export default {
 							padding: 0.3em 1em;
 							font-family: 'Open Sans', sans-serif;
 							vertical-align: middle;
+							&:first-of-type {
+								margin-right: 0.5em;
+							}
 						}
 						&:last-child {
 							svg {
