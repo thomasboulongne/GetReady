@@ -164,6 +164,9 @@ export default {
 		},
 		'height': function() {
 			this.onWindowResize();
+		},
+		'$route': function(to) {
+			this.initRotation(to);
 		}
 	},
 
@@ -173,6 +176,7 @@ export default {
 		this.canSlide = this.$route.name === 'index';
 		this.backgroundTransitionDuration = 0.4;
 		this.height = this.vh;
+		this.initRotation(this.$route);
 	},
 
 	beforeDestroy() {
@@ -180,6 +184,13 @@ export default {
 	},
 
 	methods: {
+		initRotation(route) {
+			if (route.name === 'page') {
+				const index = this.$t('categories.items').findIndex(i => i.slug === route.params.slug);
+				this.rotation = (this.items.length - index) * this.rotationStep;
+				this.$store.dispatch('updateCurrentSlide', index);
+			}
+		},
 		addEventListeners() {
 			window.addEventListener('keydown', this.keyboardEvent);
 		},

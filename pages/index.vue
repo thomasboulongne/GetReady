@@ -1,13 +1,42 @@
 <template>
-	<section :class="['container', 'home']">
-		<page-comp ref="page" v-if="page"></page-comp>
-	</section>
+	<div v-show="isPage" :style="{ '--currentColor': page ? page.color : 'white' }">
+		<section :class="['page', 'container']">
+			<component :is="component" :content="page.page" v-if="isPage"></component>
+		</section>
+		<footer>
+			<nav>
+				<ul>
+					<li class="menuItem">
+						<nuxt-link :to="{name:'page', params: {slug: prevPage.slug}}" class="navTitleWrapper MTKnox">
+							<div v-for="(letter, j) in prevPage.title" :key="letter + j" class="letterWrapper">
+								<span class="letter">{{ letter }}</span>
+							</div>
+						</nuxt-link>
+					</li>
+					<li class="menuItem">
+						<nuxt-link :to="{name:'index'}" class="navTitleWrapper MTKnox">
+							<div v-for="(letter, j) in $t('Back to homepage')" :key="letter + j" class="letterWrapper">
+								<span class="letter">{{ letter }}</span>
+							</div>
+						</nuxt-link>
+					</li>
+					<li class="menuItem">
+						<nuxt-link :to="{name:'page', params: {slug: nextPage.slug}}" class="navTitleWrapper MTKnox">
+							<div v-for="(letter, j) in nextPage.title" :key="letter + j" class="letterWrapper">
+								<span class="letter">{{ letter }}</span>
+							</div>
+						</nuxt-link>
+					</li>
+				</ul>
+			</nav>
+		</footer>
+	</div>
 </template>
 
 <script>
-import PageComp from '~/components/Page';
 // import CookiesServ from 'cookie';
 import CookiesClient from 'js-cookie';
+import OrganizeComp from '~/components/Organize';
 
 export default {
 	// fetch({ store, redirect, req }) {
@@ -34,19 +63,310 @@ export default {
 	},
 	data() {
 		return {
-			page: this.$route.name === 'page'
+			isPage: this.$route.name === 'page'
 		};
 	},
-
-	components: {
-		PageComp
+	computed: {
+		page: function() {
+			return this.$t('categories.items').find(cat => cat.slug === this.$route.params.slug);
+		},
+		pageIndex: function() {
+			return this.$t('categories.items').findIndex(cat => cat.slug === this.$route.params.slug);
+		},
+		prevPage: function() {
+			const index = this.pageIndex - 1 < 0 ? this.$t('categories.items').length - 1 : this.pageIndex - 1;
+			return this.$t('categories.items')[index];
+		},
+		nextPage: function() {
+			const index = this.pageIndex + 1 === this.$t('categories.items').length ? 0 : this.pageIndex + 1;
+			return this.$t('categories.items')[index];
+		},
+		component: function() {
+			switch (this.$t('categories.items').findIndex(cat => cat.slug === this.$route.params.slug)) {
+				case 0:
+					return OrganizeComp;
+			}
+		}
 	}
 };
 
 </script>
 
 <style lang="scss">
-.home {
-	width: 100%;
+.page {
+	height: auto;
+	background-color: white;
+	--topOffset: -38vh;
+	top: var(--topOffset);
+	margin-bottom: var(--topOffset);
+	position: relative;
+	padding-top: 20vh;
+	padding-bottom: var(--spacingHorizontal);
+	p {
+		line-height: 1.82;
+	}
+	h2 {
+		text-transform: uppercase;
+		color: var(--grey);
+		font-weight: bold;
+		display: block;
+		margin-left: var(--spacingHorizontal);
+		font-size: 2.6rem;
+		span {
+			display: block;
+			&:last-child {
+				font-size: 1.7em;
+				line-height: 1.1;
+			}
+		}
+	}
+	h3 {
+		font-size: 2.05rem;
+		font-weight: bold;
+		color: var(--currentColor);
+	}
+	h4 {
+		color: var(--currentColor);
+	}
+	ol, li {
+		list-style-type: none;
+		margin: 0;
+		padding: 0;
+	}
+	&:before {
+		content: '';
+		position: absolute;
+		top: 0;
+		height: 20vh;
+		width: 1px;
+		left: var(--spacingHorizontalLarge);
+		display: block;
+		background: #c1cbe0;
+	}
+	b {
+		font-weight: 600;
+		font-style: italic;
+	}
+	a {
+		color: black;
+		font-style: italic;
+		font-weight: 600;
+	}
+	.emphasedText {
+		font-size: 1.77rem;
+		color: var(--grey);
+		font-family: 'Antonio';
+		max-width: 30rem;
+		font-weight: normal;
+	}
+	.illustration.withShadow {
+		position: relative;
+		img {
+			width: 100%;
+			display: block;
+			position: relative;
+			&.shadow {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				filter: grayscale(1) brightness(0);
+				opacity: 0.08;
+				transform: translate(-60%, -55%);
+			}
+		}
+	}
+	.example {
+		display: flex;
+		margin-top: 2rem;
+		max-width: 80%;
+		.label {
+			font-size: 0.72rem;
+			text-transform: uppercase;
+			font-weight: normal;
+			line-height: 2.5;
+			color: var(--mediumGrey);
+			vertical-align: baseline;
+			margin-right: 2rem;
+		}
+		.simple, li {
+			font-style: italic;
+			width: 70%;
+			display: flex;
+			.sentence {
+				font-size: 0.9rem;
+				vertical-align: top;
+				position: relative;
+				display: inline;
+				span {
+					position: relative;
+				}
+			}
+		}
+		.simple, .multiple li:first-child {
+			.sentence {
+				span {
+					display: inline;
+					// border-bottom: 0.5em solid  var(--lightBlue);
+					// &:before {
+					// 	content: '';
+					// 	display: block;
+					// }
+				}
+			}
+		}
+		.multiple {
+			li {
+				--opacity: 1;
+				font-size: 0.66rem;
+				--circleSize: 1.9em;
+				line-height: 1.8;
+				&:before { // Number
+					flex-shrink: 0;
+					content: attr(data-count);
+					border: solid var(--currentColor) 1px;
+					height: var(--circleSize);
+					width: var(--circleSize);
+					display: inline-block;
+					border-radius: var(--circleSize);
+					text-align: center;
+					font-style: normal;
+					font-weight: bold;
+					color: var(--currentColor);
+					line-height: calc(var(--circleSize));
+					margin-right: 1rem;
+					background: white;
+					position: relative;
+					z-index: 1;
+				}
+				opacity: var(--opacity);
+				&:first-child {
+					opacity: 1;
+					&:before {
+						border: solid var(--currentColor) 1px;
+						background-color: var(--currentColor);
+						color: white;
+					}
+					&:after {
+						opacity: var(--opacity);
+					}
+				}
+				&:not(:last-child) {
+					padding-bottom: 0.7rem;
+					position: relative;
+					&:after { // Line
+						content: '';
+						z-index: 0;
+						width: 1px;
+						height: calc(100% - 0.8em);
+						background-color: var(--currentColor);
+						display: block;
+						position: absolute;
+						left: calc((var(--circleSize) / 2) + 1px);
+						top: var(--circleSize);
+					}
+				}
+			}
+		}
+	}
+	.coloredBackground {
+		background-color: var(--lightGrey);
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		clip-path: polygon(0 15%, 100% 0%, 100% 100%, 0% 100%);
+	}
+	.detailsWrapper {
+		display: flex;
+		font-size: 1.16rem;
+		margin: 3rem 0 4rem;
+		&:before {
+			content: '';
+			width: 2.5rem;
+			flex-shrink: 0;
+			height: 1px;
+			background-color: var(--currentColor);
+			margin-right: 1.5rem;
+			transform: translateY(0.7em)
+		}
+		.details {
+			li {
+				font-style: italic;
+				font-weight: bold;
+				&:not(:last-child) {
+					margin-bottom: 1.5rem;
+				}
+			}
+		}
+	}
+}
+footer {
+	padding: var(--spacingHorizontalLarge) 0;
+	background-color: var(--currentColor);
+	clip-path: polygon(0% 10%, 100% 0%, 100% 100%, 0% 100%);
+	nav {
+		--menuLetterTransitionSpeed: 0.5s;
+		ul {
+			width: 100%;
+			display: flex;
+			justify-content: space-between;
+			list-style-type: 0;
+			margin: 0;
+			padding: 0;
+			.menuItem {
+				.navTitleWrapper {
+					margin: 0.5em;
+					font-weight: bold;
+					font-size: 2rem;
+					color: white;
+					cursor: pointer;
+					position: relative;
+					display: flex;
+					&:after {
+						content: '';
+						transition: all 0.4s var(--ease);
+						position: absolute;
+						top: 110%;
+						height: 0.1em;
+						width: 0;
+						background: white;
+						left: 50%;
+						transform: translateX(-50%) rotate(-3deg);
+					}
+					.letterWrapper {
+						text-transform: uppercase;
+						display: inline-block;
+						backface-visibility: hidden;
+						transform: translateY(20%);
+					}
+					&:hover {
+						&:after {
+							width: 93%;
+							transform: translateX(-50%) rotate(-3deg);
+						}
+						.letterWrapper {
+							opacity: 1;
+						}
+					}
+				}
+				padding: 0 var(--spacingHorizontalLarge);
+				a {
+					color: white;
+					font-family: 'Antonio';
+					text-transform: uppercase;
+					font-weight: 600;
+					text-decoration: none;
+				}
+				@for $j from 1 to 30 {
+					.letterWrapper:nth-child(#{$j}) {
+						transition: transform var(--menuLetterTransitionSpeed) var(--ease) calc((#{$j} - 1) * 0.01s), opacity var(--menuLetterTransitionSpeed) var(--ease) calc((#{$j} - 1) * 0.02s);
+						opacity: 0.65;
+						transform: translateY(0);
+					}
+				}
+			}
+		}
+	}
 }
 </style>
