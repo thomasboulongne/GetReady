@@ -60,7 +60,7 @@ export default {
 		if (this.$store.getters.goal === null) {
 			this.$router.push('/intro');
 		}
-		this.$store.dispatch('updateCurrentColor', this.page.color);
+		this.$store.dispatch('updateCurrentColor', this.page ? this.page.color : '#c1cbe0');
 	},
 	data() {
 		return {
@@ -313,12 +313,15 @@ footer {
 			width: 100%;
 			display: flex;
 			justify-content: space-between;
-			list-style-type: 0;
+			list-style-type: none;
 			margin: 0;
 			padding: 0;
 			.menuItem {
+				width: 33%;
+				box-sizing: border-box;
+				display: flex;
+				justify-content: center;
 				.navTitleWrapper {
-					margin: 0.5em;
 					font-weight: bold;
 					font-size: 2rem;
 					color: white;
@@ -352,7 +355,6 @@ footer {
 						}
 					}
 				}
-				padding: 0 var(--spacingHorizontalLarge);
 				a {
 					color: white;
 					font-family: 'Antonio';

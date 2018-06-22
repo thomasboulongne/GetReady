@@ -177,7 +177,7 @@ main {
 	--grey: #5d666d;
 	--lightGrey: #f6f8fa;
 	--mediumGrey: #dbdbdb;
-	--lightBlue: #e5edf4;
+	--lightBlue: #c1cbe0;
 	--black: #494949;
 	--cardWidth: 17rem;
 
