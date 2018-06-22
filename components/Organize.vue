@@ -52,12 +52,12 @@
 		</div>
 		<main-comp :title="content['Main part']['Title']">
 			<div class="block block__1" slot="block">
-				<h3 v-html="content['Main part']['Parts'][0]['Title']"></h3>
+				<h3 v-html="content['Main part']['Parts'][0]['Title']" :shortTitle="content['Main part']['Parts'][0]['Short title']"></h3>
 				<p class="blockIntroText" v-html="content['Main part']['Parts'][0]['Text']"></p>
 				<slider-comp :items="Object.values($t('cards'))" :componentType="'CardComp'"></slider-comp>
 			</div>
 			<div class="block block__2" slot="block">
-				<h3 v-html="content['Main part']['Parts'][1]['Title']"></h3>
+				<h3 v-html="content['Main part']['Parts'][1]['Title']" :shortTitle="content['Main part']['Parts'][1]['Short title']"></h3>
 				<ol class="blockSteps">
 					<li class="blockStep" v-for="(step, i) in content['Main part']['Parts'][1]['Steps']" :key="i" :data-count="i + 1 < 10 ? '0' + (i + 1) : i + 1">
 						<div class="stepContent">
@@ -90,7 +90,7 @@
 				</ol>
 			</div>
 			<div class="block block__3" slot="block">
-				<h3 v-html="content['Main part']['Parts'][2]['Title']"></h3>
+				<h3 v-html="content['Main part']['Parts'][2]['Title']" :shortTitle="content['Main part']['Parts'][2]['Short title']"></h3>
 				<p class="blockIntroText" v-html="content['Main part']['Parts'][2]['Text']"></p>
 				<div class="detailsWrapper">
 					<ul class="details">
@@ -113,7 +113,7 @@
 				<text-input-comp v-if="content['Main part']['Parts'][2]['Input text']" :storeIdentifier="content['Main part']['Parts'][2]['Input Store identifier']">{{ content['Main part']['Parts'][2]['Input text'] }}</text-input-comp>
 			</div>
 			<div class="block block__4" slot="block">
-				<h3 v-html="content['Main part']['Parts'][3]['Title']"></h3>
+				<h3 v-html="content['Main part']['Parts'][3]['Title']" :shortTitle="content['Main part']['Parts'][3]['Short title']"></h3>
 				<p class="blockIntroText" v-html="content['Main part']['Parts'][3]['Text']"></p>
 				<div class="detailsWrapper">
 					<ul class="details">

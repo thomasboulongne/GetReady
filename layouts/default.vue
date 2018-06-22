@@ -223,24 +223,5 @@ main {
 			filter: none;
 		}
 	}
-
-	.mainPart {
-		overflow: hidden;
-		margin-top: 6rem;
-		padding-bottom: 3rem;
-		.blocks {
-			margin-top: 5rem;
-			display: flex;
-			flex-direction: column;
-			align-items: flex-end;
-			.block {
-				width: 66%;
-				margin-bottom: 4rem;
-				.blockIntroText {
-					max-width: 70%;
-				}
-			}
-		}
-	}
 }
 </style>
