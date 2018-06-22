@@ -1,9 +1,10 @@
 <template>
 	<div v-show="isPage">
 		<section :class="['page', 'container']">
-			<component :is="component" :content="page.page" v-if="isPage"></component>
+			<component :is="component" :content="page.page" v-if="isPage && page"></component>
 		</section>
 		<footer>
+			<div class="coloredBackground"></div>
 			<nav>
 				<ul>
 					<li class="menuItem">
@@ -270,15 +271,6 @@ export default {
 			}
 		}
 	}
-	.coloredBackground {
-		background-color: var(--lightGrey);
-		position: absolute;
-		top: 0;
-		right: 0;
-		bottom: 0;
-		left: 0;
-		clip-path: polygon(0 10%, 100% 0%, 100% 100%, 0% 100%);
-	}
 	.detailsWrapper {
 		display: flex;
 		font-size: 1.16rem;
@@ -305,9 +297,13 @@ export default {
 }
 footer {
 	padding: var(--spacingHorizontalLarge) 0;
-	background-color: var(--currentColor);
-	clip-path: polygon(0% 10%, 100% 0%, 100% 100%, 0% 100%);
+	position: relative;
+	.coloredBackground {
+		background-color: var(--currentColor);
+	}
 	nav {
+		position: relative;
+		z-index: 1;
 		--menuLetterTransitionSpeed: 0.5s;
 		ul {
 			width: 100%;

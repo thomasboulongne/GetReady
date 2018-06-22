@@ -50,85 +50,79 @@
 				</div>
 			</div>
 		</div>
-		<div class="mainPart">
-			<h2>
-				<span v-html="content['Main part']['Title'].split('_')[0]"></span>
-				<span v-html="content['Main part']['Title'].split('_')[1]"></span>
-			</h2>
-			<div class="blocks">
-				<div class="block block__1">
-					<h3 v-html="content['Main part']['Parts'][0]['Title']"></h3>
-					<p class="blockIntroText" v-html="content['Main part']['Parts'][0]['Text']"></p>
-					<slider-comp :items="Object.values($t('cards'))" :componentType="'CardComp'"></slider-comp>
-				</div>
-				<div class="block block__2">
-					<h3 v-html="content['Main part']['Parts'][1]['Title']"></h3>
-					<ol class="blockSteps">
-						<li class="blockStep" v-for="(step, i) in content['Main part']['Parts'][1]['Steps']" :key="i" :data-count="i + 1 < 10 ? '0' + (i + 1) : i + 1">
-							<div class="stepContent">
-								<div class="title" v-html="step.Title"></div>
-								<div class="text" v-html="step.Text"></div>
-								<div class="example" v-if="step.Example">
-									<span class="label" v-t="'Example'"></span>
-									<div class="simple">
-										<div class="sentence">
-											<span v-html="step.Example"></span>
-										</div>
-									</div>
-								</div>
-								<div class="example" v-if="step.ExampleSteps">
-									<span class="label" v-t="'Example'"></span>
-									<div class="multiple">
-										<ol>
-											<li v-for="(exampleStep, j) in step.ExampleSteps" :key="j" :data-count="j + 1">
-												<div class="sentence">
-													<span v-html="exampleStep"></span>
-												</div>
-											</li>
-										</ol>
-									</div>
-								</div>
-								<text-input-comp v-if="step['Input text']" :storeIdentifier="step['Input Store identifier']">{{ step['Input text'] }}</text-input-comp>
-								<table-comp v-if="step['Column names']" :storeIdentifier="step['Input Store identifier']" :columnNames="step['Column names']" :values="step['Table values']">{{ step['Table text'] }}</table-comp>
-							</div>
-						</li>
-					</ol>
-				</div>
-				<div class="block block__3">
-					<h3 v-html="content['Main part']['Parts'][2]['Title']"></h3>
-					<p class="blockIntroText" v-html="content['Main part']['Parts'][2]['Text']"></p>
-					<div class="detailsWrapper">
-						<ul class="details">
-							<li v-for="(detail, j) in content['Main part']['Parts'][2]['Details']" :key="j" v-html="detail">
-							</li>
-						</ul>
-					</div>
-					<div class="example">
-						<span class="label" v-t="'Example'"></span>
-						<div class="multiple">
-							<ol>
-								<li v-for="(exampleStep, j) in content['Main part']['Parts'][2]['ExampleSteps']" :key="j" :data-count="j + 1">
+		<main-comp :title="content['Main part']['Title']">
+			<div class="block block__1" slot="block">
+				<h3 v-html="content['Main part']['Parts'][0]['Title']"></h3>
+				<p class="blockIntroText" v-html="content['Main part']['Parts'][0]['Text']"></p>
+				<slider-comp :items="Object.values($t('cards'))" :componentType="'CardComp'"></slider-comp>
+			</div>
+			<div class="block block__2" slot="block">
+				<h3 v-html="content['Main part']['Parts'][1]['Title']"></h3>
+				<ol class="blockSteps">
+					<li class="blockStep" v-for="(step, i) in content['Main part']['Parts'][1]['Steps']" :key="i" :data-count="i + 1 < 10 ? '0' + (i + 1) : i + 1">
+						<div class="stepContent">
+							<div class="title" v-html="step.Title"></div>
+							<div class="text" v-html="step.Text"></div>
+							<div class="example" v-if="step.Example">
+								<span class="label" v-t="'Example'"></span>
+								<div class="simple">
 									<div class="sentence">
-										<span v-html="exampleStep"></span>
+										<span v-html="step.Example"></span>
 									</div>
-								</li>
-							</ol>
+								</div>
+							</div>
+							<div class="example" v-if="step.ExampleSteps">
+								<span class="label" v-t="'Example'"></span>
+								<div class="multiple">
+									<ol>
+										<li v-for="(exampleStep, j) in step.ExampleSteps" :key="j" :data-count="j + 1">
+											<div class="sentence">
+												<span v-html="exampleStep"></span>
+											</div>
+										</li>
+									</ol>
+								</div>
+							</div>
+							<text-input-comp v-if="step['Input text']" :storeIdentifier="step['Input Store identifier']">{{ step['Input text'] }}</text-input-comp>
+							<table-comp v-if="step['Column names']" :storeIdentifier="step['Input Store identifier']" :columnNames="step['Column names']" :values="step['Table values']">{{ step['Table text'] }}</table-comp>
 						</div>
-					</div>
-					<text-input-comp v-if="content['Main part']['Parts'][2]['Input text']" :storeIdentifier="content['Main part']['Parts'][2]['Input Store identifier']">{{ content['Main part']['Parts'][2]['Input text'] }}</text-input-comp>
+					</li>
+				</ol>
+			</div>
+			<div class="block block__3" slot="block">
+				<h3 v-html="content['Main part']['Parts'][2]['Title']"></h3>
+				<p class="blockIntroText" v-html="content['Main part']['Parts'][2]['Text']"></p>
+				<div class="detailsWrapper">
+					<ul class="details">
+						<li v-for="(detail, j) in content['Main part']['Parts'][2]['Details']" :key="j" v-html="detail">
+						</li>
+					</ul>
 				</div>
-				<div class="block block__4">
-					<h3 v-html="content['Main part']['Parts'][3]['Title']"></h3>
-					<p class="blockIntroText" v-html="content['Main part']['Parts'][3]['Text']"></p>
-					<div class="detailsWrapper">
-						<ul class="details">
-							<li v-for="(detail, j) in content['Main part']['Parts'][3]['Details']" :key="j" v-html="detail">
+				<div class="example">
+					<span class="label" v-t="'Example'"></span>
+					<div class="multiple">
+						<ol>
+							<li v-for="(exampleStep, j) in content['Main part']['Parts'][2]['ExampleSteps']" :key="j" :data-count="j + 1">
+								<div class="sentence">
+									<span v-html="exampleStep"></span>
+								</div>
 							</li>
-						</ul>
+						</ol>
 					</div>
+				</div>
+				<text-input-comp v-if="content['Main part']['Parts'][2]['Input text']" :storeIdentifier="content['Main part']['Parts'][2]['Input Store identifier']">{{ content['Main part']['Parts'][2]['Input text'] }}</text-input-comp>
+			</div>
+			<div class="block block__4" slot="block">
+				<h3 v-html="content['Main part']['Parts'][3]['Title']"></h3>
+				<p class="blockIntroText" v-html="content['Main part']['Parts'][3]['Text']"></p>
+				<div class="detailsWrapper">
+					<ul class="details">
+						<li v-for="(detail, j) in content['Main part']['Parts'][3]['Details']" :key="j" v-html="detail">
+						</li>
+					</ul>
 				</div>
 			</div>
-		</div>
+		</main-comp>
 		<div class="quotes">
 			<div class="coloredBackground"></div>
 			<div class="content">
@@ -193,6 +187,7 @@ import TextInputComp from '~/components/TextInput';
 import TableComp from '~/components/Table';
 import DoubleTextInputComp from '~/components/DoubleTextInput';
 import SliderComp from '~/components/Slider';
+import MainComp from '~/components/Main';
 export default {
 	props: {
 		content: {
@@ -210,7 +205,8 @@ export default {
 		TextInputComp,
 		TableComp,
 		DoubleTextInputComp,
-		SliderComp
+		SliderComp,
+		MainComp
 	}
 };
 </script>
@@ -345,59 +341,43 @@ export default {
 		}
 	}
 	.mainPart {
-		overflow: hidden;
-		margin-top: 6rem;
-		padding-bottom: 3rem;
-		.blocks {
-			margin-top: 5rem;
-			display: flex;
-			flex-direction: column;
-			align-items: flex-end;
-			.block {
-				width: 66%;
-				margin-bottom: 4rem;
-				.blockIntroText {
-					max-width: 70%;
-				}
-				&.block__1 {
-					--sliderIndicatorWidth: var(--cardWidth);
-					.items {
-						.cardComp {
-							--cardBoxShadowOpacity: 0.1;
-							background-color: var(--lightGrey);
-							p {
-								max-width: none;
-							}
-						}
+		.block__1 {
+			--sliderIndicatorWidth: var(--cardWidth);
+			.items {
+				.cardComp {
+					--cardBoxShadowOpacity: 0.1;
+					background-color: var(--lightGrey);
+					p {
+						max-width: none;
 					}
 				}
-				&.block__2 {
-					.blockSteps {
-						.blockStep {
-							display: flex;
-							&:not(:last-child) {
-								margin-bottom: 3rem;
-							}
-							&:before {
-								content: attr(data-count);
-								display: inline-block;
-								color: var(--currentColor);
-								font-family: 'Antonio';
-								font-weight: bold;
-								font-size: 1.2rem;
-							}
-							.stepContent {
-								margin-left: 2rem;
-								line-height: 1.8;
-								width: 100%;
-								.title {
-									font-weight: bold;
-									max-width: 66%;
-								}
-								.text {
-									max-width: 66%;
-								}
-							}
+			}
+		}
+		.block__2 {
+			.blockSteps {
+				.blockStep {
+					display: flex;
+					&:not(:last-child) {
+						margin-bottom: 3rem;
+					}
+					&:before {
+						content: attr(data-count);
+						display: inline-block;
+						color: var(--currentColor);
+						font-family: 'Antonio';
+						font-weight: bold;
+						font-size: 1.2rem;
+					}
+					.stepContent {
+						margin-left: 2rem;
+						line-height: 1.8;
+						width: 100%;
+						.title {
+							font-weight: bold;
+							max-width: 66%;
+						}
+						.text {
+							max-width: 66%;
 						}
 					}
 				}

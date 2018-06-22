@@ -20,8 +20,10 @@
 				<span v-t="'Your goal'"></span>
 				<span class="goal" v-html="$store.getters.goal"></span>
 			</div>
-			<div class="burger" @click="toggleMenu">
-				<img src="~/assets/images/burger.svg" class="open" />
+			<div :class="['burger', blackBurger ? 'black' : '']" @click="toggleMenu">
+				<svg width="27" height="13" viewBox="0 0 27 13" class="open">
+					<path fill="none" fill-rule="evenodd" stroke="#FFF" stroke-linecap="square" d="M26.5 6.5H1.48M26.5.5H1.48M26.5 12.5h-16"/>
+				</svg>
 				<img src="~/assets/images/close.svg" class="close" />
 			</div>
 		</header>
@@ -39,7 +41,8 @@ export default {
 
 	data() {
 		return {
-			showHeader: false
+			showHeader: false,
+			blackBurger: false
 		};
 	},
 
@@ -53,9 +56,19 @@ export default {
 		'$route': function() {
 			this.$store.dispatch('closeMenu');
 		},
-		'$store.getters.scrollPosition.y': function(y) {
-			if (this.$route.name === 'page' && y > this.$store.getters.viewportSize.height * 0.55) {
-				this.showHeader = true;
+		'$store.getters.scrollPosition.y': function(y, prevY) {
+			if (this.$route.name === 'page') {
+				if (y > this.$store.getters.viewportSize.height * 0.55) {
+					this.blackBurger = true;
+					if (y < prevY) {
+						this.showHeader = true;
+					} else {
+						this.showHeader = false;
+					}
+				} else {
+					this.showHeader = false;
+					this.blackBurger = false;
+				}
 			} else {
 				this.showHeader = false;
 			}
@@ -137,12 +150,19 @@ export default {
 			pointer-events: all;
 			color: white;
 			cursor: pointer;
-			img {
+			img, svg {
 				width: 2rem;
 			}
 			.close {
 				display: none;
 				width: 1.5rem;
+			}
+			&.black {
+				svg {
+					path {
+						stroke: black;
+					}
+				}
 			}
 		}
 
@@ -151,6 +171,13 @@ export default {
 			.goalWrapper, .back {
 				opacity: 1;
 				pointer-events: all;
+			}
+			.burger.black {
+				svg {
+					path {
+						stroke: white;
+					}
+				}
 			}
 		}
 	}
