@@ -168,7 +168,6 @@ export default {
 }
 main {
 	transition: filter var(--menuTransitionSpeed), transform var(--menuTransitionSpeed);
-	transform: scale(1) translate3d(0, 0, 0);
 	backface-visibility: hidden;
 	transform-style: preserve-3d;
 	filter: blur(0.3px);
@@ -179,6 +178,7 @@ main {
 	--mediumGrey: #dbdbdb;
 	--lightBlue: #c1cbe0;
 	--black: #494949;
+	--textGrey: #a9b1b6;
 	--cardWidth: 17rem;
 
 	.coloredBackground {

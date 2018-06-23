@@ -107,6 +107,7 @@ module.exports = {
 		],
 		vendor: [
 			'gsap/TweenMax',
+			'gsap/ScrollToPlugin',
 			'marked',
 			'three',
 			'three/examples/js/renderers/CSS3DRenderer',

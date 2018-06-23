@@ -257,7 +257,7 @@ export default {
 							span {
 								text-align: left;
 								border-radius: 0.5rem 0 0 0.5rem;
-								color: #a9b1b6;
+								color: var(--textGrey);
 								font-weight: 600;
 								font-size: 0.77rem;
 								line-height: 1.9;

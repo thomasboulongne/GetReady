@@ -5,6 +5,18 @@ export default {
 			default: ''
 		}
 	},
+	data() {
+		return {
+			quickNavPosition: 'above',
+			currentBlock: 0,
+			offset: 0.4
+		};
+	},
+	computed: {
+		vh: function() {
+			return this.$store.getters.viewportSize.height;
+		}
+	},
 	render: function(createElement) {
 		const items = [];
 		this.$slots.block.forEach((slot, i) => {
@@ -13,7 +25,7 @@ export default {
 				on: {
 					click: this.quickNavClick.bind(this, i)
 				},
-				class: 'quickNavItem',
+				class: ['quickNavItem', i === this.currentBlock ? 'selected' : ''],
 				ref: 'quickNavItem'
 			}, shortTitleElm));
 		});
@@ -23,17 +35,48 @@ export default {
 				createElement('span', this.title.split('_')[0]),
 				createElement('span', this.title.split('_')[1])
 			]),
-			createElement('div', {class: 'blocks'}, [
+			createElement('div', {class: 'blocks', ref: 'blocks'}, [
 				...this.$slots.block,
-				createElement('div', {class: 'quickNav'}, [
+				createElement('div', {class: ['quickNav', this.quickNavPosition]}, [
 					createElement('ul', {}, items)
 				])
 			])
 		]);
 	},
+	mounted() {
+		this.updateQuickNav();
+	},
+	watch: {
+		'$store.getters.scrollPosition.y': function() {
+			this.updateQuickNav();
+		}
+	},
 	methods: {
+		updateQuickNav() {
+			const blocksRect = this.$refs.blocks.getBoundingClientRect();
+			if (blocksRect.top > this.vh * this.offset) {
+				this.quickNavPosition = 'above';
+			} else if (blocksRect.bottom < this.vh) {
+				this.quickNavPosition = 'below';
+			} else {
+				this.quickNavPosition = 'fixed';
+				const blocksElm = Array.from(this.$el.querySelectorAll('.block'));
+				for (let i = 0; i < blocksElm.length; i++) {
+					const elementRect = blocksElm[i].getBoundingClientRect();
+					if (elementRect.top < this.vh * this.offset && elementRect.bottom > this.vh * this.offset) {
+						this.currentBlock = i;
+						break;
+					}
+				}
+			}
+		},
 		quickNavClick(i) {
-			console.log(i, this.$refs);
+			const to = this.$store.getters.scrollPosition.y + this.$el.querySelector('.block:nth-child(' + (i + 1) + ')').getBoundingClientRect().top - (this.vh * this.offset);
+
+			TweenMax.to(window, 1, {
+				scrollTo: to,
+				ease: Power2.easeInOut
+			});
 		}
 	}
 };
@@ -52,22 +95,42 @@ export default {
 		position: relative;
 		.block {
 			width: 66%;
-			margin-bottom: 4rem;
+			margin-bottom: 6rem;
+			position: relative;
+			z-index: 1;
 			.blockIntroText {
 				max-width: 70%;
 			}
-			&:first-child {
-				h3 {
-					margin-top: 0;
-				}
+			h3 {
+				margin-top: 0;
 			}
 		}
 		.quickNav {
 			position: absolute;
-			// top: var(--blockMarginTop);
 			left: var(--spacingHorizontal);
+			&.above {
+				top: 0;
+			}
+			&.fixed {
+				position: fixed;
+				top: 40vh;
+			}
+			&.below {
+				top: calc(100% - 60vh);
+			}
 			.quickNavItem {
 				cursor: pointer;
+				font-size: 0.666rem;
+				font-weight: 600;
+				text-transform: uppercase;
+				color: var(--textGrey);
+				transition: color 0.8s;
+				&:not(:last-child) {
+					margin-bottom: 1.5rem;
+				}
+				&.selected {
+					color: var(--currentColor);
+				}
 			}
 		}
 	}
