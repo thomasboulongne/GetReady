@@ -1,7 +1,7 @@
 <template>
 	<div class="titleWrapper MTKnox" :style="{
-		'--easedMousePositionPercentX': $store.getters.easedMousePositionPercent.x.toFixed(2),
-		'--easedMousePositionPercentY': $store.getters.easedMousePositionPercent.y.toFixed(2),
+		'--easedMousePositionPercentX': $store.getters.easedMousePositionPercent.x,
+		'--easedMousePositionPercentY': $store.getters.easedMousePositionPercent.y,
 		'--centeredOffsetX': centered ? '-50%' : '0%',
 		'--centeredOffsetY': centered ? '-59%' : '0%'
 	}" :class="centered ? 'centered' : ''">

@@ -109,10 +109,6 @@ export default {
 		this.$store.dispatch('layoutMounted');
 	},
 
-	beforeDestroy() {
-		this.removeEventListeners();
-	},
-
 	methods: {
 		updateViewportSize() {
 			this.$store.dispatch('updateViewportSize', {width: window.innerWidth, height: window.innerHeight});
@@ -139,13 +135,7 @@ export default {
 		addEventListeners() {
 			window.addEventListener('resize', throttle(this.updateViewportSize, 50));
 			window.addEventListener('scroll', throttle(this.updateScrollPosition, 50));
-			window.addEventListener('mousemove', this.updateMousePosition);
-		},
-
-		removeEventListeners() {
-			window.removeEventListener('resize', throttle(this.updateViewportSize, 50));
-			window.removeEventListener('scroll', throttle(this.updateScrollPosition, 50));
-			window.removeEventListener('mousemove', this.updateMousePosition);
+			window.addEventListener('mousemove', throttle(this.updateMousePosition, 50));
 		}
 	},
 

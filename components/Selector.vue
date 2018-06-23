@@ -2,8 +2,8 @@
 	<div :class="['selector', canSlide ? 'canAnimate' : '', $route.name === 'page' ? 'clipped' : '']" v-hammer:pan.horizontal="panGesture" :style="{
 		'--currentColor': backgroundColor,
 		'--transition-speed': transitionSpeed * 0.75 + 's',
-		'--easedMousePositionPercentX': $store.getters.easedMousePositionPercent.x.toFixed(2),
-		'--easedMousePositionPercentY': $store.getters.easedMousePositionPercent.y.toFixed(2),
+		'--easedMousePositionPercentX': $store.getters.easedMousePositionPercent.x,
+		'--easedMousePositionPercentY': $store.getters.easedMousePositionPercent.y,
 		'--ratio': (vh / vw).toFixed(2),
 		'--backgroundTransitionDuration': backgroundTransitionDuration + 's',
 		'--navigationArrowsAreaWidth': navigationArrowsAreaWidth + '%',

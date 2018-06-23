@@ -2,6 +2,7 @@
 	<div class="visualize categoryPage">
 		<page-intro-comp :intro="content['Intro']"></page-intro-comp>
 		<main-quote-comp :quote="content['Main quote']"></main-quote-comp>
+		<study-comp :study="content['Study']"></study-comp>
 		<div class="section">
 			<h2>
 				<span v-html="content['Sections'][0].Title.split('_')[0]"></span>
@@ -25,6 +26,7 @@ import PageIntroComp from '~/components/PageIntro';
 import MainQuoteComp from '~/components/MainQuote';
 import DetailedBlocksComp from '~/components/DetailedBlocks';
 import FamousQuotesComp from '~/components/FamousQuotes';
+import StudyComp from '~/components/Study';
 export default {
 	props: {
 		content: {
@@ -42,7 +44,8 @@ export default {
 		PageIntroComp,
 		MainQuoteComp,
 		DetailedBlocksComp,
-		FamousQuotesComp
+		FamousQuotesComp,
+		StudyComp
 	}
 };
 </script>

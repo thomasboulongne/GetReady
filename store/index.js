@@ -128,16 +128,19 @@ const store = () => new Vuex.Store({
 		updateMousePosition({ commit, getters }, position) {
 			commit('UPDATE_MOUSE_POSITION', position);
 			const positionPercent = {
-				x: position.x * 100 / (getters.viewportSize.width || 1),
-				y: position.y * 100 / (getters.viewportSize.height || 1)
+				x: (position.x * 100 / (getters.viewportSize.width || 1)).toFixed(1),
+				y: (position.y * 100 / (getters.viewportSize.height || 1)).toFixed(1)
 			};
 			commit('UPDATE_MOUSE_POSITION_PERCENT', positionPercent);
 		},
 		updateEasedMousePosition({ commit, getters }, position) {
-			commit('UPDATE_EASED_MOUSE_POSITION', position);
+			commit('UPDATE_EASED_MOUSE_POSITION', {
+				x: position.x.toFixed(1),
+				y: position.y.toFixed(1)
+			});
 			const positionPercent = {
-				x: position.x * 100 / (getters.viewportSize.width || 1),
-				y: position.y * 100 / (getters.viewportSize.height || 1)
+				x: (position.x * 100 / (getters.viewportSize.width || 1)).toFixed(1),
+				y: (position.y * 100 / (getters.viewportSize.height || 1)).toFixed(1)
 			};
 			commit('UPDATE_EASED_MOUSE_POSITION_PERCENT', positionPercent);
 		},
