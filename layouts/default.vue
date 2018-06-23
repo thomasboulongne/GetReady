@@ -160,7 +160,7 @@ export default {
 <style lang="scss">
 #app {
 	--spacingHorizontal: 7.55rem;
-	--spacingHorizontalLarge: 9.9rem;
+	--spacingHorizontalLarge: 12rem;
 	--spacing: 3rem;
 	--menuTransitionSpeed: 0.2s;
 	--ease: cubic-bezier(0.165, 0.84, 0.44, 1);

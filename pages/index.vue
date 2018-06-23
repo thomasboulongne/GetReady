@@ -38,6 +38,7 @@
 // import CookiesServ from 'cookie';
 import CookiesClient from 'js-cookie';
 import OrganizeComp from '~/components/Organize';
+import VisualizeComp from '~/components/Visualize';
 
 export default {
 	// fetch({ store, redirect, req }) {
@@ -87,6 +88,8 @@ export default {
 			switch (this.$t('categories.items').findIndex(cat => cat.slug === this.$route.params.slug)) {
 				case 0:
 					return OrganizeComp;
+				case 2:
+					return VisualizeComp;
 			}
 		}
 	}
@@ -98,17 +101,18 @@ export default {
 .page {
 	height: auto;
 	background-color: white;
-	--topOffset: -38vh;
-	top: var(--topOffset);
-	margin-bottom: var(--topOffset);
+	--topOffset: 40vh;
+	--paddingTop: calc(var(--topOffset) * 0.8);
+	top: calc(var(--topOffset) * -1);
+	margin-bottom: calc(var(--topOffset) * -1);
 	position: relative;
-	padding-top: 20vh;
+	padding-top: var(--paddingTop);
 	padding-bottom: var(--spacingHorizontal);
 	&:before {
 		content: '';
 		position: absolute;
 		top: 0;
-		height: 17vh;
+		height: var(--paddingTop);
 		width: 1px;
 		left: var(--spacingHorizontalLarge);
 		display: block;

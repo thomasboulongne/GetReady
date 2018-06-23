@@ -56,16 +56,22 @@
                     "y": 0
                 },
                 "page": {
-                    "Definition text": "Un objectif est un résultat spécifique que l'on décide d'atteindre dans un temps donné.",
-                    "Goal types": {
-                        "Intro text": "La réalisation d'un objectif complexe, ou à long terme, peut nécessiter la mise en place d'étapes, ou objectifs intermédiaires. On évoque par exemple :",
-                        "Main goal": "L'objectif_principal",
-                        "Main goal text": "C’est le but à atteindre à long terme. Remporter une place lors d’une compétition, terminer un marathon, obtenir son bac ou se maintenir en bonne santé peuvent être des objectifs principaux. C’est en réfléchissant à l’atteinte de ses objectifs que l’on peut planifier ses sous-objectifs.",
-                        "Main goal illustration": "/images/organize/trophy.png",
-                        "Sub goals": "Les sous_objectifs",
-                        "Sub goals text": "Ce sont les étapes ou les moyens mis en oeuvre pour atteindre son objectif principal. Ils permettent de progresser efficacement tout en renforçant sa motivation à chaque réussite.",
-                        "Sub goals illustration": "/images/organize/steps.png"
+                    "Intro": {
+                        "Text": "Un objectif est un résultat spécifique que l'on décide d'atteindre dans un temps donné.",
+                        "Long text": "La réalisation d'un objectif complexe, ou à long terme, peut nécessiter la mise en place d'étapes, ou objectifs intermédiaires. On évoque par exemple :"
                     },
+                    "Goal types": [
+                        {
+                            "Title": "L'objectif_principal",
+                            "Text": "C’est le but à atteindre à long terme. Remporter une place lors d’une compétition, terminer un marathon, obtenir son bac ou se maintenir en bonne santé peuvent être des objectifs principaux. C’est en réfléchissant à l’atteinte de ses objectifs que l’on peut planifier ses sous-objectifs.",
+                            "Illustration": "/images/organize/trophy.png"
+                        },
+                        {
+                            "Title": "Les sous_objectifs",
+                            "Text": "Ce sont les étapes ou les moyens mis en oeuvre pour atteindre son objectif principal. Ils permettent de progresser efficacement tout en renforçant sa motivation à chaque réussite.",
+                            "Illustration": "/images/organize/steps.png"
+                        }
+                    ],
                     "Main quote": {
                         "Athlete": "Usain Bolt",
                         "Athlete description": "Athlète jamaïcain, détenteur des records du monde de la course du 100m, 200m et 4x100m.",
@@ -238,6 +244,73 @@
                 "shadow": {
                     "x": -0.5,
                     "y": -0.3
+                },
+                "page": {
+                    "Intro": {
+                        "Text": "C’est créer ou recréer mentalement la représentation d’un objet, d’un événement, ou d’une activité.",
+                        "Long text": "Épelez maintenant votre nom à l’envers… Si vous l’avez fait, vous avez du le visualiser.\nPouvez  décrire la disposition des pièces de votre appartement, pour ce faire, vous devez le visualiser. Lorsque vous voyez mentalement un objet, un événement, ou une activité, vous faites de la visualisation.  Pour la rendre plus efficace, selon votre objectif, vous y ajoutez  l'ouïe, le toucher et autres ressentis, l'odorat et le goût.<br>La visualisation est l'une des compétences mentales les plus utilisées par les athlètes, et ce à tous les niveaux sportifs.",
+                        "Image": "/images/visualize/visualize.png"
+                    },
+                    "Main quote": {
+                        "Athlete": "Michael Phelps",
+                        "Athlete description": "Nageur américain, athlète le plus titré aux JO",
+                        "Quote": "On m’a appris très jeune à visualiser mes courses, comment je voulais qu’elles se passent, comment je ne voulais pas qu’elles se passent et comment elle pourraient se passer. Du coup, en 2008, quand mes lunettes se sont remplies d’eau, j’étais calme par ce que je suis revenu sur ce que j’avais appris à l'entraînement. J’ai nagé à l’aveugle pendant 175 mètres sur 200 et ai gagné la médaille d’or en battant le record du monde.",
+                        "Image": "/images/visualize/phelps-quote.png"
+                    },
+                    "Sections": [
+                        {
+                            "Title": "Les différents_points de vue",
+                            "Intro": {
+                                "Text": "Il y a deux façons de voir l'image dans votre esprit :",
+                                "Long text": "Le choix du mode de visualisation utilisé dépend principalement de l'objectif de ce travail."
+                            },
+                            "POV": [
+                                {
+                                    "Title": "Le point de vue_interne",
+                                    "Text": "C’est voir la scène comme à travers vos propres yeux, comme si vous étiez réellement en train de faire l’action. Vous êtes associé à vos sensations.<br>Le point de vue interne vous permet de ressentir les sensations liées à la situation.\nC'est celui qui créera des  connexions neuromusculaires semblables à celles créés par le vécu réel de la situation.",
+                                    "Illustration": "/images/organize/trophy.png"
+                                },
+                                {
+                                    "Title": "Le point de vue_externe",
+                                    "Text": "C’est vous voir dans la scène comme vous verrait un témoin, comme si vous regardiez une vidéo de vous-même. Vous êtes dissocié de vos sensations.<br>Le point de vue externe vous permet de prendre de la distance avec la situation, de vous dissocier des ressentis. Il vous permet de voir et corriger votre attitude, vos mouvements.",
+                                    "Illustration": "/images/organize/trophy.png"
+                                }
+                            ]
+                        },
+                        {
+                            "Title": "Comment_pratiquer ?",
+                            "Intro": {
+                                "Text": "L’important est de cibler les exercices qui vous aideront à progresser.",
+                                "Long text": "Il existe de très bons tutoriels vidéo sur internet. Il faut en choisir un en fonction de ce que l’on veut apprendre à faire, de la même manière le type de visualisation va dépendre de notre besoin. L’important est de cibler les exercices qui vous aideront à progresser, et de visualiser les situations les plus proches de la réalité."
+                            }
+                        }
+                    ],
+                    "Quotes": [
+                        {
+                            "Name": "Jessica Ennis-Hill",
+                            "Description": "Athlète britannique, championne olympique d'heptatlon",
+                            "Text": "« J'utilise la visualisation pour penser à la technique parfaite. Si je peux avoir  l’image parfaite dans ma tête, alors on peut espérer que cela affectera ma performance physique. »",
+                            "Image": "/images/visualize/hill.png"
+                        },
+                        {
+                            "Name": "Jessica Ennis-Hill",
+                            "Description": "Athlète britannique, championne olympique d'heptathlon",
+                            "Text": "« J'utilise la visualisation pour penser à la technique parfaite. Si je peux avoir  l’image parfaite dans ma tête, alors on peut espérer que cela affectera ma performance physique. »",
+                            "Image": "/images/visualize/hill.png"
+                        },
+                        {
+                            "Name": "Jessica Ennis-Hill",
+                            "Description": "Athlète britannique, championne olympique d'heptatlon",
+                            "Text": "« J'utilise la visualisation pour penser à la technique parfaite. Si je peux avoir  l’image parfaite dans ma tête, alors on peut espérer que cela affectera ma performance physique. »",
+                            "Image": "/images/visualize/hill.png"
+                        },
+                        {
+                            "Name": "Jessica Ennis-Hill",
+                            "Description": "Athlète britannique, championne olympique d'heptatlon",
+                            "Text": "« J'utilise la visualisation pour penser à la technique parfaite. Si je peux avoir  l’image parfaite dans ma tête, alors on peut espérer que cela affectera ma performance physique. »",
+                            "Image": "/images/visualize/hill.png"
+                        }
+                    ]
                 }
             }
         ]
