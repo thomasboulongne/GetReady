@@ -28,7 +28,7 @@ export default {
 	data() {
 		return {
 			PATH: process.env.PATH
-		}
+		};
 	}
 };
 </script>
