@@ -8,7 +8,7 @@
 			<p v-html="intro['Long text']"></p>
 		</div>
 		<div class="right" v-if="intro['Image']">
-			<img :src="intro['Image']" alt="">
+			<img :src="PATH + intro['Image']" alt="">
 		</div>
 	</div>
 </template>
@@ -23,6 +23,11 @@ export default {
 		},
 		definition: {
 			default: true
+		}
+	},
+	data() {
+		return {
+			PATH: process.env.PATH
 		}
 	}
 };
