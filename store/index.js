@@ -34,6 +34,7 @@ const store = () => new Vuex.Store({
 			locale: 'fr',
 			menuOpen: false,
 			layoutMounted: false,
+			pageMounted: false,
 			currentColor: 'white'
 		},
 		userData: {
@@ -109,6 +110,9 @@ const store = () => new Vuex.Store({
 		},
 		USER_DATA_UPDATE_FIELD(state, { key, i, value }) {
 			Vue.set(state.userData[key], i, value);
+		},
+		UPDATE_PAGE_IS_MOUNTED(state, mounted) {
+			state.uiData.pageMounted = mounted;
 		}
 	},
 
@@ -183,6 +187,12 @@ const store = () => new Vuex.Store({
 		},
 		userDataUpdateField({ commit }, params) {
 			commit('USER_DATA_UPDATE_FIELD', params);
+		},
+		pageIsMounted({ commit }) {
+			commit('UPDATE_PAGE_IS_MOUNTED', true);
+		},
+		pageNotMounted({ commit }) {
+			commit('UPDATE_PAGE_IS_MOUNTED', false);
 		}
 	},
 
@@ -214,7 +224,8 @@ const store = () => new Vuex.Store({
 		userData: state => key => state.userData[key],
 		currentSlide: state => state.currentSlide,
 		currentColor: state => state.uiData.currentColor,
-		isLayoutMounted: state => state.uiData.layoutMounted
+		isLayoutMounted: state => state.uiData.layoutMounted,
+		pageIsMounted: state => state.uiData.pageMounted
 	}
 });
 

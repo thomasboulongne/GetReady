@@ -64,6 +64,9 @@ export default {
 		}
 		this.$store.dispatch('updateCurrentColor', this.page ? this.page.color : '#c1cbe0');
 	},
+	mounted() {
+		this.$store.dispatch('pageIsMounted');
+	},
 	data() {
 		return {
 			isPage: this.$route.name === 'page'
@@ -92,6 +95,10 @@ export default {
 					return VisualizeComp;
 			}
 		}
+	},
+	beforeRouteLeave(to, from, next) {
+		this.$store.dispatch('pageNotMounted');
+		next();
 	}
 };
 

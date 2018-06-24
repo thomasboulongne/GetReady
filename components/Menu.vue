@@ -30,6 +30,7 @@
 	</div>
 </template>
 <script>
+import throttle from 'lodash/throttle';
 export default {
 	props: {
 		items: {
@@ -61,7 +62,7 @@ export default {
 				if (y > this.$store.getters.viewportSize.height * 0.55) {
 					this.blackBurger = true;
 					if (y < prevY) {
-						this.showHeader = true;
+						this.throttledHeader();
 					} else {
 						this.showHeader = false;
 					}
@@ -78,7 +79,14 @@ export default {
 	methods: {
 		toggleMenu: function() {
 			this.$store.dispatch('toggleMenu');
-		}
+		},
+		throttledHeader: throttle(function() {
+			if (this.$store.getters.scrollPosition.y > this.$store.getters.viewportSize.height * 0.55) {
+				this.showHeader = true;
+			}
+		}, 400, {
+			leading: false
+		})
 	}
 };
 </script>

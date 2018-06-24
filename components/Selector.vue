@@ -1,5 +1,5 @@
 <template>
-	<div :class="['selector', canSlide ? 'canAnimate' : '', $route.name === 'page' ? 'clipped' : '']" v-hammer:pan.horizontal="panGesture" :style="{
+	<div :class="['selector', canSlide ? 'canAnimate' : '', clipped ? 'clipped' : '']" v-hammer:pan.horizontal="panGesture" :style="{
 		'--currentColor': backgroundColor,
 		'--transition-speed': transitionSpeed * 0.75 + 's',
 		'--easedMousePositionPercentX': $store.getters.easedMousePositionPercent.x,
@@ -14,8 +14,8 @@
 			<li v-for="(item, i) in items" :key="item.color + i">
 				<div class="selectorItem" ref="items" :style="{
 				'--backgroundColor': item.color,
-				'--xOffset': item.position.x + '%',
-				'--yOffset': item.position.y + '%',
+				'--xOffset': item.position.x,
+				'--yOffset': item.position.y,
 				'--xShadowOffset': item.shadow.x + '%',
 				'--yShadowOffset': item.shadow.y + '%',
 				'--numberOfLetters': item.title.length
@@ -40,7 +40,7 @@
 				</div>
 			</li>
 		</ul>
-		<div class="nav">
+		<div class="nav" ref="nav">
 			<div class="left" @click="prev">
 				<div class="arrow">
 					<img src="~/assets/images/arrow.svg"/>
@@ -76,7 +76,8 @@ export default {
 			backgroundTransitionDuration: 0.4,
 			cursor: '-webkit-grab',
 			height: this.vh,
-			PATH: process.env.PATH
+			PATH: process.env.PATH,
+			clipped: false
 		};
 	},
 
@@ -132,6 +133,9 @@ export default {
 		},
 		canInteract: function() {
 			return this.$route.name === 'index';
+		},
+		offset: function() {
+			return -0.011 * this.vh;
 		}
 	},
 
@@ -146,6 +150,16 @@ export default {
 				});
 				elementsArray[index].classList.add('currentSlide');
 				elementsArray[index].querySelector('.buttonComp').classList.add('show');
+				const tl = new TimelineMax({ paused: true });
+
+				Array.from(elementsArray[index].querySelectorAll('.letter')).forEach((letter, i) => {
+					tl.fromTo(letter, 0.5, {
+						y: 0
+					}, {
+						y: i * this.offset
+					}, i * 0.04);
+				});
+				tl.play();
 			}
 		},
 		'$store.getters.viewportSize': function() {
@@ -167,6 +181,86 @@ export default {
 		},
 		'$route': function(to) {
 			this.initRotation(to);
+		},
+		'$store.getters.pageIsMounted': function(mounted) {
+			if (mounted === true) {
+				if (this.$route.name === 'page') {
+					const tl = new TimelineMax({ paused: true });
+					const duration = 2;
+					tl.to(this.$el, duration, {
+						'--mask': 50,
+						ease: Power4.easeOut,
+						pointerEvents: 'none'
+					})
+					.to(this.$refs.nav.querySelectorAll('.left, .right'), duration / 3, {
+						opacity: 0,
+						pointerEvents: 'none'
+					}, 0)
+					.to(this.$el.querySelector('.currentSlide .pagination'), duration / 3, {
+						opacity: 0,
+						pointerEvents: 'none'
+					}, 0)
+					.to(this.$el.querySelector('.currentSlide'), duration, {
+						'--xOffset': 5,
+						ease: Power4.easeOut
+					}, 0)
+					.to(this.$el.querySelector('.currentSlide .img'), duration, {
+						'--imgTop': 40,
+						ease: Power4.easeOut
+					}, 0)
+					.staggerTo(this.$el.querySelectorAll('.currentSlide .titleWrapper .letter'), duration, {
+						y: '-=' + (this.vh * 0.15),
+						ease: Power4.easeOut
+					}, 0.05, 0)
+					.to(this.$el.querySelector('.currentSlide .subtitle'), duration / 3, {
+						opacity: 0,
+						pointerEvents: 'none'
+					}, 0)
+					.to(this.$el.querySelector('.currentSlide .callToAction'), duration / 3, {
+						opacity: 0,
+						pointerEvents: 'none'
+					}, 0);
+					tl.play();
+				} else if (this.$route.name === 'index') {
+					const tl = new TimelineMax({ paused: true });
+					const duration = 2;
+					tl.to(this.$el, duration, {
+						'--mask': 0,
+						ease: Power4.easeOut,
+						pointerEvents: 'all'
+					})
+					.to(this.$refs.nav.querySelectorAll('.left, .right'), duration / 3, {
+						opacity: 1,
+						pointerEvents: 'all'
+					}, 0)
+					.to(this.$el.querySelector('.currentSlide .pagination'), duration / 3, {
+						opacity: 1,
+						pointerEvents: 'all'
+					}, 0)
+					.to(this.$el.querySelector('.currentSlide'), duration, {
+						'--xOffset': this.items[this.currentSlide].position.x,
+						ease: Power4.easeOut
+					}, 0)
+					.to(this.$el.querySelector('.currentSlide .img'), duration, {
+						'--imgTop': 45,
+						ease: Power4.easeOut
+					}, 0);
+					Array.from(this.$el.querySelectorAll('.currentSlide .letter')).forEach((letter, i) => {
+						tl.to(letter, 0.5, {
+							y: i * this.offset
+						}, i * 0.04);
+					});
+					tl.to(this.$el.querySelector('.currentSlide .subtitle'), duration / 3, {
+						opacity: 1,
+						pointerEvents: 'all'
+					}, 0)
+					.to(this.$el.querySelector('.currentSlide .callToAction'), duration / 3, {
+						opacity: 1,
+						pointerEvents: 'all'
+					}, 0);
+					tl.play();
+				}
+			}
 		}
 	},
 
@@ -441,7 +535,7 @@ export default {
 	.hiddenSelector {
 		display: none;
 	}
-	.selectorItem {
+	.threeDselector .selectorItem {
 		position: relative;
 		height: var(--vh);
 		width: var(--vw);
@@ -455,12 +549,12 @@ export default {
 			z-index: 3;
 			.img {
 				position: absolute;
-				--imgTop: 45%;
-				top: var(--imgTop);
+				--imgTop: 45;
+				top: calc(var(--imgTop) * 1%);
 				left: 50%;
 				transform: translate(-50%, -50%);
 				img {
-					transform: translate(calc(var(--xOffset) * 10 + var(--easedMousePositionPercentX) * 0.01%), calc(var(--yOffset) * 10 + var(--easedMousePositionPercentY) * 0.01%));
+					transform: translate(calc(var(--xOffset) * 10% + var(--easedMousePositionPercentX) * 0.01%), calc(var(--yOffset) * 10% + var(--easedMousePositionPercentY) * 0.01%)) translateZ(0);
 					z-index: 1;
 					height: auto;
 					width: 80vmin;
@@ -477,7 +571,7 @@ export default {
 						left: 50%;
 						filter: grayscale(1) brightness(0);
 						opacity: 0.15;
-						transform: translate(calc(-50% + ((var(--xOffset) + var(--xShadowOffset)) * 10) + (var(--easedMousePositionPercentX) * 0.02%)), calc(-50% + ((var(--yOffset) + var(--yShadowOffset)) * 10) + (var(--easedMousePositionPercentY) * 0.02%))) scale(1.02);
+						transform: translate(calc(-50% + ((var(--xOffset) * 1% + var(--xShadowOffset)) * 10) + (var(--easedMousePositionPercentX) * 0.02%)), calc(-50% + ((var(--yOffset) * 1% + var(--yShadowOffset)) * 10) + (var(--easedMousePositionPercentY) * 0.02%))) scale(1.02) translateZ(0);
 					}
 				}
 			}
@@ -543,25 +637,6 @@ export default {
 		.buttonComp {
 			--transition-delay: var(--transition-speed);
 		}
-
-		&.currentSlide {
-			.itemWrapper {
-				.titleWrapper {
-					--titleWrapperDelay: 0s;
-					h2 {
-						div {
-							@for $i from 1 to 30 {
-								&:nth-child(#{$i}) {
-									span {
-										transform: translateY(calc(#{$i} * var(--yOffset)));
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		}
 	}
 
 	&.canAnimate {
@@ -574,54 +649,6 @@ export default {
 						}
 					}
 				}
-			}
-		}
-	}
-
-	&.clipped {
-		--mask: 50;
-		pointer-events: none;
-		.background {
-			transition: clip-path var(--pageTransitionDuration) var(--ease);
-		}
-		.nav {
-			transition: opacity var(--pageTransitionDuration);
-			opacity: 0;
-			pointer-events: none;
-			.left, .right {
-				pointer-events: none;
-			}
-		}
-		.selectorItem {
-			.itemWrapper {
-				.pagination {
-					transition: opacity var(--pageTransitionDuration);
-					opacity: 0;
-					pointer-events: none;
-				}
-				--xOffset: 5%;
-				.img {
-					transition: top var(--pageTransitionDuration);
-					--imgTop: 40%;
-					img {
-						transition: transform var(--pageTransitionDuration) var(--ease);
-					}
-				}
-				.titleWrapper {
-					transition: transform var(--pageTransitionDuration);
-					transform: translateY(-15vh);
-				}
-				.subtitle {
-					transition: opacity var(--pageTransitionDuration);
-					opacity: 0;
-					pointer-events: none;
-				}
-			}
-			.callToAction {
-				transition: opacity var(--pageTransitionDuration);
-				opacity: 0;
-				pointer-events: none;
-				visibility: hidden;
 			}
 		}
 	}

@@ -76,7 +76,6 @@ export default {
 				&:nth-child(#{$i}) {
 					span {
 						transform: translateY(calc(#{$i} * var(--yOffset)));
-						transition: transform calc(var(--transition-speed) * 1.15) var(--ease) calc(#{$i} * 0.03s);
 					}
 				}
 			}
