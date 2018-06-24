@@ -405,9 +405,9 @@ export default {
 			this.renderer = new THREE.WebGLRenderer();
 			this.renderer.setSize(window.innerWidth, window.innerHeight);
 			const textureLoader = new THREE.TextureLoader();
-			this.texture = textureLoader.load(this.study.Texture);
+			this.texture = textureLoader.load(process.env.PATH + this.study.Texture);
 			loader.load(
-				this.study.Obj,
+				process.env.PATH + this.study.Obj,
 				object => {
 					this.court = object;
 					this.court.children[0].material = new THREE.MeshBasicMaterial();
