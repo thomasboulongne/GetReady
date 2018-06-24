@@ -10,6 +10,7 @@
     "Back": "Retour",
     "Your goal": "Votre objectif",
     "Study": "Étude",
+    "Read": "Lire",
     "intro": {
         "step1": {
             "sentences": {
@@ -262,7 +263,7 @@
                         "Title": "L’effet de la visualisation sur la performance de lancers francs",
                         "Subtitle": "D'après l'étude menée par le Dr Biasiotto à l'Université de Chicago en 1996",
                         "Obj": "/obj/visualize/court.obj",
-                        "Texture": "/obj/visualize/texture.jpg",
+                        "Texture": "/obj/visualize/texture.png",
                         "CameraSpline": [
                             [
                                 0.00553216,
@@ -716,25 +717,25 @@
                             "Groups": [
                                 {
                                     "Name": "Groupe 1",
-                                    "Value": "0_% d'amélioration",
+                                    "Value": "0_%_d'amélioration",
                                     "Description": "Le premier groupe qui ne pratiquait pas n'a montré aucune amélioration"
                                 },
                                 {
                                     "Name": "Groupe 2",
-                                    "Value": "24_% d'amélioration",
+                                    "Value": "24_%_d'amélioration",
                                     "Description": "Le groupe ayant pratiqué physiquement tous les jours et a montré une amélioration de 24%"
                                 },
                                 {
                                     "Name": "Groupe 3",
-                                    "Value": "_A votre avis, de combien s’est amélioré le groupe qui n'a fait que la visualisation?",
-                                    "Options": ["0%", "4%", "12%", "23%"],
-                                    "Value2": "23_% d'amélioration",
-                                    "Description": "Le groupe ayant pratiqué uniquement mentalement a montré une amélioration de 23%"
+                                    "Value": "23_%_d'amélioration",
+                                    "Description": "Le groupe ayant pratiqué uniquement mentalement a montré une amélioration de 23%",
+                                    "Question": "A votre avis, de combien s’est amélioré le groupe qui n'a fait que la visualisation?",
+                                    "Options": ["0", "4", "12", "23"]
                                 }
                             ]
                         },
                         "step6": {
-                            "Text": "Plusieurs études depuis celle-ci, ont démontré l’intérêt de pratiquer la visualisation en parallèle d’un entraînement physique.",
+                            "Text": "Plusieurs études depuis celle-ci ont démontré l’intérêt de pratiquer la visualisation en parallèle d’un entraînement physique.",
                             "More": {
                                 "Title": "Content, characteristics and function of mental images",
                                 "Authors": "Jean F. Fournier, Sophie Deremaux, Marjorie Bernier",

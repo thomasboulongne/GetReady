@@ -188,6 +188,8 @@ main {
 		z-index: 3;
 	}
 	@-moz-document url-prefix() {
+		backface-visibility: initial;
+		transform-style: initial;
 		filter: none;
 	}
 	&:after {

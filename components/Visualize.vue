@@ -54,5 +54,8 @@ export default {
 	.section {
 		margin-top: var(--spacingHorizontal);
 	}
+	.mainQuote {
+		margin-bottom: 0;
+	}
 }
 </style>
