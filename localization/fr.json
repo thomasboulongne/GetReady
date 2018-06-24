@@ -9,6 +9,7 @@
     "Back to homepage": "Retour à l'accueil",
     "Back": "Retour",
     "Your goal": "Votre objectif",
+    "Study": "Étude",
     "intro": {
         "step1": {
             "sentences": {
@@ -258,6 +259,8 @@
                         "Image": "/images/visualize/phelps-quote.png"
                     },
                     "Study": {
+                        "Title": "L’effet de la visualisation sur la performance de lancers francs",
+                        "Subtitle": "D'après l'étude menée par le Dr Biasiotto à l'Université de Chicago en 1996",
                         "Obj": "/obj/visualize/court.obj",
                         "Texture": "/obj/visualize/texture.jpg",
                         "CameraSpline": [
@@ -678,7 +681,66 @@
                                 -765.3,
                                 -150.134
                             ]
-                        ]
+                        ],
+                        "step2": {
+                            "Text": "Cette étude a tenté de déterminer si l’entraînement mental avait des effets sur les capacités des étudiants à marquer plus de lancers francs au basket-ball.\nPour cette étude, des étudiants ont été divisés aléatoirement en 3 groupes et ont été évalué sur l’exercice du lancer franc. Chaque groupe a ensuite effectué un entraînement différent de 20 minutes par jours sur une période de 30 jours.",
+                            "Values": [
+                                "3_groupes",
+                                "20_min par jour",
+                                "30_jours"
+                            ]
+                        },
+                        "step3": {
+                            "Groups": [
+                                {
+                                    "Name": "Groupe 1",
+                                    "Value": "Aucun entraînement",
+                                    "Description": "Le premier groupe n’a effectué aucun type d’entraînement"
+                                },
+                                {
+                                    "Name": "Groupe 2",
+                                    "Value": "Entraînement physique",
+                                    "Description": "Le premier groupe a passé 20 minutes par jour à pratiquer leurs lancers francs."
+                                },
+                                {
+                                    "Name": "Groupe 3",
+                                    "Value": "Entraînement mental",
+                                    "Description": "Le troisième groupe s’est entraîné uniquement mentalement en visualisant les lancers-francs."
+                                }
+                            ]
+                        },
+                        "step4": {
+                            "Text": "Après les 30 jours, les trois groupes sont revenus faire le même nombre de lancers francs qu’au début de l'étude pour mesurer leur taux d’amélioration."
+                        },
+                        "step5": {
+                            "Groups": [
+                                {
+                                    "Name": "Groupe 1",
+                                    "Value": "0_% d'amélioration",
+                                    "Description": "Le premier groupe qui ne pratiquait pas n'a montré aucune amélioration"
+                                },
+                                {
+                                    "Name": "Groupe 2",
+                                    "Value": "24_% d'amélioration",
+                                    "Description": "Le groupe ayant pratiqué physiquement tous les jours et a montré une amélioration de 24%"
+                                },
+                                {
+                                    "Name": "Groupe 3",
+                                    "Value": "_A votre avis, de combien s’est amélioré le groupe qui n'a fait que la visualisation?",
+                                    "Options": ["0%", "4%", "12%", "23%"],
+                                    "Value2": "23_% d'amélioration",
+                                    "Description": "Le groupe ayant pratiqué uniquement mentalement a montré une amélioration de 23%"
+                                }
+                            ]
+                        },
+                        "step6": {
+                            "Text": "Plusieurs études depuis celle-ci, ont démontré l’intérêt de pratiquer la visualisation en parallèle d’un entraînement physique.",
+                            "More": {
+                                "Title": "Content, characteristics and function of mental images",
+                                "Authors": "Jean F. Fournier, Sophie Deremaux, Marjorie Bernier",
+                                "Link": "http://thomasboulongne.com"
+                            }
+                        }
                     },
                     "Sections": [
                         {

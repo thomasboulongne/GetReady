@@ -3,27 +3,34 @@
 		<div :class="['canvasWrapper']" ref="canvasWrapper"></div>
 		<div class="step">
 			<div class="stepWrapper" ref="step1">
-				<h1>Step</h1>
+				<h2 class="sectionTitle" v-t="'Study'"></h2>
+				<h3 class="title" v-html="study.Title"></h3>
+				<span class="subTitle" v-html="study.Title"></span>
 			</div>
 		</div>
 		<div class="step">
 			<div class="stepWrapper" ref="step2">
-				<h1>Step</h1>
+				<h1>Step 2</h1>
 			</div>
 		</div>
 		<div class="step">
 			<div class="stepWrapper" ref="step3">
-				<h1>Step</h1>
+				<h1>Step 3</h1>
 			</div>
 		</div>
 		<div class="step">
 			<div class="stepWrapper" ref="step4">
-				<h1>Step</h1>
+				<h1>Step 4</h1>
 			</div>
 		</div>
 		<div class="step">
 			<div class="stepWrapper" ref="step5">
-				<h1>Step</h1>
+				<h1>Step 5</h1>
+			</div>
+		</div>
+		<div class="step">
+			<div class="stepWrapper" ref="step6">
+				<h1>Step 6</h1>
 			</div>
 		</div>
 	</div>
@@ -77,7 +84,8 @@ export default {
 			this.$refs.step2,
 			this.$refs.step3,
 			this.$refs.step4,
-			this.$refs.step5
+			this.$refs.step5,
+			this.$refs.step6
 		];
 		this.init3dScene();
 		this.updateCanvasPosition();
@@ -215,9 +223,33 @@ export default {
 			display: flex;
 			align-items: center;
 			justify-content: center;
+			flex-direction: column;
+			color: white;
 			opacity: 0;
 			pointer-events: none;
 			z-index: 1;
+			text-align: center;
+			.sectionTitle {
+				color: white;
+				margin: 0;
+				text-transform: uppercase;
+				font-family: 'Antonio';
+				font-weight: 600;
+				font-size: 1.11rem;
+			}
+			.title {
+				color: white;
+				margin: 2rem 0;
+				font-family: 'Antonio';
+				text-transform: none;
+				font-weight: 400;
+				font-size: 3.44rem;
+				max-width: 50vw;
+			}
+			.subTitle {
+				display: inline-block;
+				max-width: 20em;
+			}
 		}
 	}
 	.canvasWrapper, .stepWrapper {
