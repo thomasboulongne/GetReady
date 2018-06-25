@@ -362,7 +362,7 @@ footer {
 	}
 	.footerNavWrapper {
 		position: relative;
-		padding: var(--spacingHorizontalLarge) 0;
+		padding: 10rem 0;
 		.coloredBackground {
 			background-color: var(--current-color);
 		}
@@ -389,7 +389,53 @@ footer {
 						cursor: pointer;
 						position: relative;
 						display: flex;
-						&:after {
+						&:hover {
+							.letterWrapper {
+								opacity: 1;
+							}
+						}
+						.letterWrapper {
+							text-transform: uppercase;
+							display: inline-block;
+							backface-visibility: hidden;
+							transform: translateY(20%);
+						}
+					}
+					&:nth-child(1), &:nth-child(3) {
+						.navTitleWrapper{
+							--footerNavLineScale: 5.5vw;
+							&:after, &:before {
+								content: '';
+								position: absolute;
+								top: 50%;
+								height: 0.1em;
+								width: var(--footerNavLineScale);
+								background: white;
+								right: calc(100% + 2rem);
+								transform-origin: right;
+								transition: width 0.2s;
+								transform: translateY(-50%);
+							}
+							&:after {
+								width: 11vw;
+								height: 1px;
+								transform: translateY(-50%);
+							}
+							&:hover {
+								--footerNavLineScale: 11vw;
+							}
+						}
+					}
+					&:nth-child(3) {
+						.navTitleWrapper{
+							&:after, &:before {
+								right: auto;
+								left: calc(100% + 2rem);
+							}
+						}
+					}
+					&:nth-child(2) {
+						.navTitleWrapper:after {
 							content: '';
 							transition: all 0.4s var(--ease);
 							position: absolute;
@@ -400,19 +446,10 @@ footer {
 							left: 50%;
 							transform: translateX(-50%) rotate(-3deg);
 						}
-						.letterWrapper {
-							text-transform: uppercase;
-							display: inline-block;
-							backface-visibility: hidden;
-							transform: translateY(20%);
-						}
-						&:hover {
+						.navTitleWrapper:hover {
 							&:after {
 								width: 93%;
 								transform: translateX(-50%) rotate(-3deg);
-							}
-							.letterWrapper {
-								opacity: 1;
 							}
 						}
 					}
