@@ -97,12 +97,17 @@ export default {
 			width: 66%;
 			margin-bottom: 6rem;
 			position: relative;
-			z-index: 1;
 			.blockIntroText {
 				max-width: 70%;
 			}
 			h3 {
 				margin-top: 0;
+			}
+			.slider {
+				.items {
+					position: relative;
+					z-index: 1;
+				}
 			}
 		}
 		.quickNav {

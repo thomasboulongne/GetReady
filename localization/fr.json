@@ -244,7 +244,7 @@
                 "img": "/images/athletes/phelps.png",
                 "color": "#4b80ff",
                 "position": {
-                    "x": -2,
+                    "x": -4,
                     "y": -0.5
                 },
                 "shadow": {
@@ -271,8 +271,8 @@
                         "HoopTexture": "/obj/visualize/texture.png",
                         "CameraPosition": {
                             "x": 0,
-                            "y": 595,
-                            "z": 285
+                            "y": 581,
+                            "z": 300
                         },
                         "CameraRotation": {
                             "x": -1.5707963267948966,
@@ -282,8 +282,8 @@
                         "step2": {
                             "CameraPosition": {
                                 "x": 0,
-                                "y": 280,
-                                "z": 150
+                                "y": 300,
+                                "z": 188
                             },
                             "CameraRotation": {
                                 "x": -1.5707963267948966,
@@ -300,11 +300,11 @@
                         "step3": {
                             "CameraPosition": {
                                 "x": 0,
-                                "y": 190,
-                                "z": -120
+                                "y": 272,
+                                "z": -52
                             },
                             "CameraRotation": {
-                                "x": -2.4347343065320897,
+                                "x": -2.25,
                                 "y": 0,
                                 "z": -3.141592653589793
                             },
@@ -328,27 +328,27 @@
                         },
                         "step4": {
                             "CameraPosition": {
-                                "x": 165,
-                                "y": 137,
-                                "z": 319
+                                "x": -52,
+                                "y": 442,
+                                "z": -235
                             },
                             "CameraRotation": {
-                                "x": -0.95,
-                                "y": 0.6,
-                                "z": 0.6
+                                "x": -1.85,
+                                "y": -0.1,
+                                "z": -2.7
                             },
                             "Text": "Après les 30 jours, les trois groupes sont revenus faire le même nombre de lancers francs qu’au début de l'étude pour mesurer leur taux d’amélioration."
                         },
                         "step5": {
                             "CameraPosition": {
-                                "x": 0,
-                                "y": 190,
-                                "z": -120
+                                "x": -404,
+                                "y": 343,
+                                "z": -404
                             },
                             "CameraRotation": {
-                                "x": -2.4347343065320897,
-                                "y": 0,
-                                "z": -3.141592653589793
+                                "x": -2.6,
+                                "y": -0.9,
+                                "z": -2.8
                             },
                             "Groups": [
                                 {
@@ -372,14 +372,14 @@
                         },
                         "step6": {
                             "CameraPosition": {
-                                "x": 0,
-                                "y": 190,
-                                "z": -120
+                                "x": -404,
+                                "y": 343,
+                                "z": -404
                             },
                             "CameraRotation": {
-                                "x": -2.4347343065320897,
-                                "y": 0,
-                                "z": -3.141592653589793
+                                "x": -2.6,
+                                "y": -0.9,
+                                "z": -2.8
                             },
                             "Text": "Plusieurs études depuis celle-ci ont démontré l’intérêt de pratiquer la visualisation en parallèle d’un entraînement physique.",
                             "More": {

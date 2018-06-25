@@ -187,7 +187,7 @@ export default {
 			this.initRotation(to);
 		},
 		'$store.getters.pageIsMounted': function() {
-			// this.transitionTitle();
+			this.transitionTitle();
 		}
 	},
 
@@ -571,8 +571,8 @@ export default {
 					transform: translate(calc(var(--x-offset) * 10% + var(--eased-mouse-position-percent-x) * 0.01%), calc(var(--y-offset) * 10% + var(--eased-mouse-position-percent-y) * 0.01%)) translateZ(0);
 					z-index: 1;
 					height: auto;
-					width: 80vmin;
-					height: 80vmin;
+					width: 72vmin;
+					height: 72vmin;
 					object-fit: contain;
 					display: block;
 					filter: grayscale(1);

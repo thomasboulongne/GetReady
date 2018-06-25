@@ -172,20 +172,6 @@ export default {
 				overwrite: 'all'
 			}, 0);
 			switch (j) {
-				// case 0:
-				// 	tl
-				// 	.staggerTo([this.$refs.step1_subtitle, this.$refs.step1_title, this.$refs.step1_sectionTitle], this.duration * 0.6, {
-				// 		opacity: 0,
-				// 		y: 20,
-				// 		rotation: -6,
-				// 		ease: Power4.easeOut
-				// 	}, this.duration / 8, 0)
-				// 	.set(this.stepsElm[0], {
-				// 		pointerEvents: 'none',
-				// 		opacity: 0
-				// 	})
-				// 	;
-				// 	break;
 				case -1:
 					break;
 				default:
@@ -456,14 +442,6 @@ export default {
 			this.$refs.canvasWrapper.appendChild(this.renderer.domElement);
 
 			this.animate();
-			const dat = require('dat.gui');
-			this.gui = new dat.GUI();
-			this.gui.add(this.cameraPosition, 'x', -500, 800);
-			this.gui.add(this.cameraPosition, 'y', -500, 800);
-			this.gui.add(this.cameraPosition, 'z', -500, 800);
-			this.gui.add(this.cameraRotation, 'x', -Math.PI, Math.PI).step(0.05);
-			this.gui.add(this.cameraRotation, 'y', -Math.PI, Math.PI).step(0.05);
-			this.gui.add(this.cameraRotation, 'z', -Math.PI, Math.PI).step(0.05);
 		},
 		animate() {
 			requestAnimationFrame(this.animate);

@@ -50,12 +50,9 @@
 						<td><span v-html="!isNaN(parseInt(values.split('__')[1]) - parseInt(values.split('__')[2])) ? parseInt(values.split('__')[1]) - parseInt(values.split('__')[2]) : '0'"></span></td>
 						<td>
 							<div @click="removeLine(index)">
-								<svg width="36" height="36" viewBox="0 -1 36 36">
-									<g fill="none" fill-rule="evenodd">
-										<text fill="#797979" font-family="Open Sans" font-size="18" font-weight="600" letter-spacing="1.523">
-											<tspan x="6" y="32">+</tspan>
-										</text>
-										<circle cx="17" cy="17" r="17" stroke="#797979"/>
+								<svg width="16" height="16" viewBox="0 0 16 16">
+									<g fill="none" fill-rule="evenodd" stroke="#5D666D" stroke-linecap="square">
+										<path d="M.5.5l15 15M15.5.5l-15 15"/>
 									</g>
 								</svg>
 							</div>
@@ -68,12 +65,9 @@
 						<td><span>.</span></td>
 						<td>
 							<div>
-								<svg width="36" height="36" viewBox="0 -1 36 36">
-									<g fill="none" fill-rule="evenodd">
-										<text fill="#797979" font-family="Open Sans" font-size="18" font-weight="600" letter-spacing="1.523">
-											<tspan x="6" y="32">+</tspan>
-										</text>
-										<circle cx="17" cy="17" r="17" stroke="#797979"/>
+								<svg width="16" height="16" viewBox="0 0 16 16">
+									<g fill="none" fill-rule="evenodd" stroke="#5D666D" stroke-linecap="square">
+										<path d="M.5.5l15 15M15.5.5l-15 15"/>
 									</g>
 								</svg>
 							</div>

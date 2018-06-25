@@ -12,9 +12,9 @@
 		</div>
 		<div :class="['step', 'step2']" ref="step2" :style="{'--cardsLeftMargin': cardsLeftMargin}">
 			<div class="cards" ref="cardsWrapper">
-				<h3 class="heading">
+				<div class="heading">
 					<span v-for="(word, i) in $t('intro.step2.sidePanel.heading').split(' ')" :key="i">{{ word }} </span>
-				</h3>
+				</div>
 				<ul v-hammer:pan.horizontal="panGesture" ref="cardsList">
 					<li :class="['card', (cards.length - 1 - i) === currentCardIndex ? 'selected': '']" v-for="(card, i) in cards.slice().reverse()" ref="cards" :key="card.title + (cards.length - 1 - i)">
 						<card-comp :item="card"></card-comp>
@@ -526,7 +526,7 @@ export default {
 					display: inline-block;
 				}
 				&:last-child {
-					font-weight: bold;
+					font-weight: 600;
 				}
 			}
 		}
@@ -544,7 +544,7 @@ export default {
 			align-items: center;
 			z-index: 1;
 			.heading {
-				font-size: 1.6rem;
+				font-size: 1.22rem;
 				margin-bottom: 2em;
 				span {
 					display: inline-block;
@@ -673,7 +673,8 @@ export default {
 					input[type=text] {
 						font-size: 2.5rem;
 						width: 100%;
-						font-family: inherit;
+						font-family: 'Antonio';
+						font-weight: 600;
 						color: inherit;
 						background: none;
 						border: none;
@@ -681,23 +682,22 @@ export default {
 						padding: 0.1em;
 						line-height: 1.5;
 						&::placeholder {
-							color: #959FB0;
-							font-weight: 100;
+							color: #6c85bc;
+							font-weight: 600;
 						}
 					}
 					.examples {
 						display: inline-block;
 						margin: 2rem 0;
-						font-weight: bold;
 						width: 100%;
 						span {
-							line-height: 2.35em;
+							line-height: 1.5em;
 						}
 						.wrapper {
 							margin-left: 1rem;
 							vertical-align: top;
 							display: inline-block;
-							height: 2.35em;
+							height: 1.5em;
 							overflow: hidden;
 							@keyframes slide {
 								0%, 45% {
@@ -710,7 +710,7 @@ export default {
 							ul {
 								animation: slide 10s infinite;
 								li {
-									font-size: 1.35em;
+									font-size: 1rem;
 									font-style: italic;
 									white-space: nowrap;
 								}

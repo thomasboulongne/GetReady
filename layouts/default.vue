@@ -174,6 +174,7 @@ main {
 	--lightBlue: #c1cbe0;
 	--black: #494949;
 	--textGrey: #a9b1b6;
+	--exempleBlue: #e5edf4;
 	--blue: #5781f8;
 	--cardWidth: 17rem;
 
@@ -185,6 +186,11 @@ main {
 		bottom: 0;
 		left: 0;
 		clip-path: polygon(0 10%, 100% 0%, 100% 100%, 0% 100%);
+	}
+
+	.exempleLine {
+		display: inline;
+	    background: linear-gradient(#ffffff, #ffffff 60%, var(--exempleBlue) 60.1%);
 	}
 
 	.intro {

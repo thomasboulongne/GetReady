@@ -20,7 +20,7 @@
 								<span class="label" v-t="'Example'"></span>
 								<div class="simple">
 									<div class="sentence">
-										<span v-html="step.Example"></span>
+										<span v-html="step.Example" class="exempleLine"></span>
 									</div>
 								</div>
 							</div>
@@ -30,7 +30,7 @@
 									<ol>
 										<li v-for="(exampleStep, j) in step.ExampleSteps" :key="j" :data-count="j + 1">
 											<div class="sentence">
-												<span v-html="exampleStep"></span>
+												<span v-html="exampleStep" class="exempleLine"></span>
 											</div>
 										</li>
 									</ol>
