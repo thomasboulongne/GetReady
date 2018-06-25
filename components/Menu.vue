@@ -12,7 +12,7 @@
 			</ul>
 		</nav>
 		<header :class="showHeader ? 'show' : ''">
-			<div class="back">
+			<div class="back" @click="goBack">
 				<img src="~/assets/images/arrow.svg" />
 				<span v-t="'Back'"></span>
 			</div>
@@ -86,7 +86,10 @@ export default {
 			}
 		}, 400, {
 			leading: false
-		})
+		}),
+		goBack() {
+			this.$router.go(-1);
+		}
 	}
 };
 </script>
@@ -118,6 +121,7 @@ export default {
 			opacity: 0;
 			pointer-events: none;
 			transition: opacity 0.3s;
+			cursor: pointer;
 			span {
 				text-transform: uppercase;
 				font-weight: 300;
