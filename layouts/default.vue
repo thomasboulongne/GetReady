@@ -158,13 +158,8 @@ export default {
 	--spacing: 3rem;
 	--menuTransitionSpeed: 0.2s;
 	--ease: cubic-bezier(0.165, 0.84, 0.44, 1);
-	--blue: #4b80ff;
 }
 main {
-	transition: filter var(--menuTransitionSpeed), transform var(--menuTransitionSpeed);
-	backface-visibility: hidden;
-	transform-style: preserve-3d;
-	filter: blur(0.3px);
 	--titleTopOffset: 5rem;
 	--transitionDuration: 1.5s;
 	--grey: #5d666d;
@@ -185,12 +180,7 @@ main {
 		right: 0;
 		bottom: 0;
 		left: 0;
-		clip-path: polygon(0 10%, 100% 0%, 100% 100%, 0% 100%);
-	}
-
-	.exempleLine {
-		display: inline;
-	    background: linear-gradient(#ffffff, #ffffff 60%, var(--exempleBlue) 60.1%);
+		clip-path: polygon(0 3rem, 100% 0%, 100% 100%, 0% 100%);
 	}
 
 	.intro {
@@ -198,11 +188,6 @@ main {
 		top: 0;
 		left: 0;
 		z-index: 3;
-	}
-	@-moz-document url-prefix() {
-		backface-visibility: initial;
-		transform-style: initial;
-		filter: none;
 	}
 	&:after {
 		content: '';
@@ -217,14 +202,9 @@ main {
 		transition: opacity var(--menuTransitionSpeed);
 	}
 	&.menuOpen {
-		filter: blur(6px);
-		transform: scale(1.02) translate3d(0, 0, 0);
 		&:after {
 			opacity: 0.65;
-			z-index: 1;
-		}
-		@-moz-document url-prefix() {
-			filter: none;
+			z-index: 2;
 		}
 	}
 }

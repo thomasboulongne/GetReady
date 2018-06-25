@@ -72,7 +72,7 @@
 				</div>
 				<div class="text">
 					<div class="illustration">
-						<summary-card-indicator-comp></summary-card-indicator-comp>
+						<summary-card-indicator-comp color="white"></summary-card-indicator-comp>
 					</div>
 					<p v-t="'intro.step4.text1'" ref="step4__text2"></p>
 				</div>

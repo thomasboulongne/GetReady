@@ -12,7 +12,8 @@
     "Study": "Étude",
     "Read": "Lire",
     "Understood": "J'ai compris",
-    "SummaryCardIndicator": "/images/summaryCardIndicator.svg",
+    "my-cards": "mes-fiches",
+    "Saved in your summary card": "Enregistré sur votre fiche récapitulative",
     "intro": {
         "step1": {
             "sentences": {
@@ -32,7 +33,7 @@
                 "placeholder": "Mon objectif est...",
                 "Example": "Exemple :",
                 "examples": {
-                    "1": "Avoir son bac avec mention",
+                    "1": "Apprendre une langue",
                     "2": "Courir le marathon de Paris en moins de 3h"
                 },
                 "submit": "Valider"
@@ -238,13 +239,13 @@
                 }
             },
             {
-                "title": "Se visualiser",
+                "title": "Visualiser",
                 "athlete": "Michael Phelps",
-                "slug": "se-visualiser",
+                "slug": "visualiser",
                 "img": "/images/athletes/phelps.png",
                 "color": "#4b80ff",
                 "position": {
-                    "x": -4,
+                    "x": -3,
                     "y": -0.5
                 },
                 "shadow": {

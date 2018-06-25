@@ -4,32 +4,41 @@
 			<component :is="component" :content="page.page" v-if="isPage && page"></component>
 		</section>
 		<footer>
-			<div class="coloredBackground"></div>
-			<nav>
-				<ul>
-					<li class="menuItem">
-						<nuxt-link :to="{name:'page', params: {slug: prevPage.slug}}" class="navTitleWrapper MTKnox">
-							<div v-for="(letter, j) in prevPage.title" :key="letter + j" class="letterWrapper">
-								<span class="letter">{{ letter }}</span>
-							</div>
-						</nuxt-link>
-					</li>
-					<li class="menuItem">
-						<nuxt-link :to="{name:'index'}" class="navTitleWrapper MTKnox">
-							<div v-for="(letter, j) in $t('Back to homepage')" :key="letter + j" class="letterWrapper">
-								<span class="letter">{{ letter }}</span>
-							</div>
-						</nuxt-link>
-					</li>
-					<li class="menuItem">
-						<nuxt-link :to="{name:'page', params: {slug: nextPage.slug}}" class="navTitleWrapper MTKnox">
-							<div v-for="(letter, j) in nextPage.title" :key="letter + j" class="letterWrapper">
-								<span class="letter">{{ letter }}</span>
-							</div>
-						</nuxt-link>
-					</li>
-				</ul>
-			</nav>
+			<div class="summaryCards">
+				<div class="coloredBackground">
+				</div>
+				<nuxt-link :to="'/' + $t('my-cards')">
+					<summary-card-indicator-comp></summary-card-indicator-comp>
+				</nuxt-link>
+			</div>
+			<div class="footerNavWrapper">
+				<div class="coloredBackground"></div>
+				<nav>
+					<ul>
+						<li class="menuItem">
+							<nuxt-link :to="{name:'page', params: {slug: prevPage.slug}}" class="navTitleWrapper MTKnox">
+								<div v-for="(letter, j) in prevPage.title" :key="letter + j" class="letterWrapper">
+									<span class="letter">{{ letter }}</span>
+								</div>
+							</nuxt-link>
+						</li>
+						<li class="menuItem">
+							<nuxt-link :to="{name:'index'}" class="navTitleWrapper MTKnox">
+								<div v-for="(letter, j) in $t('Back to homepage')" :key="letter + j" class="letterWrapper">
+									<span class="letter">{{ letter }}</span>
+								</div>
+							</nuxt-link>
+						</li>
+						<li class="menuItem">
+							<nuxt-link :to="{name:'page', params: {slug: nextPage.slug}}" class="navTitleWrapper MTKnox">
+								<div v-for="(letter, j) in nextPage.title" :key="letter + j" class="letterWrapper">
+									<span class="letter">{{ letter }}</span>
+								</div>
+							</nuxt-link>
+						</li>
+					</ul>
+				</nav>
+			</div>
 		</footer>
 	</div>
 </template>
@@ -39,6 +48,7 @@
 import CookiesClient from 'js-cookie';
 import OrganizeComp from '~/components/Organize';
 import VisualizeComp from '~/components/Visualize';
+import SummaryCardIndicatorComp from '~/components/SummaryCardIndicator';
 
 export default {
 	// fetch({ store, redirect, req }) {
@@ -109,6 +119,9 @@ export default {
 	beforeRouteUpdate(to, from, next) {
 		this.$store.dispatch('pageNotMounted');
 		next();
+	},
+	components: {
+		SummaryCardIndicatorComp
 	}
 };
 
@@ -210,7 +223,7 @@ export default {
 			text-transform: uppercase;
 			font-weight: normal;
 			line-height: 2.5;
-			color: var(--mediumGrey);
+			color: var(--textGrey);
 			vertical-align: baseline;
 			margin-right: 2rem;
 		}
@@ -232,11 +245,7 @@ export default {
 			.sentence {
 				span {
 					display: inline;
-					// border-bottom: 0.5em solid  var(--lightBlue);
-					// &:before {
-					// 	content: '';
-					// 	display: block;
-					// }
+					background: linear-gradient(#ffffff, #ffffff 60%, var(--exempleBlue) 60.1%);
 				}
 			}
 		}
@@ -294,6 +303,25 @@ export default {
 			}
 		}
 	}
+	.savedTooltip {
+		color: var(--blue);
+		font-style: italic;
+		font-size: 0.72rem;
+		opacity: 0;
+		transition: opacity 0.2s;
+		position: absolute;
+		top: calc(100% + 1rem);
+		left: 50%;
+		transform: translateX(-50%);
+		svg {
+			height: 0.72rem;
+			width: auto;
+			margin-right: 0.5rem;
+		}
+		&.show {
+			opacity: 1;
+		}
+	}
 	.detailsWrapper {
 		display: flex;
 		font-size: 1.16rem;
@@ -319,73 +347,88 @@ export default {
 	}
 }
 footer {
-	padding: var(--spacingHorizontalLarge) 0;
 	position: relative;
-	.coloredBackground {
-		background-color: var(--current-color);
-	}
-	nav {
+	margin-top: 4rem;
+	.summaryCards {
 		position: relative;
-		z-index: 1;
-		--menuLetterTransitionSpeed: 0.5s;
-		ul {
-			width: 100%;
-			display: flex;
-			justify-content: space-between;
-			list-style-type: none;
-			margin: 0;
-			padding: 0;
-			.menuItem {
-				width: 33%;
-				box-sizing: border-box;
+		height: 11.2rem;
+		margin-bottom: -2.7rem;
+		.summaryCardIndicator {
+			position: absolute;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			top: 1.5rem;
+		}
+	}
+	.footerNavWrapper {
+		position: relative;
+		padding: var(--spacingHorizontalLarge) 0;
+		.coloredBackground {
+			background-color: var(--current-color);
+		}
+		nav {
+			position: relative;
+			z-index: 1;
+			--menuLetterTransitionSpeed: 0.5s;
+			ul {
+				width: 100%;
 				display: flex;
-				justify-content: center;
-				.navTitleWrapper {
-					font-weight: bold;
-					font-size: 2rem;
-					color: white;
-					cursor: pointer;
-					position: relative;
+				justify-content: space-between;
+				list-style-type: none;
+				margin: 0;
+				padding: 0;
+				.menuItem {
+					width: 33%;
+					box-sizing: border-box;
 					display: flex;
-					&:after {
-						content: '';
-						transition: all 0.4s var(--ease);
-						position: absolute;
-						top: 110%;
-						height: 0.1em;
-						width: 0;
-						background: white;
-						left: 50%;
-						transform: translateX(-50%) rotate(-3deg);
-					}
-					.letterWrapper {
-						text-transform: uppercase;
-						display: inline-block;
-						backface-visibility: hidden;
-						transform: translateY(20%);
-					}
-					&:hover {
+					justify-content: center;
+					.navTitleWrapper {
+						font-weight: bold;
+						font-size: 2rem;
+						color: white;
+						cursor: pointer;
+						position: relative;
+						display: flex;
 						&:after {
-							width: 93%;
+							content: '';
+							transition: all 0.4s var(--ease);
+							position: absolute;
+							top: 110%;
+							height: 0.1em;
+							width: 0;
+							background: white;
+							left: 50%;
 							transform: translateX(-50%) rotate(-3deg);
 						}
 						.letterWrapper {
-							opacity: 1;
+							text-transform: uppercase;
+							display: inline-block;
+							backface-visibility: hidden;
+							transform: translateY(20%);
+						}
+						&:hover {
+							&:after {
+								width: 93%;
+								transform: translateX(-50%) rotate(-3deg);
+							}
+							.letterWrapper {
+								opacity: 1;
+							}
 						}
 					}
-				}
-				a {
-					color: white;
-					font-family: 'Antonio';
-					text-transform: uppercase;
-					font-weight: 600;
-					text-decoration: none;
-				}
-				@for $j from 1 to 30 {
-					.letterWrapper:nth-child(#{$j}) {
-						transition: transform var(--menuLetterTransitionSpeed) var(--ease) calc((#{$j} - 1) * 0.01s), opacity var(--menuLetterTransitionSpeed) var(--ease) calc((#{$j} - 1) * 0.02s);
-						opacity: 0.65;
-						transform: translateY(0);
+					a {
+						color: white;
+						font-family: 'Antonio';
+						text-transform: uppercase;
+						font-weight: 600;
+						text-decoration: none;
+					}
+					@for $j from 1 to 30 {
+						.letterWrapper:nth-child(#{$j}) {
+							transition: transform var(--menuLetterTransitionSpeed) var(--ease) calc((#{$j} - 1) * 0.01s), opacity var(--menuLetterTransitionSpeed) var(--ease) calc((#{$j} - 1) * 0.02s);
+							opacity: 0.65;
+							transform: translateY(0);
+						}
 					}
 				}
 			}

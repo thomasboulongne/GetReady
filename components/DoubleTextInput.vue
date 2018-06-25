@@ -33,10 +33,20 @@
 					</ul>
 				</div>
 			</div>
+			<div :class="['savedTooltip', savedTooltip ? 'show': '']">
+				<svg width="12" height="15" viewBox="0 0 12 15">
+					<g fill="#5781F8" fill-rule="nonzero">
+						<path d="M9.174.287H.23v14.426h11.54V2.883L9.174.288zm1.154 12.983H1.672V1.73h1.443v1.442h1.442V1.73H6v1.442h1.443V1.73h1.154l1.73 1.73v9.81z"/>
+						<path d="M5.292 8.985L4.21 7.83 3.2 8.84l2.092 2.163L8.97 7.326l-1.01-1.01z"/>
+					</g>
+				</svg>
+				<span v-t="'Saved in your summary card'"></span>
+			</div>
 		</div>
 	</div>
 </template>
 <script>
+import debounce from 'lodash/debounce';
 export default {
 	props: {
 		storeIdentifier: {
@@ -51,7 +61,8 @@ export default {
 	},
 	data() {
 		return {
-			open: false
+			open: false,
+			savedTooltip: false
 		};
 	},
 	computed: {
@@ -90,10 +101,18 @@ export default {
 			});
 			value = value.slice(0, -2);
 			this.$store.dispatch('userDataUpdateField', {key: this.storeIdentifier, i: i, value: value});
+			this.debouncedSaveTip();
 		},
 		removeField(i) {
 			this.$store.dispatch('userDataRemoveField', {key: this.storeIdentifier, i: i});
-		}
+			this.debouncedSaveTip();
+		},
+		debouncedSaveTip: debounce(function() {
+			this.savedTooltip = true;
+			setTimeout(() => {
+				this.savedTooltip = false;
+			}, 2500);
+		}, 1000)
 	}
 };
 </script>
@@ -101,6 +120,7 @@ export default {
 .doubleTextInputComp {
 	margin-top: 1rem;
 	.inputs {
+		position: relative;
 		.inputsWrapper {
 			display: flex;
 			margin-top: 2rem;

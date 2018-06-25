@@ -36,10 +36,11 @@ export default {
 	max-width: 70rem;
 	margin: auto;
 	justify-content: space-between;
+	align-items: flex-start;
 	margin-top: 12rem;
 	.detailedBlock {
 		background-color: var(--lightGrey);
-		padding: 1.5em;
+		padding: 8rem 2.77rem 3.88rem;
 		padding-top: 8rem;
 		width: 46%;
 		box-sizing: border-box;

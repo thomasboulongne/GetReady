@@ -45,9 +45,7 @@ export default {
 	margin-top: var(--titleTopOffset);
 	--titleWrapperDelay: 2s;
 	transform: translate(calc(var(--centeredOffsetX) + (var(--eased-mouse-position-percent-x) * 0.03%)), calc(var(--centeredOffsetY) + (var(--eased-mouse-position-percent-y) * 0.03%)));
-	@-moz-document url-prefix() {
-		transform-style: preserve-3d;
-	}
+	transform-style: preserve-3d;
 	&.centered {
 		position: absolute;
 		top: 50%;
@@ -60,9 +58,7 @@ export default {
 		position: relative;
 		display: block;
 		--y-offset: -0.035em; // Used for title slope
-		@-moz-document url-prefix() {
 			transform-style: preserve-3d;
-		}
 		div {
 			display: inline-block;
 			position: relative;
