@@ -85,7 +85,7 @@
 			<div class="blocks">
 				<div class="block">
 					<div class="illustration">
-						<video autoplay="true" playsinline muted loop :src="content['Last part']['Blocks'][0].Animation"></video>
+						<video autoplay="true" playsinline muted loop :src="PATH + content['Last part']['Blocks'][0].Animation"></video>
 					</div>
 					<div class="content">
 						<h3 v-html="content['Last part']['Blocks'][0].Title"></h3>
@@ -94,7 +94,7 @@
 				</div>
 				<div class="block">
 					<div class="illustration">
-						<video autoplay="true" playsinline muted loop :src="content['Last part']['Blocks'][1].Animation"></video>
+						<video autoplay="true" playsinline muted loop :src="PATH + content['Last part']['Blocks'][1].Animation"></video>
 					</div>
 					<div class="content">
 						<h3 v-html="content['Last part']['Blocks'][1].Title"></h3>
@@ -105,7 +105,7 @@
 				</div>
 				<div class="block">
 					<div class="illustration">
-						<video autoplay="true" playsinline muted loop :src="content['Last part']['Blocks'][2].Animation"></video>
+						<video autoplay="true" playsinline muted loop :src="PATH + content['Last part']['Blocks'][2].Animation"></video>
 					</div>
 					<div class="content">
 						<h3 v-html="content['Last part']['Blocks'][2].Title"></h3>
@@ -115,7 +115,7 @@
 				</div>
 				<div class="block">
 					<div class="illustration">
-						<video autoplay="true" playsinline muted loop :src="content['Last part']['Blocks'][3].Animation"></video>
+						<video autoplay="true" playsinline muted loop :src="PATH + content['Last part']['Blocks'][3].Animation"></video>
 					</div>
 					<div class="content">
 						<h3 v-html="content['Last part']['Blocks'][3].Title"></h3>

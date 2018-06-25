@@ -107,6 +107,7 @@ export default {
 			transform: translate(-50%, -50%);
 			transition-delay: 0s;
 			transition-duration: 0.2s;
+			width: 100%;
 			.textWrapper {
 				background-color: white;
 				color: var(--buttonColor) !important;

@@ -66,7 +66,7 @@
 			<div class="texts">
 				<div class="text">
 					<div class="illustration">
-						<img :src="$t('intro.step4.img1')" alt="">
+						<img :src="PATH + $t('intro.step4.img1')" alt="">
 					</div>
 					<p v-t="'intro.step4.text1'" ref="step4__text1"></p>
 				</div>
@@ -105,7 +105,8 @@ export default {
 			examples: [
 				this.$t('intro.step2.formPanel.examples.1'),
 				this.$t('intro.step2.formPanel.examples.2')
-			]
+			],
+			PATH: process.env.PATH
 		};
 	},
 	watch: {

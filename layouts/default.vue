@@ -74,27 +74,31 @@ export default {
 			if (from.name === 'intro' && to.name === 'index') {
 				this.selector = true;
 				const fadeDuration = 0.6;
-				this.$nextTick(() => {
-					const tl = new TimelineMax({
-						paused: true,
-						onComplete: () => {
-							this.intro = false;
-						}
-					});
-					tl
-					.to(this.$refs.intro.$el, 0.4, {
-						'--maskYRight': 0
-					})
-					.to(this.$refs.intro.$el, 0.6, {
-						'--maskYLeft': 0
-					}, 0)
-					.to(this.$refs.intro.$el, fadeDuration, {
-						opacity: 0
-					})
-					.add(() => {
-						this.$refs.selector.spinAnimation();
-					}, '-=' + fadeDuration);
-					tl.play();
+				let unwatch = () => {};
+				const tl = new TimelineMax({
+					paused: true,
+					onComplete: () => {
+						this.intro = false;
+						unwatch();
+					}
+				});
+				unwatch = this.$watch('$store.getters.pageIsMounted', mounted => {
+					if (mounted) {
+						tl
+						.to(this.$refs.intro.$el, 0.4, {
+							'--maskYRight': 0
+						})
+						.to(this.$refs.intro.$el, 0.6, {
+							'--maskYLeft': 0
+						}, 0)
+						.to(this.$refs.intro.$el, fadeDuration, {
+							opacity: 0
+						}, '+= 0.1')
+						.add(() => {
+							this.$refs.selector.spinAnimation();
+						}, '-=' + fadeDuration * 0.8);
+						tl.play();
+					}
 				});
 			} else if (to.name === 'intro') {
 				this.selector = false;

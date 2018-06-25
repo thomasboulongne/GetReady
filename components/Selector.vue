@@ -370,10 +370,10 @@ export default {
 		spinAnimation() {
 			this.rotation = Math.PI * 1.5;
 			return new Promise(resolve => {
-				TweenMax.to(this, 2.5, {
+				TweenMax.to(this, 3.5, {
 					directionalRotation: {
 						useRadians: true,
-						rotation: '0'
+						rotation: '0_ccw'
 					},
 					ease: Power4.easeOut,
 					onComplete: () => {
