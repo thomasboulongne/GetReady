@@ -5,12 +5,14 @@
     "Example": "Exemple",
     "Hide": "Masquer",
     "Definition": "Définition",
-    "These celebrities approve": "Des personnalités_approuvent",
+    "These celebrities approve": "Des personnalités_témoignent",
     "Back to homepage": "Retour à l'accueil",
     "Back": "Retour",
     "Your goal": "Votre objectif",
     "Study": "Étude",
     "Read": "Lire",
+    "Understood": "J'ai compris",
+    "SummaryCardIndicator": "/images/summaryCardIndicator.svg",
     "intro": {
         "step1": {
             "sentences": {
@@ -37,7 +39,9 @@
             }
         },
         "step4": {
-            "text": "Pour t’aider dans ton projet, nous te présentons  trois grandes étapes clés pour réussir à atteindre ton objectif."
+            "text1": "Pour vous aider dans votre projet, nous vous présentons 3 grandes étapes clés pour réussir à atteindre votre objectif.",
+            "img1": "/images/slides.svg",
+            "text2": "À la fin de chaque page, vous pourrez télécharger des fiches récapitulatives personnalisées en cliquant sur ce symbole."
         }
     },
     "categories": {

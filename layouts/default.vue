@@ -165,10 +165,12 @@ main {
 	--transitionDuration: 1.5s;
 	--grey: #5d666d;
 	--lightGrey: #f6f8fa;
+	--introBlue: #acbee4;
 	--mediumGrey: #dbdbdb;
 	--lightBlue: #c1cbe0;
 	--black: #494949;
 	--textGrey: #a9b1b6;
+	--blue: #5781f8;
 	--cardWidth: 17rem;
 
 	.coloredBackground {

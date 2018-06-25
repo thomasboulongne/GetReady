@@ -62,7 +62,7 @@ export default {
 		if (this.$store.getters.goal === null) {
 			this.$router.push('/intro');
 		}
-		this.$store.dispatch('updateCurrentColor', this.page ? this.page.color : '#c1cbe0');
+		this.$store.dispatch('updateCurrentColor', this.page ? this.page.color : '#acbee4');
 	},
 	mounted() {
 		this.$store.dispatch('pageIsMounted');

@@ -63,9 +63,22 @@
 		</div>
 		<div class="step step4" ref="step4">
 			<div class="goal h2" ref="step4__goal">{{ $store.getters.goal }}</div>
-			<div class="text" v-t="'intro.step4.text'" ref="step4__text"></div>
+			<div class="texts">
+				<div class="text">
+					<div class="illustration">
+						<img :src="$t('intro.step4.img1')" alt="">
+					</div>
+					<p v-t="'intro.step4.text1'" ref="step4__text1"></p>
+				</div>
+				<div class="text">
+					<div class="illustration">
+						<summary-card-indicator-comp></summary-card-indicator-comp>
+					</div>
+					<p v-t="'intro.step4.text1'" ref="step4__text2"></p>
+				</div>
+			</div>
 			<div class="button__next" @click="endIntro">
-				<button-comp :text="$t('next')" ref="step4__button"></button-comp>
+				<button-comp :text="$t('Understood')" ref="step4__button"></button-comp>
 			</div>
 		</div>
 	</div>
@@ -73,6 +86,7 @@
 <script>
 import ButtonComp from '~/components/Button';
 import CardComp from '~/components/Card';
+import SummaryCardIndicatorComp from '~/components/SummaryCardIndicator';
 export default {
 	props: {
 		lastColor: {
@@ -170,7 +184,10 @@ export default {
 	},
 	mounted() {
 		this.animateStep1();
-		lining(this.$refs.step4__text, {
+		lining(this.$refs.step4__text1, {
+			'autoResize': true
+		});
+		lining(this.$refs.step4__text2, {
 			'autoResize': true
 		});
 	},
@@ -324,7 +341,7 @@ export default {
 					scale: 1,
 					pointerEvents: 'all'
 				})
-				.staggerFromTo(this.$refs.step4__text.querySelectorAll('text-line'), 1, {
+				.staggerFromTo([this.$refs.step4__text1.querySelectorAll('text-line'), this.$refs.step4__text2.querySelectorAll('text-line')], 1, {
 					opacity: 0,
 					yPercent: -50
 				}, {
@@ -439,7 +456,8 @@ export default {
 	},
 	components: {
 		ButtonComp,
-		CardComp
+		CardComp,
+		SummaryCardIndicatorComp
 	}
 };
 </script>
@@ -449,7 +467,7 @@ export default {
 .intro {
 	height: 100vh;
 	width: 100vw;
-	background: var(--lightBlue);
+	background: var(--introBlue);
 	--stepTransitionDuration: 0.7s;
 	color: white;
 	position: relative;
@@ -698,7 +716,6 @@ export default {
 							}
 						}
 					}
-
 					.buttons {
 						.buttonWrapper {
 							--buttonColor: var(--lightBlue);
@@ -718,12 +735,48 @@ export default {
 			display: block;
 			font-size: 2.5rem;
 			margin-bottom: 1em;
+			color: var(--blue);
+			font-weight: 600;
 		}
-		.text {
-			font-size: 1.3rem;
-			line-height: 1.67;
-			text-align: center;
-			max-width: 26em;
+		.texts {
+			display: flex;
+			.text {
+				font-size: 1rem;
+				line-height: 1.67;
+				text-align: center;
+				max-width: 18em;
+				padding: 1rem 2.6rem 0 0;
+				position: relative;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				.illustration {
+					margin-bottom: 2.5rem;
+					width: calc(70% - 2.6rem);
+					height: 6.1rem;
+					img {
+						width: 100%;
+						height: 100%;
+						object-fit: contain;
+					}
+					.summaryCardIndicator {
+						width: 100%;
+						height: 100%;
+					}
+				}
+				&:last-child {
+					padding: 1rem 0 0 2.6rem;
+					&:before {
+						content: '';
+						position: absolute;
+						right: 100%;
+						width: 1px;
+						top: 1rem;
+						height: 6rem;
+						background-color: white;
+					}
+				}
+			}
 		}
 	}
 }

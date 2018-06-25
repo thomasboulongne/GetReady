@@ -22,13 +22,36 @@ export default {
 			}
 		},
 		definition: {
-			default: true
+			default: true,
+			displayed: false
 		}
 	},
 	data() {
 		return {
-			PATH: process.env.PATH
+			PATH: process.env.PATH,
+			lineScale: 0
 		};
+	},
+	watch: {
+		'$store.getters.scrollPosition': function() {
+			if (!this.displayed) {
+				this.checkDisplay();
+			}
+		}
+	},
+	mounted() {
+		// this.tl = new TimelineMax({ paused: true });
+		// this.
+	},
+	methods: {
+		checkDisplay() {
+			const rect = this.$el.getBoundingClientRect();
+			if (rect.top < this.$store.getters.viewportSize.height * 0.9) {
+				this.show();
+			}
+		},
+		show() {
+		}
 	}
 };
 </script>
