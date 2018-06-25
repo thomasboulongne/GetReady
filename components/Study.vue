@@ -452,7 +452,7 @@ export default {
 					this.scene.add(this.court);
 				}
 			);
-			this.scene.background = new THREE.Color(0x6F88EE);
+			this.scene.background = new THREE.Color(this.$store.getters.currentColor);
 			this.$refs.canvasWrapper.appendChild(this.renderer.domElement);
 
 			this.animate();
