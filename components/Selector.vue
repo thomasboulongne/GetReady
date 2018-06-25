@@ -1,24 +1,24 @@
 <template>
 	<div :class="['selector', canSlide ? 'canAnimate' : '', clipped ? 'clipped' : '']" v-hammer:pan.horizontal="panGesture" :style="{
-		'--currentColor': backgroundColor,
+		'--current-color': backgroundColor,
 		'--transition-speed': transitionSpeed * 0.75 + 's',
-		'--easedMousePositionPercentX': easedMousePositionPercent.x,
-		'--easedMousePositionPercentY': easedMousePositionPercent.y,
+		'--eased-mouse-position-percent-x': easedMousePositionPercent.x,
+		'--eased-mouse-position-percent-y': easedMousePositionPercent.y,
 		'--ratio': (vh / vw).toFixed(2),
-		'--backgroundTransitionDuration': backgroundTransitionDuration + 's',
-		'--navigationArrowsAreaWidth': navigationArrowsAreaWidth + '%',
+		'--background-transition-duration': backgroundTransitionDuration + 's',
+		'--navigation-arrows-area-width': navigationArrowsAreaWidth + '%',
 		'cursor': cursor
 	}">
 		<div class="background"></div>
 		<ul class="hiddenSelector">
 			<li v-for="(item, i) in items" :key="item.color + i">
 				<div class="selectorItem" ref="items" :style="{
-				'--backgroundColor': item.color,
-				'--xOffset': item.position.x,
-				'--yOffset': item.position.y,
-				'--xShadowOffset': item.shadow.x + '%',
-				'--yShadowOffset': item.shadow.y + '%',
-				'--numberOfLetters': item.title.length
+				'--background-color': item.color,
+				'--x-offset': item.position.x,
+				'--y-offset': item.position.y,
+				'--x-shadow-offset': item.shadow.x + '%',
+				'--y-shadow-offset': item.shadow.y + '%',
+				'--number-of-letters': item.title.length
 				}">
 					<div class="itemWrapper">
 						<div class="img">
@@ -187,7 +187,7 @@ export default {
 			this.initRotation(to);
 		},
 		'$store.getters.pageIsMounted': function() {
-			this.transitionTitle();
+			// this.transitionTitle();
 		}
 	},
 
@@ -225,7 +225,7 @@ export default {
 						pointerEvents: 'none'
 					}, 0)
 					.to(this.$el.querySelector('.currentSlide'), duration, {
-						'--xOffset': 5,
+						'--x-offset': 5,
 						ease: Power4.easeOut
 					}, 0)
 					.to(this.$el.querySelector('.currentSlide .img'), duration, {
@@ -263,12 +263,14 @@ export default {
 					.to(this.$el.querySelectorAll('.pagination'), duration / 3, {
 						opacity: 1,
 						pointerEvents: 'all'
-					}, 0)
-					.to(this.$el.querySelectorAll('.selectorItem'), duration, {
-						'--xOffset': this.items[this.currentSlide].position.x,
-						ease: Power4.easeOut
-					}, 0)
-					.to(this.$el.querySelectorAll('.img'), duration, {
+					}, 0);
+					Array.from(this.$el.querySelectorAll('.selectorItem')).forEach((item, i) => {
+						tl.to(item, duration, {
+							'--x-offset': this.items[i].position.x,
+							ease: Power4.easeOut
+						}, 0);
+					});
+					tl.to(this.$el.querySelectorAll('.img'), duration, {
 						'--imgTop': 45,
 						ease: Power4.easeOut
 					}, 0);
@@ -498,13 +500,13 @@ export default {
 	height: 100vh;
 	width: var(--vw);
 	--mask: 0;
-	--pageTransitionDuration: 1s;
+	--page-transition-duration: 1s;
 	position: relative;
 	cursor: grab;
 	z-index: 1;
 	.background {
-		transition: background-color var(--backgroundTransitionDuration);
-		background-color: var(--currentColor);
+		transition: background-color var(--background-transition-duration);
+		background-color: var(--current-color);
 		position: absolute;
 		top: 0;
 		left: 0;
@@ -525,7 +527,7 @@ export default {
 			left: 0;
 			top: 0;
 			height: 100%;
-			width: var(--navigationArrowsAreaWidth);
+			width: var(--navigation-arrows-area-width);
 			pointer-events: all;
 			cursor: w-resize;
 			display: flex;
@@ -566,7 +568,7 @@ export default {
 				left: 50%;
 				transform: translate(-50%, -50%);
 				img {
-					transform: translate(calc(var(--xOffset) * 10% + var(--easedMousePositionPercentX) * 0.01%), calc(var(--yOffset) * 10% + var(--easedMousePositionPercentY) * 0.01%)) translateZ(0);
+					transform: translate(calc(var(--x-offset) * 10% + var(--eased-mouse-position-percent-x) * 0.01%), calc(var(--y-offset) * 10% + var(--eased-mouse-position-percent-y) * 0.01%)) translateZ(0);
 					z-index: 1;
 					height: auto;
 					width: 80vmin;
@@ -583,7 +585,7 @@ export default {
 						left: 50%;
 						filter: grayscale(1) brightness(0);
 						opacity: 0.15;
-						transform: translate(calc(-50% + ((var(--xOffset) * 1% + var(--xShadowOffset)) * 10) + (var(--easedMousePositionPercentX) * 0.02%)), calc(-50% + ((var(--yOffset) * 1% + var(--yShadowOffset)) * 10) + (var(--easedMousePositionPercentY) * 0.02%))) scale(1.02) translateZ(0);
+						transform: translate(calc(-50% + ((var(--x-offset) * 1% + var(--x-shadow-offset)) * 10) + (var(--eased-mouse-position-percent-x) * 0.02%)), calc(-50% + ((var(--y-offset) * 1% + var(--y-shadow-offset)) * 10) + (var(--eased-mouse-position-percent-y) * 0.02%))) scale(1.02) translateZ(0);
 					}
 				}
 			}
@@ -609,15 +611,15 @@ export default {
 			.subtitle {
 				position: absolute;
 				right: 0;
-				top: calc(48% + var(--titleTopOffset) / 2 + ((-2% * var(--numberOfLetters)) + 28%));
+				top: calc(48% + var(--titleTopOffset) / 2 + ((-2% * var(--number-of-letters)) + 28%));
 				color: white;
 				clip-path: polygon(0 15%, 100% 0, 100% 100%, 0 100%);
 				@supports (-ms-ime-align: auto) {
 					&:after {
 						content: '';
 						position: absolute;
-						transition: background-color var(--backgroundTransitionDuration);
-						background-color: var(--currentColor);
+						transition: background-color var(--background-transition-duration);
+						background-color: var(--current-color);
 						bottom: 100%;
 						left: 50%;
 						height: 150%;
@@ -643,7 +645,7 @@ export default {
 			z-index: 4;
 			user-select: initial;
 			.buttonWrapper {
-				--buttonColor: var(--backgroundColor);
+				--buttonColor: var(--background-color);
 			}
 		}
 		.buttonComp {

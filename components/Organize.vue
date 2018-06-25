@@ -187,7 +187,7 @@ export default {
 					&:before {
 						content: attr(data-count);
 						display: inline-block;
-						color: var(--currentColor);
+						color: var(--current-color);
 						font-family: 'Antonio';
 						font-weight: bold;
 						font-size: 1.2rem;

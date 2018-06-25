@@ -2,7 +2,7 @@
 	<div id="app" :style="{
 		'--vw': $store.getters.viewportSize.width + 'px',
 		'--vh': $store.getters.viewportSize.height + 'px',
-		'--currentColor': $store.getters.currentColor
+		'--current-color': $store.getters.currentColor
 	}">
 		<menu-comp :items="menuItems"></menu-comp>
 		<main :class="[menuIsOpen ? 'menuOpen' : '', $route.name === 'intro' ? 'introLayout' : 'selectorLayout']">

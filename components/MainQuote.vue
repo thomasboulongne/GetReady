@@ -54,7 +54,7 @@ export default {
 			width: 66%;
 			svg {
 				* {
-					fill: var(--currentColor);
+					fill: var(--current-color);
 				}
 			}
 			.quote {
@@ -69,7 +69,7 @@ export default {
 					font-family: Antonio;
 					font-size: 1.1rem;
 					font-weight: bold;
-					color: var(--currentColor);
+					color: var(--current-color);
 					text-transform: uppercase;
 					display: block;
 				}

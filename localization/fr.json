@@ -244,8 +244,8 @@
                 "img": "/images/athletes/phelps.png",
                 "color": "#4b80ff",
                 "position": {
-                    "x": 1.5,
-                    "y": 0
+                    "x": -2,
+                    "y": -0.5
                 },
                 "shadow": {
                     "x": -0.5,

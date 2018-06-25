@@ -58,8 +58,8 @@ export default {
 				left: 50%;
 				width: 120%;
 				height: 100%;
-				background-color: var(--currentColor);
-				transition: background-color var(--backgroundTransitionDuration), transform calc(var(--transition-speed) * 1.3) var(--ease) var(--transition-delay);
+				background-color: var(--current-color);
+				transition: background-color var(--background-transition-duration), transform calc(var(--transition-speed) * 1.3) var(--ease) var(--transition-delay);
 				z-index: 1;
 			}
 			&:before {
@@ -75,8 +75,9 @@ export default {
 			display: flex;
 			justify-content: center;
 			align-items: center;
-			font-size: 1rem;
+			font-size: 0.83rem;
 			text-transform: uppercase;
+			font-weight: 600;
 			transform-style: preserve-3d;
 			.textWrapper {
 				transform-style: preserve-3d;

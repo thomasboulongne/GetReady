@@ -134,7 +134,7 @@ export default {
 		left: var(--spacingHorizontalLarge);
 		display: block;
 		background: #c1cbe0;
-		background: var(--currentColor);
+		background: var(--current-color);
 		transform-origin: top;
 		transform: scaleY(var(--lineScale));
 	}
@@ -159,10 +159,10 @@ export default {
 	h3 {
 		font-size: 2.05rem;
 		font-weight: bold;
-		color: var(--currentColor);
+		color: var(--current-color);
 	}
 	h4 {
-		color: var(--currentColor);
+		color: var(--current-color);
 	}
 	ol, li {
 		list-style-type: none;
@@ -249,7 +249,7 @@ export default {
 				&:before { // Number
 					flex-shrink: 0;
 					content: attr(data-count);
-					border: solid var(--currentColor) 1px;
+					border: solid var(--current-color) 1px;
 					height: var(--circleSize);
 					width: var(--circleSize);
 					display: inline-block;
@@ -257,7 +257,7 @@ export default {
 					text-align: center;
 					font-style: normal;
 					font-weight: bold;
-					color: var(--currentColor);
+					color: var(--current-color);
 					line-height: calc(var(--circleSize));
 					margin-right: 1rem;
 					background: white;
@@ -268,8 +268,8 @@ export default {
 				&:first-child {
 					opacity: 1;
 					&:before {
-						border: solid var(--currentColor) 1px;
-						background-color: var(--currentColor);
+						border: solid var(--current-color) 1px;
+						background-color: var(--current-color);
 						color: white;
 					}
 					&:after {
@@ -284,7 +284,7 @@ export default {
 						z-index: 0;
 						width: 1px;
 						height: calc(100% - 0.8em);
-						background-color: var(--currentColor);
+						background-color: var(--current-color);
 						display: block;
 						position: absolute;
 						left: calc((var(--circleSize) / 2) + 1px);
@@ -303,7 +303,7 @@ export default {
 			width: 2.5rem;
 			flex-shrink: 0;
 			height: 1px;
-			background-color: var(--currentColor);
+			background-color: var(--current-color);
 			margin-right: 1.5rem;
 			transform: translateY(0.7em)
 		}
@@ -322,7 +322,7 @@ footer {
 	padding: var(--spacingHorizontalLarge) 0;
 	position: relative;
 	.coloredBackground {
-		background-color: var(--currentColor);
+		background-color: var(--current-color);
 	}
 	nav {
 		position: relative;

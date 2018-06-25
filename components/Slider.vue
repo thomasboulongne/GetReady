@@ -167,7 +167,7 @@ export default {
 			left: calc(var(--percentage) * 2/3);
 			top: 0;
 			height: 100%;
-			background-color: var(--currentColor);
+			background-color: var(--current-color);
 		}
 	}
 }

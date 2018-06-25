@@ -1,7 +1,7 @@
 <template>
 	<div class="titleWrapper MTKnox" :style="{
-		'--easedMousePositionPercentX': $store.getters.easedMousePositionPercent.x,
-		'--easedMousePositionPercentY': $store.getters.easedMousePositionPercent.y,
+		'--eased-mouse-position-percent-x': $store.getters.easedMousePositionPercent.x,
+		'--eased-mouse-position-percent-y': $store.getters.easedMousePositionPercent.y,
 		'--centeredOffsetX': centered ? '-50%' : '0%',
 		'--centeredOffsetY': centered ? '-59%' : '0%'
 	}" :class="centered ? 'centered' : ''">
@@ -44,7 +44,7 @@ export default {
 	pointer-events: none;
 	margin-top: var(--titleTopOffset);
 	--titleWrapperDelay: 2s;
-	transform: translate(calc(var(--centeredOffsetX) + (var(--easedMousePositionPercentX) * 0.03%)), calc(var(--centeredOffsetY) + (var(--easedMousePositionPercentY) * 0.03%)));
+	transform: translate(calc(var(--centeredOffsetX) + (var(--eased-mouse-position-percent-x) * 0.03%)), calc(var(--centeredOffsetY) + (var(--eased-mouse-position-percent-y) * 0.03%)));
 	@-moz-document url-prefix() {
 		transform-style: preserve-3d;
 	}
@@ -59,7 +59,7 @@ export default {
 		white-space: nowrap;
 		position: relative;
 		display: block;
-		--yOffset: -0.035em; // Used for title slope
+		--y-offset: -0.035em; // Used for title slope
 		@-moz-document url-prefix() {
 			transform-style: preserve-3d;
 		}
@@ -75,7 +75,7 @@ export default {
 			@for $i from 1 to 30 {
 				&:nth-child(#{$i}) {
 					span {
-						transform: translateY(calc(#{$i} * var(--yOffset)));
+						transform: translateY(calc(#{$i} * var(--y-offset)));
 					}
 				}
 			}

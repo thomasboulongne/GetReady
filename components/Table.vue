@@ -177,7 +177,7 @@ export default {
 		.open, .close {
 			display: inline-block;
 			font-size: 0.7rem;
-			color: var(--currentColor);
+			color: var(--current-color);
 			text-transform: uppercase;
 			font-weight: 600;
 			cursor: pointer;
@@ -189,7 +189,7 @@ export default {
 				margin-right: 0.6em;
 				vertical-align: middle;
 				path {
-					fill: var(--currentColor);
+					fill: var(--current-color);
 				}
 			}
 			.arrowIcon {
@@ -197,7 +197,7 @@ export default {
 				margin-left: 0.6em;
 				vertical-align: middle;
 				path {
-					stroke: var(--currentColor);
+					stroke: var(--current-color);
 				}
 			}
 		}
@@ -272,7 +272,7 @@ export default {
 					}
 					&.max {
 						td:not(:first-child) {
-							color: var(--currentColor);
+							color: var(--current-color);
 							font-weight: 600;
 						}
 					}

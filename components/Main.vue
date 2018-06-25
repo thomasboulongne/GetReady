@@ -129,7 +129,7 @@ export default {
 					margin-bottom: 1.5rem;
 				}
 				&.selected {
-					color: var(--currentColor);
+					color: var(--current-color);
 				}
 			}
 		}

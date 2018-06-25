@@ -186,7 +186,7 @@ export default {
 		}
 
 		&.show {
-			background-color: var(--currentColor);
+			background-color: var(--current-color);
 			.goalWrapper, .back {
 				opacity: 1;
 				pointer-events: all;
