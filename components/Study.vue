@@ -431,8 +431,9 @@ export default {
 				process.env.PATH + this.study.HoopObj,
 				object => {
 					this.hoop = object;
-					this.hoop.children[0].material = new THREE.MeshBasicMaterial();
-					this.hoop.children[0].material.map = this.texture;
+					this.hoop.children[0].material = new THREE.MeshBasicMaterial({
+						map: this.texture
+					});
 					this.hoop.position.set(0, 0, 0);
 					this.scene.add(this.hoop);
 				}
@@ -441,7 +442,12 @@ export default {
 				process.env.PATH + this.study.CourtObj,
 				object => {
 					this.court = object;
-					this.court.children[0].material = new THREE.MeshBasicMaterial();
+					this.court.children[0].material = new THREE.MeshBasicMaterial({
+						side: THREE.BackSide,
+						color: new THREE.Color(0xc1cbe0)
+					});
+					this.court.children[0].material.side = THREE.BackSide;
+
 					this.court.position.set(0, 0, 0);
 					this.scene.add(this.court);
 				}

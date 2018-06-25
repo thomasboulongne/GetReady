@@ -1,6 +1,6 @@
 <template>
 	<div v-show="isPage">
-		<section :class="['page', 'container']">
+		<section :class="['page', 'container']" :style="{'--lineScale': lineScale}">
 			<component :is="component" :content="page.page" v-if="isPage && page"></component>
 		</section>
 		<footer>
@@ -66,10 +66,16 @@ export default {
 	},
 	mounted() {
 		this.$store.dispatch('pageIsMounted');
+		TweenMax.to(this, 0.8, {
+			lineScale: 1,
+			ease: Power4.easeOut,
+			delay: 1
+		});
 	},
 	data() {
 		return {
-			isPage: this.$route.name === 'page'
+			isPage: this.$route.name === 'page',
+			lineScale: 0
 		};
 	},
 	computed: {
@@ -122,13 +128,15 @@ export default {
 	&:before {
 		content: '';
 		position: absolute;
-		top: 0;
-		height: var(--paddingTop);
+		top: calc(var(--paddingTop) - 11vh);
+		height: 11vh;
 		width: 1px;
 		left: var(--spacingHorizontalLarge);
 		display: block;
 		background: #c1cbe0;
 		background: var(--currentColor);
+		transform-origin: top;
+		transform: scaleY(var(--lineScale));
 	}
 	p {
 		line-height: 1.82;
