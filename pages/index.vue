@@ -112,7 +112,7 @@ export default {
 .page {
 	height: auto;
 	background-color: white;
-	--topOffset: 40vh;
+	--topOffset: 100vh;
 	--paddingTop: calc(var(--topOffset) * 0.8);
 	top: calc(var(--topOffset) * -1);
 	margin-bottom: calc(var(--topOffset) * -1);

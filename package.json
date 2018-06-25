@@ -11,6 +11,7 @@
     "contentful": "^4.5.0",
     "cookie": "^0.3.1",
     "css-loader": "^0.28.4",
+    "dat.gui": "^0.7.2",
     "favicons-webpack-plugin": "git+https://github.com/thomasboulongne/favicons-webpack-plugin.git#v0.0.8",
     "gsap": "^2.0.1",
     "js-cookie": "^2.1.4",

@@ -2,8 +2,8 @@
 	<div :class="['selector', canSlide ? 'canAnimate' : '', clipped ? 'clipped' : '']" v-hammer:pan.horizontal="panGesture" :style="{
 		'--currentColor': backgroundColor,
 		'--transition-speed': transitionSpeed * 0.75 + 's',
-		'--easedMousePositionPercentX': $store.getters.easedMousePositionPercent.x,
-		'--easedMousePositionPercentY': $store.getters.easedMousePositionPercent.y,
+		'--easedMousePositionPercentX': easedMousePositionPercent.x,
+		'--easedMousePositionPercentY': easedMousePositionPercent.y,
 		'--ratio': (vh / vw).toFixed(2),
 		'--backgroundTransitionDuration': backgroundTransitionDuration + 's',
 		'--navigationArrowsAreaWidth': navigationArrowsAreaWidth + '%',
@@ -135,7 +135,10 @@ export default {
 			return this.$route.name === 'index';
 		},
 		offset: function() {
-			return -0.011 * this.vh;
+			return -0.0115 * this.vh;
+		},
+		easedMousePositionPercent: function() {
+			return this.$store.getters.easedMousePositionPercent;
 		}
 	},
 
@@ -230,8 +233,9 @@ export default {
 						ease: Power4.easeOut
 					}, 0);
 					Array.from(this.$el.querySelectorAll('.currentSlide .letter')).forEach((letter, i) => {
-						tl.to(letter, 0.5, {
-							y: i * this.offset - this.vh * 0.15
+						tl.to(letter, 0.8, {
+							y: i * this.offset - this.vh * 0.15,
+							ease: Power4.easeOut
 						}, i * 0.04);
 					});
 					tl
@@ -269,9 +273,10 @@ export default {
 						ease: Power4.easeOut
 					}, 0);
 					Array.from(this.$el.querySelectorAll('.currentSlide .letter')).forEach((letter, i) => {
-						tl.to(letter, 0.5, {
-							y: i * this.offset
-						}, i * 0.04);
+						tl.to(letter, 0.8, {
+							y: i * this.offset,
+							ease: Power3.easeOut
+						}, i * 0.03);
 					});
 					tl.to(this.$el.querySelectorAll('.subtitle'), duration / 3, {
 						opacity: 1,
@@ -505,7 +510,7 @@ export default {
 		left: 0;
 		right: 0;
 		bottom: 0;
-		clip-path: polygon(0% 0%, 100% 0%, 100% calc(100% - var(--mask) * 1%), 0% calc(100% - var(--mask) * 0.7%));
+		clip-path: polygon(0% 0%, 100% 0%, 100% calc(100% - var(--mask) * 1%), 0% calc(100% - var(--mask) * 0.55%));
 	}
 	.nav {
 		position: absolute;

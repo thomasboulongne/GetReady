@@ -1,7 +1,7 @@
 <template>
 	<div class="slider">
 		<ul class="items" v-hammer:pan.horizontal="pan" ref="items" @mousedown="grabCursor" @mouseup="defaultCursor" :style="{'cursor': cursor ? '-webkit-grabbing' : '-webkit-grab'}">
-			<li class="item" v-for="(item, i) in items" :key="i">
+			<li class="item" v-for="(item, i) in items" :key="i" ref="item">
 				<component :is="componentType" :item="item"></component>
 			</li>
 		</ul>
@@ -32,20 +32,15 @@ export default {
 	},
 	watch: {
 		'currentX': function(x) {
-			const itemWidth = this.$el.querySelector('.item').getBoundingClientRect().width;
+			const itemWidth = this.$refs.item[0].getBoundingClientRect().width;
 			const fullWidth = (itemWidth * this.items.length) - itemWidth;
 			this.sliderPercentage = (x * 100 / fullWidth).toFixed(2) * -1;
 		}
 	},
-	mounted() {
-		window.addEventListener('keydown', e => {
-			e.key === 'ArrowLeft' ? this.prev() : e.key === 'ArrowRight' ? this.next() : '';
-		});
-	},
 	methods: {
 		pan(event) {
 			const computedX = this.x + event.deltaX;
-			const itemWidth = this.$el.querySelector('.item').getBoundingClientRect().width;
+			const itemWidth = this.$refs.item[0].getBoundingClientRect().width;
 			const fullWidth = (itemWidth * this.items.length) - itemWidth;
 			let newX = computedX;
 			TweenMax.set(this.$refs.items, {
@@ -95,7 +90,7 @@ export default {
 			this.cursor = false;
 		},
 		next() {
-			const itemWidth = this.$el.querySelector('.item').getBoundingClientRect().width;
+			const itemWidth = this.$refs.item[0].getBoundingClientRect().width;
 			const computedX = this.x - itemWidth;
 			const fullWidth = (itemWidth * this.items.length) - itemWidth;
 			if (computedX >= fullWidth * -1) {
@@ -114,7 +109,7 @@ export default {
 			}
 		},
 		prev() {
-			const itemWidth = this.$el.querySelector('.item').getBoundingClientRect().width;
+			const itemWidth = this.$refs.item[0].getBoundingClientRect().width;
 			const computedX = this.x + itemWidth;
 			if (computedX <= 0) {
 				const tl = new TimelineMax({ paused: true });

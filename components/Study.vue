@@ -89,7 +89,17 @@ export default {
 			scrollPercentage: 0,
 			animationPercentage: 0,
 			stepsElm: [],
-			duration: 1
+			duration: 1,
+			cameraPosition: {
+				x: this.study.CameraPosition.x,
+				y: this.study.CameraPosition.y,
+				z: this.study.CameraPosition.z
+			},
+			cameraRotation: {
+				x: this.study.CameraRotation.x,
+				y: this.study.CameraRotation.y,
+				z: this.study.CameraRotation.z
+			}
 		};
 	},
 	computed: {
@@ -144,13 +154,23 @@ export default {
 	methods: {
 		startAnimation(i, j) {
 			const tl = new TimelineMax({ paused: true });
-			const toPercentage = (this.stepPercentage * i / 100) >= 0 ? this.stepPercentage * i / 100 : 0;
+			const cameraPosition = i > 0 ? this.study['step' + (i + 1)].CameraPosition : this.study.CameraPosition;
+			const cameraRotation = i > 0 ? this.study['step' + (i + 1)].CameraRotation : this.study.CameraRotation;
 			tl
-			.to(this, this.duration, {
-				animationPercentage: toPercentage,
+			.to(this.cameraPosition, this.duration, {
+				x: cameraPosition.x,
+				y: cameraPosition.y,
+				z: cameraPosition.z,
 				ease: Power1.easeOut,
 				overwrite: 'all'
-			});
+			})
+			.to(this.cameraRotation, this.duration, {
+				x: cameraRotation.x,
+				y: cameraRotation.y,
+				z: cameraRotation.z,
+				ease: Power1.easeOut,
+				overwrite: 'all'
+			}, 0);
 			switch (j) {
 				// case 0:
 				// 	tl
@@ -259,7 +279,7 @@ export default {
 							rotation: 0,
 							ease: Power4.easeOut,
 							overwrite: 'all'
-						}, 0.1, '-=0.3');
+						}, 0.1, '-=' + this.duration * 0.8);
 					});
 					break;
 				case 3:
@@ -288,7 +308,7 @@ export default {
 						pointerEvents: 'all',
 						overwrite: 'all'
 					}, 'startStepContentAnimation');
-					Array.from(this.stepsElm[4].querySelectorAll('.group')).forEach(group => {
+					Array.from(this.stepsElm[4].querySelectorAll('.group:not(:nth-child(3))')).forEach(group => {
 						tl
 						.staggerFromTo(group.querySelectorAll('span, p'), this.duration, {
 							opacity: 0,
@@ -300,7 +320,7 @@ export default {
 							rotation: 0,
 							ease: Power4.easeOut,
 							overwrite: 'all'
-						}, 0.1, '-=0.3');
+						}, 0.1, '-=' + this.duration * 0.8);
 					});
 					break;
 				case 5:
@@ -398,20 +418,30 @@ export default {
 		},
 		init3dScene() {
 			const loader = new THREE.OBJLoader();
-			this.camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 2000);
-			this.camera.position.set(this.study.CameraSpline[0][0], this.study.CameraSpline[0][1], this.study.CameraSpline[0][2]);
-			this.camera.lookAt(this.study.TargetSpline[0][0], this.study.TargetSpline[0][1], this.study.TargetSpline[0][2]);
+			this.camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 5000);
+			this.camera.position.set(0, 0, 0);
 			this.scene = new THREE.Scene();
-			this.renderer = new THREE.WebGLRenderer();
+			this.renderer = new THREE.WebGLRenderer({
+				antialias: true
+			});
 			this.renderer.setSize(window.innerWidth, window.innerHeight);
 			const textureLoader = new THREE.TextureLoader();
-			this.texture = textureLoader.load(process.env.PATH + this.study.Texture);
+			this.texture = textureLoader.load(process.env.PATH + this.study.HoopTexture);
 			loader.load(
-				process.env.PATH + this.study.Obj,
+				process.env.PATH + this.study.HoopObj,
+				object => {
+					this.hoop = object;
+					this.hoop.children[0].material = new THREE.MeshBasicMaterial();
+					this.hoop.children[0].material.map = this.texture;
+					this.hoop.position.set(0, 0, 0);
+					this.scene.add(this.hoop);
+				}
+			);
+			loader.load(
+				process.env.PATH + this.study.CourtObj,
 				object => {
 					this.court = object;
 					this.court.children[0].material = new THREE.MeshBasicMaterial();
-					this.court.children[0].material.map = this.texture;
 					this.court.position.set(0, 0, 0);
 					this.scene.add(this.court);
 				}
@@ -419,17 +449,15 @@ export default {
 			this.scene.background = new THREE.Color(0x6F88EE);
 			this.$refs.canvasWrapper.appendChild(this.renderer.domElement);
 
-			this.cameraSplineCurve = this.createSpline(this.study.CameraSpline);
-			this.targetSplineCurve = this.createSpline(this.study.TargetSpline, 0x00FF00);
 			this.animate();
-		},
-		createSpline(points) {
-			const splinePoints = [];
-			points.forEach(position => {
-				splinePoints.push(new THREE.Vector3(position[0], position[1], position[2]));
-			});
-			const splineCurve = new THREE.CatmullRomCurve3(splinePoints);
-			return splineCurve;
+			const dat = require('dat.gui');
+			this.gui = new dat.GUI();
+			this.gui.add(this.cameraPosition, 'x', -500, 800);
+			this.gui.add(this.cameraPosition, 'y', -500, 800);
+			this.gui.add(this.cameraPosition, 'z', -500, 800);
+			this.gui.add(this.cameraRotation, 'x', -Math.PI, Math.PI).step(0.05);
+			this.gui.add(this.cameraRotation, 'y', -Math.PI, Math.PI).step(0.05);
+			this.gui.add(this.cameraRotation, 'z', -Math.PI, Math.PI).step(0.05);
 		},
 		animate() {
 			requestAnimationFrame(this.animate);
@@ -439,12 +467,8 @@ export default {
 			}
 		},
 		render() {
-			const percentage = this.animationPercentage.toFixed(5);
-			const cameraPosition = this.cameraSplineCurve.getPoint(percentage);
-			this.camera.position.set(cameraPosition.x, cameraPosition.y, cameraPosition.z);
-			const targetPosition = this.targetSplineCurve.getPoint(percentage);
-			this.camera.lookAt(targetPosition.x, targetPosition.y, targetPosition.z);
-
+			this.camera.position.set(this.cameraPosition.x, this.cameraPosition.y, this.cameraPosition.z);
+			this.camera.rotation.set(this.cameraRotation.x, this.cameraRotation.y, this.cameraRotation.z);
 			this.renderer.render(this.scene, this.camera);
 		}
 	},
@@ -454,6 +478,9 @@ export default {
 };
 </script>
 <style lang="scss">
+.dg.ac {
+	z-index: 50 !important;
+}
 .study {
 	position: relative;
 	.step {
