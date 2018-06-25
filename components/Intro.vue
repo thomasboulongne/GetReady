@@ -455,6 +455,7 @@ export default {
 	position: relative;
 	--maskYLeft: 100;
 	--maskYRight: 100;
+	overflow: hidden;
 	&:after {
 		content: '';
 		position: absolute;

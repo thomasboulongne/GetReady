@@ -150,16 +150,17 @@ export default {
 				});
 				elementsArray[index].classList.add('currentSlide');
 				elementsArray[index].querySelector('.buttonComp').classList.add('show');
-				const tl = new TimelineMax({ paused: true });
-
-				Array.from(elementsArray[index].querySelectorAll('.letter')).forEach((letter, i) => {
-					tl.fromTo(letter, 0.5, {
-						y: 0
-					}, {
-						y: i * this.offset
-					}, i * 0.04);
-				});
-				tl.play();
+				if (this.$route.name === 'index') {
+					const tl = new TimelineMax({ paused: true });
+					Array.from(elementsArray[index].querySelectorAll('.letter')).forEach((letter, i) => {
+						tl.fromTo(letter, 0.5, {
+							y: 0
+						}, {
+							y: i * this.offset
+						}, i * 0.04);
+					});
+					tl.play();
+				}
 			}
 		},
 		'$store.getters.viewportSize': function() {
@@ -182,7 +183,27 @@ export default {
 		'$route': function(to) {
 			this.initRotation(to);
 		},
-		'$store.getters.pageIsMounted': function(mounted) {
+		'$store.getters.pageIsMounted': function() {
+			this.transitionTitle();
+		}
+	},
+
+	mounted() {
+		this.initThreeScene();
+		this.addEventListeners();
+		this.canSlide = this.$route.name === 'index';
+		this.backgroundTransitionDuration = 0.4;
+		this.height = this.vh;
+		this.initRotation(this.$route);
+	},
+
+	beforeDestroy() {
+		this.removeEventListeners();
+	},
+
+	methods: {
+		transitionTitle() {
+			const mounted = this.$store.getters.pageIsMounted;
 			if (mounted === true) {
 				if (this.$route.name === 'page') {
 					const tl = new TimelineMax({ paused: true });
@@ -207,11 +228,13 @@ export default {
 					.to(this.$el.querySelector('.currentSlide .img'), duration, {
 						'--imgTop': 40,
 						ease: Power4.easeOut
-					}, 0)
-					.staggerTo(this.$el.querySelectorAll('.currentSlide .titleWrapper .letter'), duration, {
-						y: '-=' + (this.vh * 0.15),
-						ease: Power4.easeOut
-					}, 0.05, 0)
+					}, 0);
+					Array.from(this.$el.querySelectorAll('.currentSlide .letter')).forEach((letter, i) => {
+						tl.to(letter, 0.5, {
+							y: i * this.offset - this.vh * 0.15
+						}, i * 0.04);
+					});
+					tl
 					.to(this.$el.querySelector('.currentSlide .subtitle'), duration / 3, {
 						opacity: 0,
 						pointerEvents: 'none'
@@ -233,15 +256,15 @@ export default {
 						opacity: 1,
 						pointerEvents: 'all'
 					}, 0)
-					.to(this.$el.querySelector('.currentSlide .pagination'), duration / 3, {
+					.to(this.$el.querySelectorAll('.pagination'), duration / 3, {
 						opacity: 1,
 						pointerEvents: 'all'
 					}, 0)
-					.to(this.$el.querySelector('.currentSlide'), duration, {
+					.to(this.$el.querySelectorAll('.selectorItem'), duration, {
 						'--xOffset': this.items[this.currentSlide].position.x,
 						ease: Power4.easeOut
 					}, 0)
-					.to(this.$el.querySelector('.currentSlide .img'), duration, {
+					.to(this.$el.querySelectorAll('.img'), duration, {
 						'--imgTop': 45,
 						ease: Power4.easeOut
 					}, 0);
@@ -250,34 +273,18 @@ export default {
 							y: i * this.offset
 						}, i * 0.04);
 					});
-					tl.to(this.$el.querySelector('.currentSlide .subtitle'), duration / 3, {
+					tl.to(this.$el.querySelectorAll('.subtitle'), duration / 3, {
 						opacity: 1,
 						pointerEvents: 'all'
 					}, 0)
-					.to(this.$el.querySelector('.currentSlide .callToAction'), duration / 3, {
+					.set(this.$el.querySelectorAll('.callToAction'), {
 						opacity: 1,
 						pointerEvents: 'all'
 					}, 0);
 					tl.play();
 				}
 			}
-		}
-	},
-
-	mounted() {
-		this.initThreeScene();
-		this.addEventListeners();
-		this.canSlide = this.$route.name === 'index';
-		this.backgroundTransitionDuration = 0.4;
-		this.height = this.vh;
-		this.initRotation(this.$route);
-	},
-
-	beforeDestroy() {
-		this.removeEventListeners();
-	},
-
-	methods: {
+		},
 		initRotation(route) {
 			if (route.name === 'page') {
 				const index = this.$t('categories.items').findIndex(i => i.slug === route.params.slug);

@@ -99,6 +99,10 @@ export default {
 	beforeRouteLeave(to, from, next) {
 		this.$store.dispatch('pageNotMounted');
 		next();
+	},
+	beforeRouteUpdate(to, from, next) {
+		this.$store.dispatch('pageNotMounted');
+		next();
 	}
 };
 
