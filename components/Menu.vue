@@ -62,8 +62,15 @@ export default {
 				if (y > this.$store.getters.viewportSize.height * 0.55) {
 					this.blackBurger = true;
 					if (y < prevY) {
-						this.throttledHeader();
+						if (this.prevY !== null) {
+							if (this.prevY - y > this.$store.getters.viewportSize.height * 0.3) {
+								this.showHeader = true;
+							}
+						} else {
+							this.prevY = y;
+						}
 					} else {
+						this.prevY = null;
 						this.showHeader = false;
 					}
 				} else {
