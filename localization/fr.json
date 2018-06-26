@@ -34,7 +34,7 @@
                 "placeholder": "Mon objectif est...",
                 "Example": "Exemple :",
                 "examples": {
-                    "1": "Apprendre une langue",
+                    "1": "Apprendre une langue étrangère",
                     "2": "Courir le marathon de Paris en moins de 3h"
                 },
                 "submit": "Valider"
@@ -43,7 +43,7 @@
         "step4": {
             "text1": "Pour vous aider dans votre projet, nous vous présentons 3 grandes étapes clés pour réussir à atteindre votre objectif.",
             "img1": "/images/slides.svg",
-            "text2": "À la fin de chaque page, vous pourrez télécharger des fiches récapitulatives personnalisées en cliquant sur ce symbole."
+            "text2": "En remplissant les champs indiqués :edit-icon:, ils seront enregistrés :save-icon: sur votre fiche récapitulative, que vous pourrez ensuite télécharger à la fin de chaque page."
         }
     },
     "categories": {

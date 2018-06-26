@@ -65,16 +65,16 @@
 			<div class="goal h2" ref="step4__goal">{{ $store.getters.goal }}</div>
 			<div class="texts">
 				<div class="text">
-					<div class="illustration">
+					<div class="illustration" ref="step4__illu1">
 						<img :src="PATH + $t('intro.step4.img1')" alt="">
 					</div>
-					<p v-t="'intro.step4.text1'" ref="step4__text1"></p>
+					<p ref="step4__text1" v-t="'intro.step4.text1'"></p>
 				</div>
 				<div class="text">
-					<div class="illustration">
+					<div class="illustration" ref="step4__illu2">
 						<summary-card-indicator-comp color="white"></summary-card-indicator-comp>
 					</div>
-					<p v-t="'intro.step4.text1'" ref="step4__text2"></p>
+					<p ref="step4__text2" v-html="$t('intro.step4.text2').replace(':edit-icon:', editIcon).replace(':save-icon:', saveIcon)"></p>
 				</div>
 			</div>
 			<div class="button__next" @click="endIntro">
@@ -106,7 +106,9 @@ export default {
 				this.$t('intro.step2.formPanel.examples.1'),
 				this.$t('intro.step2.formPanel.examples.2')
 			],
-			PATH: process.env.PATH
+			PATH: process.env.PATH,
+			editIcon: '<svg class="editIcon icon" width="14" height="14" viewBox="0 0 14 14"><path fill-rule="nonzero" d="M10.285.003a.522.522 0 0 0-.307.15L1.014 9.118a.52.52 0 0 0-.14.248l-.862 3.792a.527.527 0 0 0 .139.481.527.527 0 0 0 .48.139l3.793-.862a.52.52 0 0 0 .253-.14l8.964-8.964a.537.537 0 0 0 0-.727L10.71.154a.525.525 0 0 0-.426-.151zm.06 1.244l2.197 2.204-.991.99-2.198-2.197.991-.997zM8.62 2.971l2.198 2.203-6.335 6.335-2.197-2.198 6.334-6.34zm-6.878 7.256l1.826 1.826-2.36.533.534-2.359z"/></svg>',
+			saveIcon: '<svg class="saveIcon" width="12" height="15" viewBox="0 0 12 15"><g fill="#5781F8" fill-rule="nonzero"><path d="M9.174.287H.23v14.426h11.54V2.883L9.174.288zm1.154 12.983H1.672V1.73h1.443v1.442h1.442V1.73H6v1.442h1.443V1.73h1.154l1.73 1.73v9.81z"/><path d="M5.292 8.985L4.21 7.83 3.2 8.84l2.092 2.163L8.97 7.326l-1.01-1.01z"/></g></svg>'
 		};
 	},
 	watch: {
@@ -185,12 +187,6 @@ export default {
 	},
 	mounted() {
 		this.animateStep1();
-		lining(this.$refs.step4__text1, {
-			'autoResize': true
-		});
-		lining(this.$refs.step4__text2, {
-			'autoResize': true
-		});
 	},
 	methods: {
 		goToStep(index) {
@@ -342,14 +338,36 @@ export default {
 					scale: 1,
 					pointerEvents: 'all'
 				})
-				.staggerFromTo([this.$refs.step4__text1.querySelectorAll('text-line'), this.$refs.step4__text2.querySelectorAll('text-line')], 1, {
+				.fromTo(this.$refs.step4__goal, 0.7, {
 					opacity: 0,
-					yPercent: -50
+					yPercent: 10,
+					rotation: '-4deg'
+				}, {
+					opacity: 1,
+					yPercent: 0,
+					rotation: '0deg',
+					ease: Power4.easeOut
+				})
+				.staggerFromTo([this.$refs.step4__illu1, this.$refs.step4__illu2], 1, {
+					opacity: 0,
+					yPercent: 50
 				}, {
 					yPercent: 0,
 					opacity: 1,
 					ease: Power4.easeOut
-				}, 0.2)
+				}, 0.1, '-=0.3')
+				.staggerFromTo([this.$refs.step4__text1, this.$refs.step4__text2], 1, {
+					opacity: 0,
+					yPercent: 50
+				}, {
+					yPercent: 0,
+					opacity: 1,
+					ease: Power4.easeOut
+				}, 0.1, '-=0.9')
+				.to(this.$refs.step4, 0.8, {
+					'--step4-line-scale': 1,
+					ease: Power4.easeOut
+				}, '-=0.4')
 				.add(() => {
 					this.$refs.step4__button.show = true;
 				}, '-=0.2');
@@ -681,6 +699,7 @@ export default {
 						border-bottom: solid white 2px;
 						padding: 0.1em;
 						line-height: 1.5;
+						color: var(--blue);
 						&::placeholder {
 							color: #6c85bc;
 							font-weight: 600;
@@ -732,6 +751,7 @@ export default {
 		justify-content: center;
 		align-items: center;
 		flex-direction: column;
+		--step4-line-scale: 0;
 		.goal{
 			display: block;
 			font-size: 2.5rem;
@@ -745,12 +765,13 @@ export default {
 				font-size: 1rem;
 				line-height: 1.67;
 				text-align: center;
-				max-width: 18em;
+				max-width: 19.6em;
 				padding: 1rem 2.6rem 0 0;
 				position: relative;
 				display: flex;
 				flex-direction: column;
 				align-items: center;
+				line-height: 2;
 				.illustration {
 					margin-bottom: 2.5rem;
 					width: calc(70% - 2.6rem);
@@ -763,6 +784,14 @@ export default {
 					.summaryCardIndicator {
 						width: 100%;
 						height: 100%;
+						.rotation {
+							height: 100%;
+							width: auto;
+						}
+						.eye {
+							height: 15%;
+							width: auto;
+						}
 					}
 				}
 				&:last-child {
@@ -775,6 +804,19 @@ export default {
 						top: 1rem;
 						height: 6rem;
 						background-color: white;
+						transform: scaleY(var(--step4-line-scale));
+					}
+				}
+				p {
+					svg {
+						vertical-align: middle;
+						display: inline;
+						height: 1rem;
+						width: auto;
+						margin: 0 0.1rem;
+						path {
+							fill: var(--blue);
+						}
 					}
 				}
 			}
