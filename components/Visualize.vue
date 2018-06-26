@@ -15,7 +15,7 @@
 				<span v-html="content['Sections'][1].Title.split('_')[0]"></span>
 				<span v-html="content['Sections'][1].Title.split('_')[1]"></span>
 			</h2>
-			<page-intro-comp :intro="content['Sections'][1]['Intro']" :definition="false"></page-intro-comp>
+			<page-intro-comp :intro="content['Sections'][1]['Intro']" :definition="false" :aligned="true"></page-intro-comp>
 			<detailed-blocks-comp :blocks="content['Sections'][1]['POV']"></detailed-blocks-comp>
 		</div>
 		<div class="section" ref="typeSection">
@@ -23,7 +23,7 @@
 				<span v-html="content['Sections'][2].Title.split('_')[0]"></span>
 				<span v-html="content['Sections'][2].Title.split('_')[1]"></span>
 			</h2>
-			<page-intro-comp :intro="content['Sections'][2]['Intro']" :definition="false"></page-intro-comp>
+			<page-intro-comp :intro="content['Sections'][2]['Intro']" :definition="false" :aligned="true"></page-intro-comp>
 			<div class="typesGrid">
 				<ul class="types">
 					<li v-for="(type, i) in content['Sections'][2]['Types']" :key="type['Name']" class="type" @mouseenter="playVideo(i)" @mouseleave="stopVideo(i)">
