@@ -60,6 +60,7 @@ module.exports = {
     "CSSPlugin": false,
     "ThrowPropsPlugin": false,
     "BezierPlugin": false,
-    "lining": false
+    "lining": false,
+    "lottie": false
   }
 }

@@ -1,5 +1,8 @@
 <template>
 	<div :class="['intro', 'step__' + step]" :style="{'--lastColor': lastColor}" @click.shift="goToNextStep">
+		<div class="step step0" ref="step0">
+			<div class="loader" ref="loader" @complete="onLoaderComplete" @DOMLoaded="playLoader"></div>
+		</div>
 		<div :class="['step', 'step1']" ref="step1">
 			<div class="sentences">
 				<div class="sentence" v-for="i in 3" :key="i" ref="sentences">
@@ -87,6 +90,8 @@
 import ButtonComp from '~/components/Button';
 import CardComp from '~/components/Card';
 import SummaryCardIndicatorComp from '~/components/SummaryCardIndicator';
+import lottie from 'lottie-web';
+const loaderData = require('~/core/loader.json');
 export default {
 	props: {
 		lastColor: {
@@ -95,7 +100,7 @@ export default {
 	},
 	data() {
 		return {
-			step: 1,
+			step: 0,
 			cardsTranslationDuration: '1000',
 			currentCardIndex: 0,
 			cardDirection: -1,
@@ -114,6 +119,9 @@ export default {
 	watch: {
 		'step': function(step) {
 			switch (step) {
+				case 1:
+					this.animateStep1();
+					break;
 				case 2:
 					this.animateStep2();
 					break;
@@ -186,22 +194,57 @@ export default {
 		}
 	},
 	mounted() {
-		this.animateStep1();
+		this.animateStep0();
 	},
 	methods: {
 		goToStep(index) {
 			this.step = index;
 		},
 
+		animateStep0() {
+			this.loader = lottie.loadAnimation({
+				container: this.$refs.loader,
+				renderer: 'svg',
+				loop: false,
+				autoplay: false,
+				animationData: loaderData
+			});
+			this.loader.addEventListener('complete', this.onLoaderComplete.bind(this));
+			this.loader.addEventListener('DOMLoaded', this.playLoader.bind(this));
+		},
+
+		onLoaderComplete() {
+			setTimeout(() => {
+				this.goToStep(1);
+			}, 1000);
+		},
+
+		playLoader() {
+			setTimeout(() => {
+				this.loader.play();
+			}, 700);
+		},
+
 		animateStep1() {
 			const tl = new TimelineMax({ paused: true });
 			const duration = 1;
-			tl.staggerTo([this.$refs.sentences[0], this.$refs.sentences[1]], duration, {
+			tl
+			.to(this.$refs.step0, 0.4, {
+				opacity: 0,
+				scale: 0.97,
+				pointerEvents: 'none'
+			})
+			.set(this.$refs.step1, {
+				opacity: 1,
+				scale: 1,
+				pointerEvents: 'all'
+			})
+			.staggerTo([this.$refs.sentences[0], this.$refs.sentences[1]], duration, {
 				opacity: 1,
 				yPercent: 0,
 				rotation: '0deg',
 				ease: Power4.easeOut
-			}, 0.2)
+			}, 0.2, '-=0.2')
 			.to(this.$refs.sentences[2], duration, {
 				opacity: 1,
 				yPercent: 0,
@@ -524,14 +567,22 @@ export default {
 		opacity: 0;
 		pointer-events: none;
 	}
-	.step1 {
+	.step0 {
 		opacity: 1;
+		pointer-events: all;
 		transform: none;
+		svg {
+			width: 100%;
+			height: 100%;
+		}
+	}
+	.step1 {
+		opacity: 0;
+		pointer-events: none;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
-		pointer-events: all;
 		.sentences {
 			text-align: center;
 			font-size: 1.6rem;

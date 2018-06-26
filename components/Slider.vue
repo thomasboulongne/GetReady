@@ -1,7 +1,7 @@
 <template>
 	<div class="slider">
 		<ul class="items" v-hammer:pan.horizontal="pan" ref="items" @mousedown="grabCursor" @mouseup="defaultCursor" :style="{'cursor': cursor ? '-webkit-grabbing' : '-webkit-grab'}">
-			<li class="item" v-for="(item, i) in items" :key="i" ref="item" :style="{'--velocity': velocity > 0 ? velocity * (items.length - i) : velocity * i }">
+			<li class="item" v-for="(item, i) in items" :key="i" ref="item">
 				<component :is="componentType" :item="item"></component>
 			</li>
 		</ul>
@@ -30,7 +30,6 @@ export default {
 			currentX: 0,
 			itemWidth: 0,
 			fullWidth: 0,
-			velocity: 0,
 			displayed: false
 		};
 	},
@@ -78,9 +77,6 @@ export default {
 		pan(event) {
 			const computedX = this.x + event.deltaX;
 			let newX = computedX;
-			TweenMax.to(this, 0.2, {
-				velocity: event.velocity
-			});
 			TweenMax.set(this.$refs.items, {
 				x: newX
 			});
@@ -89,9 +85,6 @@ export default {
 			});
 			if (event.isFinal) {
 				newX = computedX + event.velocityX * 50;
-				TweenMax.to(this, 0.5, {
-					velocity: 0
-				});
 				let backX = null;
 				if (newX > 0) {
 					backX = 0;
@@ -182,7 +175,6 @@ export default {
 		flex-wrap: nowrap;
 		opacity: 0;
 		.item {
-			// transform: translateX(calc(var(--velocity) * -2rem));
 			&:not(:last-child) {
 				padding-right: 2rem;
 			}

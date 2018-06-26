@@ -16,6 +16,7 @@
     "js-cookie": "^2.1.4",
     "lining.js": "^0.3.2",
     "lodash": "^4.17.5",
+    "lottie-web": "^5.1.18",
     "marked": "^0.3.12",
     "node-sass": "^4.5.3",
     "normalize.css": "^7.0.0",
