@@ -36,22 +36,24 @@ export default {
 	computed: {
 		mousePositionPercent: function() {
 			return {
-				x: (50 - this.$store.getters.easedMousePositionPercent.x) / 10,
-				y: (50 - this.$store.getters.easedMousePositionPercent.y) / 10 + this.scrollVelocity
+				x: this.displayed ? (this.$store.getters.easedMousePositionPercent.x - 50) / 10 : 0,
+				y: this.displayed ? (this.$store.getters.easedMousePositionPercent.y - 50) / 10 + this.scrollVelocity : 0
 			};
 		}
 	},
 	watch: {
 		'$store.getters.scrollPosition.y': function(y, prevY) {
 			this.checkDisplay();
-			const delta = (prevY - y) / 4;
-			if (Math.abs(delta) > Math.abs(this.scrollVelocity)) {
-				TweenMax.to(this, 1, {
-					scrollVelocity: delta,
-					overwrite: 'all'
-				});
+			if (this.displayed) {
+				const delta = (prevY - y) / 4;
+				if (Math.abs(delta) > Math.abs(this.scrollVelocity)) {
+					TweenMax.to(this, 1, {
+						scrollVelocity: delta,
+						overwrite: 'all'
+					});
+				}
+				this.debouncedVelocityReset();
 			}
-			this.debouncedVelocityReset();
 		},
 		'$store.getters.viewportSize': function() {
 			this.checkDisplay();
@@ -75,7 +77,6 @@ export default {
 	},
 	methods: {
 		debouncedVelocityReset: debounce(function() {
-			console.log('reset');
 			TweenMax.to(this, 2, {
 				scrollVelocity: 0,
 				ease: Elastic.easeOut.config(0.6, 0.6),
@@ -168,7 +169,7 @@ export default {
 		&:nth-child(2){
 			transform: translateY(-5rem);
 			img {
-				transform: translate(var(--x), calc(var(--y) * 1.5));
+				transform: translate(calc(var(--x) * 1.5), calc(var(--y) * 1.5));
 			}
 			.illustration:not(.noshadow) {
 				width: 36%;

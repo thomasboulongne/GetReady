@@ -11,11 +11,11 @@
 					<summary-card-indicator-comp></summary-card-indicator-comp>
 				</nuxt-link>
 			</div>
-			<div class="footerNavWrapper">
-				<div class="coloredBackground"></div>
+			<div class="footerNavWrapper coloredBackground">
 				<nav>
 					<ul>
 						<li class="menuItem">
+							<div class="background" :style="{backgroundColor: prevPage.color}"></div>
 							<nuxt-link :to="{name:'page', params: {slug: prevPage.slug}}" class="navTitleWrapper MTKnox">
 								<div v-for="(letter, j) in prevPage.title" :key="letter + j" class="letterWrapper">
 									<span class="letter">{{ letter }}</span>
@@ -30,6 +30,7 @@
 							</nuxt-link>
 						</li>
 						<li class="menuItem">
+							<div class="background" :style="{backgroundColor: nextPage.color}"></div>
 							<nuxt-link :to="{name:'page', params: {slug: nextPage.slug}}" class="navTitleWrapper MTKnox">
 								<div v-for="(letter, j) in nextPage.title" :key="letter + j" class="letterWrapper">
 									<span class="letter">{{ letter }}</span>
@@ -406,12 +407,8 @@ footer {
 	.footerNavWrapper {
 		position: relative;
 		padding: 10rem 0;
-		.coloredBackground {
-			background-color: var(--current-color);
-		}
+		background-color: var(--current-color);
 		nav {
-			position: relative;
-			z-index: 1;
 			--menuLetterTransitionSpeed: 0.5s;
 			ul {
 				width: 100%;
@@ -425,6 +422,20 @@ footer {
 					box-sizing: border-box;
 					display: flex;
 					justify-content: center;
+					.background {
+						position: absolute;
+						top: 0;
+						left: 0;
+						bottom: 0;
+						width: 100%;
+						transform: scaleX(0);
+						transform-origin: left;
+					}
+					&:last-child {
+						left: auto;
+						right: 0;
+						transform-origin: right;
+					}
 					.navTitleWrapper {
 						font-weight: bold;
 						font-size: 2rem;

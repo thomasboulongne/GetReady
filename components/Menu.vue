@@ -200,7 +200,7 @@ export default {
 		}
 		.close {
 			display: none;
-			width: 1.5rem;
+			width: 1rem;
 		}
 		&.black {
 			svg {
@@ -222,6 +222,7 @@ export default {
 			position: absolute;
 			top: 0;
 			right: 0;
+			display: none;
 		}
 		.menuItems {
 			display: flex;
@@ -291,6 +292,7 @@ export default {
 			}
 		}
 		.burger {
+			display: flex;
 			.open {
 				display: none;
 			}
