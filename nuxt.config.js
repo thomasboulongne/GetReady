@@ -34,6 +34,13 @@ module.exports = {
 			});
 		}
 	},
+	generate: {
+		routes: [
+			'/s-organiser',
+			'/visualiser',
+			's-organiser'
+		]
+	},
 	/*
 	** Headers of the page
 	*/
