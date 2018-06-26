@@ -124,7 +124,7 @@ export default {
 		},
 
 		updateMousePosition(e) {
-			if (this.$store.getters.scrollPosition.y === 0 && !this.menuIsOpen && this.$route.name === 'index') {
+			if (!this.menuIsOpen) {
 				this.mousePosition = {
 					x: e.clientX,
 					y: e.clientY

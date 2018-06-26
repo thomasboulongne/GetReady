@@ -174,22 +174,22 @@
                             "Image": "/images/organize/james.png"
                         },
                         {
-                            "Name": "LeBron James",
-                            "Description": "Basketteur américain, élu 4 fois meilleur joueur de NBA",
-                            "Text": "« J’ai des objectifs courts - m'améliorer chaque jour, aider mes coéquipiers tous les jours - mais mon but ultime est de gagner un championnat NBA. C'est tout ce qui compte. J'en rêve tout le temps, à quoi cela ressemblerait, comment je me sentirai. Ce serait tellement incroyable. »",
-                            "Image": "/images/organize/james.png"
+                            "Name": "Michelle Obama",
+                            "Description": "Ancienne première dame des États-Unis, épouse de Barack Obama",
+                            "Text": "« L'une des leçons avec lesquelles j'ai grandi a toujours été de rester fidèle à moi-même et de ne jamais laisser  quelqu'un d'autre vous détourner de vos objectifs. Donc quand j'entends des attaques négatives et fausses, je n'y investis vraiment aucune énergie, parce que je sais qui je suis. »",
+                            "Image": "/images/organize/obama.png"
                         },
                         {
-                            "Name": "LeBron James",
-                            "Description": "Basketteur américain, élu 4 fois meilleur joueur de NBA",
-                            "Text": "« J’ai des objectifs courts - m'améliorer chaque jour, aider mes coéquipiers tous les jours - mais mon but ultime est de gagner un championnat NBA. C'est tout ce qui compte. J'en rêve tout le temps, à quoi cela ressemblerait, comment je me sentirai. Ce serait tellement incroyable. »",
-                            "Image": "/images/organize/james.png"
+                            "Name": "Tony Robbins",
+                            "Description": "Coach et essayiste américain, célèbre auteur de livres de développement personnel",
+                            "Text": "« Se fixer des objectifs est la première étape pour transformer l'invisible en visible. »",
+                            "Image": "/images/organize/robbins.png"
                         },
                         {
-                            "Name": "LeBron James",
-                            "Description": "Basketteur américain, élu 4 fois meilleur joueur de NBA",
-                            "Text": "« J’ai des objectifs courts - m'améliorer chaque jour, aider mes coéquipiers tous les jours - mais mon but ultime est de gagner un championnat NBA. C'est tout ce qui compte. J'en rêve tout le temps, à quoi cela ressemblerait, comment je me sentirai. Ce serait tellement incroyable. »",
-                            "Image": "/images/organize/james.png"
+                            "Name": "Michael Phelps",
+                            "Description": "Nageur américain, athlète le plus médaillé de l’histoire des Jeux Olympiques",
+                            "Text": "« Je pense que les buts ne devraient jamais être faciles, ils devraient vous forcer à travailler, même si c'est dur. »",
+                            "Image": "/images/organize/phelps.png"
                         }
                     ],
                     "Last part": {
@@ -197,12 +197,12 @@
                         "Blocks": [
                             {
                                 "Title": "Lâcher prise sur l'incontrôlable",
-                                "Animation": "/images/organize/implementation.mp4",
+                                "Animation": "/images/organize/outofcontrol.mp4",
                                 "Text": "Écrire noir sur blanc les sources de stress liées aux objectifs puis les classer en deux catégories : celles qui dépendent de nous et celles sur lesquelles nous n’avons pas d’emprise.\n Cela permet de décider d’agir pour changer les premières et de tendre à accepter les secondes, sur lesquelles nous n’avons aucun pouvoir. "
                             },
                             {
                                 "Title": "S’entourer des bonnes personnes",
-                                "Animation": "/images/organize/implementation.mp4",
+                                "Animation": "/images/organize/acquaintances.mp4",
                                 "Text": "Proposer à un ami, un collègue, un membre de votre famille ou un professionnel de suivre sa progression, peut permettre de mieux l’évaluer et d’augmenter sa motivation.",
                                 "Input question": "À qui pensez-vous ?",
                                 "Input store identifier": "closeFriends"
@@ -217,7 +217,7 @@
                             },
                             {
                                 "Title": "Faire appel à un professionnel",
-                                "Animation": "/images/organize/implementation.mp4",
+                                "Animation": "/images/organize/professionnal.mp4",
                                 "Text": "Si votre objectif nécessite une planification précise ou que vous avez besoin de plus de ressources pour y parvenir, vous pouvez faire appel à un préparateur mental.\nLa <a href=\"https://www.sfpsport.fr/\" target=\"_blank\" rel=\"noopener\">Société française de Psychologie du Sport</a> vous permet de contacter des membres accrédités en préparation mentale pour répondre à vos questions et partager leur expérience."
                             }
                         ]
@@ -416,12 +416,12 @@
                                 {
                                     "Title": "Le point de vue_interne",
                                     "Text": "C’est voir la scène comme à travers vos propres yeux, comme si vous étiez réellement en train de faire l’action. Vous êtes associé à vos sensations.<br>Le point de vue interne vous permet de ressentir les sensations liées à la situation.\nC'est celui qui créera des  connexions neuromusculaires semblables à celles créés par le vécu réel de la situation.",
-                                    "Illustration": "/images/organize/trophy.png"
+                                    "Illustration": "/images/visualize/insidepov.png"
                                 },
                                 {
                                     "Title": "Le point de vue_externe",
                                     "Text": "C’est vous voir dans la scène comme vous verrait un témoin, comme si vous regardiez une vidéo de vous-même. Vous êtes dissocié de vos sensations.<br>Le point de vue externe vous permet de prendre de la distance avec la situation, de vous dissocier des ressentis. Il vous permet de voir et corriger votre attitude, vos mouvements.",
-                                    "Illustration": "/images/organize/trophy.png"
+                                    "Illustration": "/images/visualize/outsidepov.png"
                                 }
                             ]
                         },
@@ -480,21 +480,21 @@
                         },
                         {
                             "Name": "Jonny Wilkinson",
-                            "Description": "Rugbyman britannique, champion du monde en 2003",
+                            "Description": "Ancien rugbyman britannique, champion du monde en 2003",
                             "Text": "« Vous devez visualiser où la balle va aller. Ensuite, vous devez être capable de tracer sa trajectoire depuis les poteaux jusqu'à l'endroit exact de la balle, et la voir dans votre esprit lorsque vous allez donner un coup de pied à la balle. »",
                             "Image": "/images/visualize/wilkinson.png"
                         },
                         {
-                            "Name": "Jessica Ennis-Hill",
-                            "Description": "Athlète britannique, championne olympique d'heptatlon",
-                            "Text": "« J'utilise la visualisation pour penser à la technique parfaite. Si je peux avoir  l’image parfaite dans ma tête, alors on peut espérer que cela affectera ma performance physique. »",
-                            "Image": "/images/visualize/hill.png"
+                            "Name": "Jim Carrey",
+                            "Description": "Célèbre acteur hollywoodien",
+                            "Text": "« Je me suis toujours visualisé obtenir les choses que je voulais. En 1987, je n'avais rien à cette époque, mais je me sentais mieux. »",
+                            "Image": "/images/visualize/carrey.png"
                         },
                         {
-                            "Name": "Jessica Ennis-Hill",
-                            "Description": "Athlète britannique, championne olympique d'heptatlon",
-                            "Text": "« J'utilise la visualisation pour penser à la technique parfaite. Si je peux avoir  l’image parfaite dans ma tête, alors on peut espérer que cela affectera ma performance physique. »",
-                            "Image": "/images/visualize/hill.png"
+                            "Name": "LeBron James",
+                            "Description": "Basketteur américain, élu 4 fois meilleur joueur de NBA",
+                            "Text": "« Vous devez voir clairement et précisément vos objectifs avant de pouvoir les atteindre. Gardez-les dans votre esprit jusqu'à ce qu'ils deviennent une seconde nature. »",
+                            "Image": "/images/visualize/james.png"
                         }
                     ],
                     "Application": {
@@ -508,33 +508,33 @@
     },
     "cards": {
         "1": {
-            "title": "Positif",
-            "text": "Il doit être exprimé positivement car il n'est pas possible de se représenter une négation.",
+            "title": "Exprimé positivement",
+            "text": "Il n'est pas possible de se représenter une négation, une absence, autrement que sous forme symbolique.",
             "img": "/images/cards/p.png"
         },
         "2": {
             "title": "Spécifique",
-            "text": "Suffisamment précis, présenter des caractéristiques propres.",
+            "text": "Ils doivent  être suffisamment précis et présenter des caractéristiques propres.",
             "img": "/images/cards/s.png"
         },
         "3": {
-            "title": "Mesurable",
+            "title": "Mesurable ou observable",
             "text": "Il peut avoir un indicateur de résultat, ou à défaut, nos sens doivent nous permettre de déterminer précisément à quel moment l’objectif sera atteint.",
             "img": "/images/cards/m.png"
         },
         "4": {
-            "title": "En harmonie",
-            "text": "L’objectif doit être en accord avec vos valeurs et croyances et, compatible avec l’atteinte de ses autres objectifs.",
+            "title": "En accord avec soi-même",
+            "text": "Ils doivent être en accord avec vos valeurs et croyances et, compatible avec l’atteinte de ses autres objectifs.",
             "img": "/images/cards/a.png"
         },
         "5": {
             "title": "Réaliste",
-            "text": "Il prend en compte les facteurs extérieurs, qui ne peuvent pas être sous votre contrôle. Il peut être ambitieux pour représenter un défi motivant, tout en restant atteignable.",
+            "text": "Ils doivent prendre en compte les facteurs extérieurs, qui ne peuvent pas être sous votre contrôle. Ils peuvent être ambitieux pour représenter un défi motivant, tout en restant atteignable.",
             "img": "/images/cards/r.png"
         },
         "6": {
-            "title": "Temporel",
-            "text": "Il doit être positionné dans le temps et donc avoir une échéance précise.",
+            "title": "Positionné dans le temps",
+            "text": "Ils doivent être positionné dans le temps et donc avoir une échéance précise.",
             "img": "/images/cards/t.png"
         }
     }

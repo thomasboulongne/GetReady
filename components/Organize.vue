@@ -217,24 +217,27 @@ export default {
 			padding: 0 var(--spacing-horizontal-large);
 			.block {
 				width: 100%;
-				max-width: 80rem;
+				max-width: 70rem;
 				display: flex;
 				margin-top: 6rem;
+				align-items: flex-start;
+				justify-content: space-between;
 				.illustration {
-					width: 50%;
+					width: 42%;
 					flex-shrink: 0;
 					display: flex;
+					align-items: flex-start;
 					video {
 						border-radius: 1rem;
-						object-fit: cover;
-						width: calc(100% - 10rem);
+						width: calc(100%);
 					}
 				}
 				.content {
+					width: 47%;
 					h3 {
 						margin-top: 0;
 						display: inline-block;
-						max-width: 50%;
+						max-width: 72%;
 					}
 				}
 				&:nth-child(2n) {

@@ -77,7 +77,11 @@ export default {
 			cursor: '-webkit-grab',
 			height: this.vh,
 			PATH: process.env.PATH,
-			clipped: false
+			clipped: false,
+			easedMousePositionPercent: {
+				x: 0,
+				y: 0
+			}
 		};
 	},
 
@@ -136,13 +140,15 @@ export default {
 		},
 		offset: function() {
 			return -0.0115 * this.vh;
-		},
-		easedMousePositionPercent: function() {
-			return this.$store.getters.easedMousePositionPercent;
 		}
 	},
 
 	watch: {
+		'$store.getters.easedMousePositionPercent': function(position) {
+			if (this.$store.getters.scrollPosition.y < this.vh) {
+				this.easedMousePositionPercent = position;
+			}
+		},
 		'currentSlide': function(index) {
 			if (this.items[index]) {
 				const elementsArray = Array.from(this.$el.querySelectorAll('.threeDselector .selectorItem'));
@@ -492,7 +498,9 @@ export default {
 		animate() {
 			requestAnimationFrame(this.animate);
 			this.camera.rotation.y = this.rotation;
-			this.render();
+			if (this.$store.getters.scrollPosition.y < this.vh * 1.2) {
+				this.render();
+			}
 		},
 		render() {
 			this.renderer.render(this.scene, this.camera);

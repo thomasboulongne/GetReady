@@ -33,7 +33,7 @@ export default {
 .celebrityComp {
 	width: var(--celebrityWidth);
 	display: flex;
-	align-items: flex-end;
+	align-items: stretch;
 	position: relative;
 	--celebrityPaddingRight: calc(var(--celebrityWidth) * 0.3);
 	padding-right: var(--celebrityPaddingRight);
@@ -41,20 +41,19 @@ export default {
 		margin-right: calc(var(--celebrityWidth) / 7.8);
 	}
 	.illustration {
-		width: 33%;
-		flex-shrink: 0;
 		position: relative;
 		z-index: 1;
-		.shadow {
-			transform: translate(-65%, -51%) !important;
-		}
 		img {
+			height: 30rem;
+			width: auto !important;
 			pointer-events: none;
 		}
 	}
 	.content {
+		margin-top: calc(var(--celebrityWidth) / 7.8);
 		margin-left: calc(var(--celebrityWidth) / 19.5);
 		margin-bottom: calc(var(--celebrityWidth) / 7.8);
+		position: relative;
 		h3 {
 			position: relative;
 			text-transform: none;
@@ -76,9 +75,9 @@ export default {
 			content: '';
 			position: absolute;
 			background: white;
-			height: 66%;
-			width: 75%;
-			right: calc(var(--celebrityPaddingRight) - (var(--celebrityWidth) / 19.5));
+			height: 110%;
+			width: calc(150% + 2 * var(--spacing));
+			right: calc(var(--spacing) * -1);
 			border-radius: calc(var(--celebrityWidth) / 19.5);
 			transform: skew(-2deg) rotate(-2deg);
 		}

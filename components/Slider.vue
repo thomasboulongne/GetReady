@@ -1,5 +1,5 @@
 <template>
-	<div class="slider">
+	<div :class="['slider', velocity > 0 ? 'slidingLeft' : velocity < 0 ? 'slidingRight' : '']">
 		<ul class="items" v-hammer:pan.horizontal="pan" ref="items" @mousedown="grabCursor" @mouseup="defaultCursor" :style="{'cursor': cursor ? '-webkit-grabbing' : '-webkit-grab'}">
 			<li class="item" v-for="(item, i) in items" :key="i" ref="item">
 				<component :is="componentType" :item="item"></component>
@@ -30,7 +30,8 @@ export default {
 			currentX: 0,
 			itemWidth: 0,
 			fullWidth: 0,
-			displayed: false
+			displayed: false,
+			velocity: 0
 		};
 	},
 	computed: {
@@ -83,6 +84,7 @@ export default {
 			TweenMax.set(this, {
 				currentX: newX
 			});
+			this.velocity = event.velocityX;
 			if (event.isFinal) {
 				newX = computedX + event.velocityX * 50;
 				let backX = null;
@@ -100,6 +102,7 @@ export default {
 				.to(this, backX === null ? 0.5 : 0.1, {
 					currentX: newX
 				}, 0);
+				this.velocity = 0;
 
 				if (backX !== null) {
 					const backDuration = 0.9;
@@ -174,6 +177,7 @@ export default {
 		display: flex;
 		flex-wrap: nowrap;
 		opacity: 0;
+		align-items: flex-end;
 		.item {
 			&:not(:last-child) {
 				padding-right: 2rem;

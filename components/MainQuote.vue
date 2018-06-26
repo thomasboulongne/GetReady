@@ -72,7 +72,7 @@ export default {
 </script>
 <style lang="scss">
 .mainQuote {
-	margin-top: 2rem;
+	margin-top: 4rem;
 	margin-bottom: 2rem;
 	padding: 6.5rem 0 0 0;
 	position: relative;
@@ -107,7 +107,9 @@ export default {
 		}
 		.text {
 			width: 66%;
+			box-sizing: border-box;
 			padding-bottom: 12rem;
+			padding-left: 3rem;
 			svg {
 				* {
 					fill: var(--current-color);

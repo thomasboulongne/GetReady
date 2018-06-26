@@ -16,7 +16,7 @@
 				<span v-html="content['Sections'][1].Title.split('_')[1]"></span>
 			</h2>
 			<page-intro-comp :intro="content['Sections'][1]['Intro']" :definition="false" :aligned="true"></page-intro-comp>
-			<detailed-blocks-comp :blocks="content['Sections'][1]['POV']"></detailed-blocks-comp>
+			<detailed-blocks-comp :blocks="content['Sections'][1]['POV']" :shadow="false"></detailed-blocks-comp>
 		</div>
 		<div class="section" ref="typeSection">
 			<h2>
