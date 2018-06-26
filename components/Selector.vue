@@ -207,10 +207,13 @@ export default {
 		transitionTitle() {
 			const mounted = this.$store.getters.pageIsMounted;
 			if (mounted === true) {
+				const duration = 1.3;
+				const letterDuration = 0.5;
 				if (this.$route.name === 'page') {
 					const tl = new TimelineMax({ paused: true });
-					const duration = 2;
-					tl.to(this.$el, duration, {
+					tl.fromTo(this.$el, duration, {
+						'--mask': 0
+					}, {
 						'--mask': 50,
 						ease: Power4.easeOut,
 						pointerEvents: 'none'
@@ -219,37 +222,47 @@ export default {
 						opacity: 0,
 						pointerEvents: 'none'
 					}, 0)
-					.to(this.$el.querySelector('.currentSlide .pagination'), duration / 3, {
+					.fromTo(this.$el.querySelector('.currentSlide .pagination'), duration / 5, {
+						opacity: 1
+					}, {
 						opacity: 0,
 						pointerEvents: 'none'
 					}, 0)
-					.to(this.$el.querySelector('.currentSlide'), duration, {
+					.fromTo(this.$el.querySelector('.currentSlide'), duration, {
+						'--x-offset': this.items[this.currentSlide].position.x
+					}, {
 						'--x-offset': 5,
 						ease: Power4.easeOut
 					}, 0)
-					.to(this.$el.querySelector('.currentSlide .img'), duration, {
+					.fromTo(this.$el.querySelector('.currentSlide .img'), duration, {
+						'--imgTop': 45
+					}, {
 						'--imgTop': 40,
 						ease: Power4.easeOut
 					}, 0);
 					Array.from(this.$el.querySelectorAll('.currentSlide .letter')).forEach((letter, i) => {
-						tl.to(letter, 2, {
-							y: i * this.offset - this.vh * 0.15,
-							ease: Power4.easeOut
-						}, i * 0.07);
+						tl.fromTo(letter, letterDuration, {
+							y: i * this.offset
+						}, {
+							y: i * this.offset - this.vh * 0.15
+						}, i * letterDuration / 16.5);
 					});
 					tl
-					.to(this.$el.querySelector('.currentSlide .subtitle'), duration / 3, {
+					.fromTo(this.$el.querySelector('.currentSlide .subtitle'), duration / 5, {
+						opacity: 1
+					}, {
 						opacity: 0,
 						pointerEvents: 'none'
 					}, 0)
-					.to(this.$el.querySelector('.currentSlide .callToAction'), duration / 3, {
+					.fromTo(this.$el.querySelector('.currentSlide .callToAction'), duration / 5, {
+						opacity: 1
+					}, {
 						opacity: 0,
 						pointerEvents: 'none'
 					}, 0);
 					tl.play();
 				} else if (this.$route.name === 'index') {
 					const tl = new TimelineMax({ paused: true });
-					const duration = 2;
 					tl.to(this.$el, duration, {
 						'--mask': 0,
 						ease: Power4.easeOut,
@@ -271,10 +284,9 @@ export default {
 					}, 0);
 					const letters = Array.from(this.$el.querySelectorAll('.currentSlide .letter')).reverse();
 					letters.forEach((letter, i) => {
-						tl.to(letter, 1.2, {
-							y: (letters.length - i) * this.offset,
-							ease: Power4.easeOut
-						}, i * 0.04);
+						tl.to(letter, letterDuration, {
+							y: (letters.length - i) * this.offset
+						}, i * letterDuration / 16.5);
 					});
 					tl
 					.to(this.$el.querySelectorAll('.pagination'), duration / 3, {

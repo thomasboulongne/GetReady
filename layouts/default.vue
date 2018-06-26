@@ -138,7 +138,7 @@ export default {
 
 		addEventListeners() {
 			window.addEventListener('resize', throttle(this.updateViewportSize, 50));
-			window.addEventListener('scroll', throttle(this.updateScrollPosition, 50));
+			window.addEventListener('scroll', throttle(this.updateScrollPosition, 20));
 			window.addEventListener('mousemove', throttle(this.updateMousePosition, 50));
 		}
 	},
