@@ -33,6 +33,8 @@ export default {
 		position: relative;
 		z-index: 1;
 		margin-bottom: 0;
+		max-width: none;
+		margin-left: var(--spacing-horizontal);
 	}
 	.coloredBackground {
 		top: 1.9rem;
@@ -47,7 +49,7 @@ export default {
 			left: calc(50% - var(--celebrityWidth) / 2);
 		}
 		.sliderIndicator {
-			margin-left: var(--spacingHorizontal);
+			margin-left: var(--spacing-horizontal);
 			width: 25%;
 		}
 	}

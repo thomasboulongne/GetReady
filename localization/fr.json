@@ -14,6 +14,7 @@
     "Understood": "J'ai compris",
     "my-cards": "mes-fiches",
     "Saved in your summary card": "Enregistré sur votre fiche récapitulative",
+    "application": "application",
     "intro": {
         "step1": {
             "sentences": {
@@ -495,7 +496,12 @@
                             "Text": "« J'utilise la visualisation pour penser à la technique parfaite. Si je peux avoir  l’image parfaite dans ma tête, alors on peut espérer que cela affectera ma performance physique. »",
                             "Image": "/images/visualize/hill.png"
                         }
-                    ]
+                    ],
+                    "Application": {
+                        "Title": "Introduction à la_visualisation",
+                        "Duration": "6 minutes",
+                        "File": "/sounds/visualize/Champion-as-a-dream.mp3"
+                    }
                 }
             }
         ]

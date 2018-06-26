@@ -154,7 +154,7 @@ export default {
 	.sliderIndicator {
 		width: var(--sliderIndicatorWidth);
 		height: 2px;
-		background-color: var(--mediumGrey);
+		background-color: var(--medium-grey);
 		margin: 0;
 		margin-top: 3rem;
 		position: relative;

@@ -42,7 +42,7 @@ export default {
 	color: white;
 	height: 50%;
 	pointer-events: none;
-	margin-top: var(--titleTopOffset);
+	margin-top: var(--title-top-offset);
 	--titleWrapperDelay: 2s;
 	transform: translate(calc(var(--centeredOffsetX) + (var(--eased-mouse-position-percent-x) * 0.03%)), calc(var(--centeredOffsetY) + (var(--eased-mouse-position-percent-y) * 0.03%)));
 	transform-style: preserve-3d;

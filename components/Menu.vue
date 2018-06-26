@@ -273,7 +273,7 @@ export default {
 	&.open {
 		.menu {
 			opacity: 1;
-			transition-delay: calc(var(--menuTransitionSpeed));
+			transition-delay: calc(var(--menu-transition-speed));
 			pointer-events: all;
 			.menuItem {
 				@for $i from 1 to 6 {

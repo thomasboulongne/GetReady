@@ -28,19 +28,19 @@ export default {
 
 <style lang="scss">
 .cardComp {
-	width: var(--cardWidth);
-	height: calc(var(--cardWidth) * 1.54);
+	width: var(--card-width);
+	height: calc(var(--card-width) * 1.54);
 	background: white;
 	color: var(--black);
-	border-radius: calc(var(--cardWidth) / 15);
+	border-radius: calc(var(--card-width) / 15);
 	--cardRotate: 0deg;
-	padding: calc(var(--cardWidth) * 0.1);
+	padding: calc(var(--card-width) * 0.1);
 	box-sizing: border-box;
 	text-align: center;
 	opacity: 1;
 	--cardBoxShadowOpacity: 0;
-	box-shadow: 0 calc(var(--cardWidth) * 0.03) calc(var(--cardWidth) * 0.07) rgba(0, 0, 0, var(--cardBoxShadowOpacity));
-	font-size: calc(var(--cardWidth) * 0.06);
+	box-shadow: 0 calc(var(--card-width) * 0.03) calc(var(--card-width) * 0.07) rgba(0, 0, 0, var(--cardBoxShadowOpacity));
+	font-size: calc(var(--card-width) * 0.06);
 	.illustration {
 		position: relative;
 		width: 66%;

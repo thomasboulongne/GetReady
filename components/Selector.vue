@@ -73,7 +73,7 @@ export default {
 			transitionSpeed: 1,
 			navigationArrowsAreaWidth: 15,
 			navigationIndicationSlide: 0.02,
-			backgroundTransitionDuration: 0.4,
+			backgroundTransitionDuration: 0,
 			cursor: '-webkit-grab',
 			height: this.vh,
 			PATH: process.env.PATH,
@@ -195,7 +195,6 @@ export default {
 		this.initThreeScene();
 		this.addEventListeners();
 		this.canSlide = this.$route.name === 'index';
-		this.backgroundTransitionDuration = 0.4;
 		this.height = this.vh;
 		this.initRotation(this.$route);
 	},
@@ -233,10 +232,10 @@ export default {
 						ease: Power4.easeOut
 					}, 0);
 					Array.from(this.$el.querySelectorAll('.currentSlide .letter')).forEach((letter, i) => {
-						tl.to(letter, 0.8, {
+						tl.to(letter, 2, {
 							y: i * this.offset - this.vh * 0.15,
 							ease: Power4.easeOut
-						}, i * 0.04);
+						}, i * 0.07);
 					});
 					tl
 					.to(this.$el.querySelector('.currentSlide .subtitle'), duration / 3, {
@@ -259,10 +258,6 @@ export default {
 					.to(this.$refs.nav.querySelectorAll('.left, .right'), duration / 3, {
 						opacity: 1,
 						pointerEvents: 'all'
-					}, 0)
-					.to(this.$el.querySelectorAll('.pagination'), duration / 3, {
-						opacity: 1,
-						pointerEvents: 'all'
 					}, 0);
 					Array.from(this.$el.querySelectorAll('.selectorItem')).forEach((item, i) => {
 						tl.to(item, duration, {
@@ -274,16 +269,22 @@ export default {
 						'--imgTop': 45,
 						ease: Power4.easeOut
 					}, 0);
-					Array.from(this.$el.querySelectorAll('.currentSlide .letter')).forEach((letter, i) => {
-						tl.to(letter, 0.8, {
-							y: i * this.offset,
-							ease: Power3.easeOut
-						}, i * 0.03);
+					const letters = Array.from(this.$el.querySelectorAll('.currentSlide .letter')).reverse();
+					letters.forEach((letter, i) => {
+						tl.to(letter, 1.2, {
+							y: (letters.length - i) * this.offset,
+							ease: Power4.easeOut
+						}, i * 0.04);
 					});
-					tl.to(this.$el.querySelectorAll('.subtitle'), duration / 3, {
+					tl
+					.to(this.$el.querySelectorAll('.pagination'), duration / 3, {
 						opacity: 1,
 						pointerEvents: 'all'
-					}, 0)
+					}, '-=' + duration / 3)
+					.to(this.$el.querySelectorAll('.subtitle'), duration / 3, {
+						opacity: 1,
+						pointerEvents: 'all'
+					})
 					.set(this.$el.querySelectorAll('.callToAction'), {
 						opacity: 1,
 						pointerEvents: 'all'
@@ -370,9 +371,10 @@ export default {
 			}
 		},
 		spinAnimation() {
-			this.rotation = Math.PI * 1.5;
 			return new Promise(resolve => {
-				TweenMax.to(this, 3.5, {
+				TweenMax.fromTo(this, 3.5, {
+					rotation: Math.PI * 1.5
+				}, {
 					directionalRotation: {
 						useRadians: true,
 						rotation: '0_ccw'
@@ -434,6 +436,7 @@ export default {
 			}
 		},
 		slide(to) {
+			this.backgroundTransitionDuration = 0.4;
 			return new Promise(resolve => {
 				const tl = new TimelineMax({
 					paused: true,
@@ -611,7 +614,7 @@ export default {
 			.subtitle {
 				position: absolute;
 				right: 0;
-				top: calc(48% + var(--titleTopOffset) / 2 + ((-2% * var(--number-of-letters)) + 28%));
+				top: calc(48% + var(--title-top-offset) / 2 + ((-2% * var(--number-of-letters)) + 28%));
 				color: white;
 				clip-path: polygon(0 15%, 100% 0, 100% 100%, 0 100%);
 				@supports (-ms-ime-align: auto) {

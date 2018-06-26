@@ -468,7 +468,7 @@ export default {
 .intro {
 	height: 100vh;
 	width: 100vw;
-	background: var(--introBlue);
+	background: var(--intro-blue);
 	--stepTransitionDuration: 0.7s;
 	color: white;
 	position: relative;
@@ -491,7 +491,7 @@ export default {
 		left: 50%;
 		transform: translateX(-50%);
 		.buttonWrapper {
-			--buttonColor: var(--lightBlue);
+			--buttonColor: var(--light-blue);
 		}
 	}
 	.step {
@@ -554,12 +554,12 @@ export default {
 			ul {
 				display: block;
 				z-index: 2;
-				width: var(--cardWidth);
-				height: calc(var(--cardWidth) * 1.54);
+				width: var(--card-width);
+				height: calc(var(--card-width) * 1.54);
 				position: relative;
 				--boxShadowOpacity: 0;
-				box-shadow: 0 calc(var(--cardWidth) * 0.03) calc(var(--cardWidth) * 0.07) rgba(0, 0, 0, var(--boxShadowOpacity));
-				border-radius: calc(var(--cardWidth) / 15);
+				box-shadow: 0 calc(var(--card-width) * 0.03) calc(var(--card-width) * 0.07) rgba(0, 0, 0, var(--boxShadowOpacity));
+				border-radius: calc(var(--card-width) / 15);
 				.card {
 					position: absolute;
 					left: 50%;
@@ -577,7 +577,7 @@ export default {
 			}
 			.nav {
 				display: flex;
-				width: var(--cardWidth);
+				width: var(--card-width);
 				justify-content: center;
 				align-items: center;
 				margin-top: 3rem;
@@ -719,7 +719,7 @@ export default {
 					}
 					.buttons {
 						.buttonWrapper {
-							--buttonColor: var(--lightBlue);
+							--buttonColor: var(--light-blue);
 						}
 					}
 				}

@@ -65,7 +65,7 @@ export default {
 			font-size: calc(var(--celebrityWidth) / 50.64);
 			font-style: italic;
 			display: inline-block;
-			color: var(--mediumGrey);
+			color: var(--medium-grey);
 			max-width: 66%;
 		}
 		p {

@@ -154,7 +154,6 @@ export default {
 			padding: 2.44rem 3.6rem;
 			box-shadow: 0 2px 25px 0 rgba(197, 197, 197, 0.28);
 			display: flex;
-			--player-button-width: 3rem;
 			align-items: center;
 			.infos {
 				width: calc(50% - var(--player-button-width) / 2);
@@ -182,19 +181,6 @@ export default {
 					margin-top: 0.4rem;
 					display: block;
 					font-size: 0.88rem;
-				}
-			}
-			.player {
-				.play {
-					cursor: pointer;
-					svg {
-						width: var(--player-button-width);
-						height: auto;
-						transform: rotate(0deg);
-						path {
-							fill: var(--current-color);
-						}
-					}
 				}
 			}
 			.playerInfos {

@@ -39,7 +39,7 @@ export default {
 	align-items: flex-start;
 	margin-top: 7rem;
 	.detailedBlock {
-		background-color: var(--lightGrey);
+		background-color: var(--light-grey);
 		padding: 8rem 2.77rem 3.88rem;
 		padding-top: 8rem;
 		width: 46%;

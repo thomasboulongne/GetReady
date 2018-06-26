@@ -137,14 +137,14 @@ export default {
 	margin-bottom: calc(var(--topOffset) * -1);
 	position: relative;
 	padding-top: var(--paddingTop);
-	padding-bottom: var(--spacingHorizontal);
+	padding-bottom: var(--spacing-horizontal);
 	&:before {
 		content: '';
 		position: absolute;
 		top: calc(var(--paddingTop) - 13vh);
 		height: 13vh;
 		width: 1px;
-		left: calc(50% - 45rem + var(--spacingHorizontalLarge));
+		left: calc(50% - 45rem + var(--spacing-horizontal-large));
 		display: block;
 		background: #c1cbe0;
 		background: var(--current-color);
@@ -159,8 +159,11 @@ export default {
 		color: var(--grey);
 		font-weight: bold;
 		display: block;
-		margin-left: var(--spacingHorizontal);
+		margin: auto;
 		font-size: 2.6rem;
+		box-sizing: border-box;
+		max-width: 80rem;
+		width: 100%;
 		span {
 			display: block;
 			&:last-child {
@@ -223,7 +226,7 @@ export default {
 			text-transform: uppercase;
 			font-weight: normal;
 			line-height: 2.5;
-			color: var(--textGrey);
+			color: var(--text-grey);
 			vertical-align: baseline;
 			margin-right: 2rem;
 		}
@@ -245,7 +248,7 @@ export default {
 			.sentence {
 				span {
 					display: inline;
-					background: linear-gradient(#ffffff, #ffffff 60%, var(--exempleBlue) 60.1%);
+					background: linear-gradient(#ffffff, #ffffff 60%, var(--exemple-blue) 60.1%);
 				}
 			}
 		}
@@ -341,6 +344,21 @@ export default {
 				font-weight: bold;
 				&:not(:last-child) {
 					margin-bottom: 1.5rem;
+				}
+			}
+		}
+	}
+
+	--player-button-width: 3rem;
+	.player {
+		.play {
+			cursor: pointer;
+			svg {
+				width: var(--player-button-width);
+				height: auto;
+				transform: rotate(0deg);
+				path {
+					fill: var(--current-color);
 				}
 			}
 		}

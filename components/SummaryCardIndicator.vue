@@ -40,7 +40,8 @@ export default {
 		top: 50%;
 		left: 50%;
 		transform: translate(-50%, -50%);
-		width: 10% !important;
+		width: 15% !important;
+		height: auto;
 	}
 	@keyframes rotation {
 		from {

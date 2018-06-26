@@ -166,11 +166,11 @@ export default {
 .organize {
 	.mainPart {
 		.block__1 {
-			--sliderIndicatorWidth: var(--cardWidth);
+			--sliderIndicatorWidth: var(--card-width);
 			.items {
 				.cardComp {
 					--cardBoxShadowOpacity: 0.1;
-					background-color: var(--lightGrey);
+					background-color: var(--light-grey);
 					p {
 						max-width: none;
 					}
@@ -214,7 +214,7 @@ export default {
 			display: flex;
 			flex-direction: column;
 			align-items: center;
-			padding: 0 var(--spacingHorizontalLarge);
+			padding: 0 var(--spacing-horizontal-large);
 			.block {
 				width: 100%;
 				max-width: 80rem;

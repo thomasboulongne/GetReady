@@ -182,7 +182,7 @@ export default {
 	justify-content: flex-end;
 	flex-direction: column;
 	align-items: flex-end;
-	padding: 4rem var(--spacingHorizontal);
+	padding: 4rem var(--spacing-horizontal);
 	box-sizing: border-box;
 	.opening {
 		position: relative;
@@ -259,7 +259,7 @@ export default {
 							input {
 								width: 7rem;
 								border: none;
-								background-color: var(--lightGrey);
+								background-color: var(--light-grey);
 								line-height: 1.6;
 								padding: 0.3em 1em;
 								font-family: 'Open Sans', sans-serif;
@@ -270,7 +270,7 @@ export default {
 							span {
 								text-align: left;
 								border-radius: 0.5rem 0 0 0.5rem;
-								color: var(--textGrey);
+								color: var(--text-grey);
 								font-weight: 600;
 								font-size: 0.77rem;
 								line-height: 1.9;

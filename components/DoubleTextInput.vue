@@ -146,7 +146,7 @@ export default {
 							flex-grow: 1;
 							margin-left: 0.5rem;
 							border: none;
-							background-color: var(--lightGrey);
+							background-color: var(--light-grey);
 							line-height: 1.6;
 							padding: 0.3em 1em;
 							font-family: 'Open Sans', sans-serif;

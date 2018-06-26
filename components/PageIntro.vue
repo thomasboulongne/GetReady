@@ -59,7 +59,7 @@ export default {
 .pageIntro {
 	display: flex;
 	width: 100%;
-	padding: 2rem var(--spacingHorizontalLarge) var(--spacingHorizontal);
+	padding: 2rem var(--spacing-horizontal-large) var(--spacing-horizontal);
 	max-width: 90rem;
 	box-sizing: border-box;
 	margin: auto;
@@ -70,7 +70,7 @@ export default {
 	}
 	.left {
 		width: 60%;
-		padding-right: var(--spacingHorizontal);
+		padding-right: var(--spacing-horizontal);
 		.emphasedText {
 			max-width: 80%;
 		}

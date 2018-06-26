@@ -112,7 +112,7 @@ export default {
 		}
 		.quickNav {
 			position: absolute;
-			left: var(--spacingHorizontal);
+			left: var(--spacing-horizontal);
 			&.above {
 				top: 0;
 			}
@@ -128,7 +128,7 @@ export default {
 				font-size: 0.666rem;
 				font-weight: 600;
 				text-transform: uppercase;
-				color: var(--textGrey);
+				color: var(--text-grey);
 				transition: color 0.8s;
 				&:not(:last-child) {
 					margin-bottom: 1.5rem;

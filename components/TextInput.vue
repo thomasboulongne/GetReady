@@ -185,7 +185,7 @@ export default {
 						input {
 							width: 100%;
 							border: none;
-							background-color: var(--lightGrey);
+							background-color: var(--light-grey);
 							line-height: 1.6;
 							padding: 0.3em 1em;
 							font-family: 'Open Sans', sans-serif;

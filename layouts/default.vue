@@ -153,30 +153,30 @@ export default {
 
 <style lang="scss">
 #app {
-	--spacingHorizontal: 7.55rem;
-	--spacingHorizontalLarge: 12rem;
+	--spacing-horizontal: 7.55rem;
+	--spacing-horizontal-large: 12rem;
 	--spacing: 3rem;
-	--menuTransitionSpeed: 0.2s;
+	--menu-transition-speed: 0.2s;
 	--ease: cubic-bezier(0.165, 0.84, 0.44, 1);
 	width: 100%;
 	overflow-x: hidden;
 }
 main {
-	--titleTopOffset: 5rem;
-	--transitionDuration: 1.5s;
+	--title-top-offset: 5rem;
+	--transition-duration: 1.5s;
 	--grey: #5d666d;
-	--lightGrey: #f6f8fa;
-	--introBlue: #acbee4;
-	--mediumGrey: #dbdbdb;
-	--lightBlue: #c1cbe0;
+	--light-grey: #f6f8fa;
+	--intro-blue: #acbee4;
+	--medium-grey: #dbdbdb;
+	--light-blue: #c1cbe0;
 	--black: #494949;
-	--textGrey: #a9b1b6;
-	--exempleBlue: #e5edf4;
+	--text-grey: #a9b1b6;
+	--exemple-blue: #e5edf4;
 	--blue: #5781f8;
-	--cardWidth: 17rem;
+	--card-width: 17rem;
 
 	.coloredBackground {
-		background-color: var(--lightGrey);
+		background-color: var(--light-grey);
 		position: absolute;
 		top: 0;
 		right: 0;
@@ -201,7 +201,7 @@ main {
 		background: black;
 		opacity: 0;
 		pointer-events: none;
-		transition: opacity var(--menuTransitionSpeed);
+		transition: opacity var(--menu-transition-speed);
 	}
 	&.menuOpen {
 		&:after {
