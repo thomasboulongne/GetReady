@@ -30,6 +30,14 @@
 						<video playsinline muted loop :data-src="PATH + type['Illustration']" ref="videos"></video>
 						<span class="title" v-html="type['Name']"></span>
 						<span class="description" v-html="type['Description']"></span>
+						<div class="example">
+							<div class="label" v-t="'Example'"></div>
+							<div class="simple">
+								<div class="sentence">
+									<span v-html="type['Example']"></span>
+								</div>
+							</div>
+						</div>
 					</li>
 				</ul>
 			</div>
@@ -135,6 +143,20 @@ export default {
 					font-size: 1.77rem;
 					font-weight: 600;
 					margin: 1.5rem 0;
+					text-transform: uppercase;
+				}
+				.example {
+					flex-direction: column;
+					align-items: center;
+					margin-top: 1rem;
+					max-width: none;;
+					.label {
+						margin: 0;
+						margin-bottom: 1rem;
+					}
+					.simple {
+						width: 100%;
+					}
 				}
 			}
 		}
