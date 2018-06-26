@@ -262,7 +262,13 @@
                         "Athlete": "Michael Phelps",
                         "Athlete description": "Nageur américain, athlète le plus titré aux JO",
                         "Quote": "On m’a appris très jeune à visualiser mes courses, comment je voulais qu’elles se passent, comment je ne voulais pas qu’elles se passent et comment elle pourraient se passer. Du coup, en 2008, quand mes lunettes se sont remplies d’eau, j’étais calme par ce que je suis revenu sur ce que j’avais appris à l'entraînement. J’ai nagé à l’aveugle pendant 175 mètres sur 200 et ai gagné la médaille d’or en battant le record du monde.",
-                        "Image": "/images/visualize/phelps-quote.png"
+                        "Image": "/images/visualize/phelps-quote.png",
+                        "Audio": {
+                            "Title": "Champion as a dream (EN)",
+                            "Duration": "18 minutes",
+                            "Description": "Conférence du coach de Michael Phelps , Bob Bowman.",
+                            "File": "/sounds/visualize/Champion-as-a-dream.mp3"
+                        }
                     },
                     "Study": {
                         "Title": "L’effet de la visualisation sur la performance de lancers francs",

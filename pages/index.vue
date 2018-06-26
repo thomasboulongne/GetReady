@@ -210,7 +210,7 @@ export default {
 				left: 50%;
 				filter: grayscale(1) brightness(0);
 				opacity: 0.08;
-				transform: translate(-60%, -55%);
+				transform: translate(-60%, -51%) scale(1.02);
 			}
 		}
 	}
