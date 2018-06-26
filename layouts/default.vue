@@ -175,6 +175,10 @@ main {
 	--blue: #5781f8;
 	--card-width: 17rem;
 
+	text-line {
+		transform-origin: top right;
+	}
+
 	.coloredBackground {
 		background-color: var(--light-grey);
 		position: absolute;

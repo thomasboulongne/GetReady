@@ -51,7 +51,7 @@ export default {
 			this.tl
 			.fromTo(this.$refs.definition, duration, {
 				opacity: 0,
-				y: 20
+				y: 50
 			}, {
 				opacity: 1,
 				y: 0,
@@ -60,41 +60,47 @@ export default {
 			first = false;
 		}
 		if (this.$refs.emphasedText) {
-			const position = first ? 0 : duration / 2;
+			const position = first ? 0 : '-=' + duration * 0.7;
 			this.tl
 			.fromTo(this.$refs.emphasedText, duration, {
 				opacity: 0,
-				y: 80
+				y: 80,
+				rotation: -6
 			}, {
 				opacity: 1,
 				y: 0,
+				rotation: 0,
 				ease: Power4.easeOut
 			}, position);
 			first = false;
 		}
 		if (this.$refs.longText) {
-			const position = first ? 0 : duration / 2;
+			const position = first ? 0 : '-=' + duration * 0.7;
 			this.tl
 			.fromTo(this.$refs.longText, duration, {
 				opacity: 0,
-				y: 20
+				y: 50,
+				rotation: -6
 			}, {
 				opacity: 1,
 				y: 0,
+				rotation: 0,
 				ease: Power4.easeOut
 			}, position);
 			first = false;
 		}
 		if (this.$refs.image) {
-			const position = first ? 0 : duration / 2;
+			const position = first ? 0 : '-=' + duration * 0.7;
 			this.tl
 			.fromTo(this.$refs.image, duration, {
 				opacity: 0,
-				y: 20
+				y: 50,
+				skewY: -10
 			}, {
 				opacity: 1,
 				y: 0,
-				ease: Power4.easeOut
+				ease: Power4.easeOut,
+				skewY: 0
 			}, position);
 			first = false;
 		}
@@ -164,12 +170,14 @@ export default {
 				width: 50%;
 				flex-grow: 0;
 				flex-shrink: 0;
+				transform-origin: top right;
 			}
 		}
 	}
 	.right {
 		width: 40%;
 		opacity: 0;
+		transform-origin: right;
 	}
 	img, video {
 		width: 80%;

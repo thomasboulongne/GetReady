@@ -310,6 +310,7 @@ export default {
 					});
 					break;
 				case 5:
+					this.$refs.step6_moreButton.show = false;
 					tl
 					.to(this.stepsElm[5], this.duration / 2, {
 						opacity: 1,
@@ -337,7 +338,7 @@ export default {
 						rotation: 0,
 						ease: Power4.easeOut,
 						overwrite: 'all'
-					}, 0.05, 'startStepContentAnimation')
+					}, 0.05)
 					.add(() => {
 						this.$refs.step6_moreButton.show = true;
 					})

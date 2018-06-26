@@ -64,6 +64,17 @@ export default {
 	// 		return redirect('/intro');
 	// 	}
 	// },
+	data() {
+		return {
+			isPage: this.$route.name === 'page',
+			lineScale: 0
+		};
+	},
+	watch: {
+		'$store.getters.scrollPosition.y': function() {
+			this.showTitles();
+		}
+	},
 	created() {
 		const goal = CookiesClient.get('reachyourgoal_goal');
 		if (goal !== undefined) {
@@ -81,12 +92,7 @@ export default {
 			ease: Power4.easeOut,
 			delay: 1
 		});
-	},
-	data() {
-		return {
-			isPage: this.$route.name === 'page',
-			lineScale: 0
-		};
+		this.showTitles();
 	},
 	computed: {
 		page: function() {
@@ -110,6 +116,16 @@ export default {
 				case 2:
 					return VisualizeComp;
 			}
+		}
+	},
+	methods: {
+		showTitles() {
+			const titles = Array.from(this.$el.querySelectorAll('h2:not(.show)'));
+			titles.forEach(title => {
+				if (title.getBoundingClientRect().top < this.$store.getters.viewportSize.height) {
+					title.classList.add('show');
+				}
+			});
 		}
 	},
 	beforeRouteLeave(to, from, next) {
@@ -166,10 +182,19 @@ export default {
 		width: 100%;
 		span {
 			display: block;
+			opacity: 0;
+			transform-origin: right;
+			transform: translateY(0.5rem) rotate(-3deg);
+			transition: opacity 0.7s, transform 0.7s var(--ease);
 			&:last-child {
 				font-size: 1.7em;
 				line-height: 1.1;
+				transition-delay: 0.3s;
 			}
+		}
+		&.show span {
+			transform: none;
+			opacity: 1;
 		}
 	}
 	h3 {
