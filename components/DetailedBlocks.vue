@@ -37,7 +37,7 @@ export default {
 	margin: auto;
 	justify-content: space-between;
 	align-items: flex-start;
-	margin-top: 12rem;
+	margin-top: 7rem;
 	.detailedBlock {
 		background-color: var(--lightGrey);
 		padding: 8rem 2.77rem 3.88rem;

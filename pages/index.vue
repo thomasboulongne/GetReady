@@ -141,10 +141,10 @@ export default {
 	&:before {
 		content: '';
 		position: absolute;
-		top: calc(var(--paddingTop) - 11vh);
-		height: 11vh;
+		top: calc(var(--paddingTop) - 13vh);
+		height: 13vh;
 		width: 1px;
-		left: var(--spacingHorizontalLarge);
+		left: calc(50% - 45rem + var(--spacingHorizontalLarge));
 		display: block;
 		background: #c1cbe0;
 		background: var(--current-color);

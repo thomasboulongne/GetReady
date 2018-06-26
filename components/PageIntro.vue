@@ -8,7 +8,7 @@
 			<p v-html="intro['Long text']"></p>
 		</div>
 		<div class="right" v-if="intro['Image']">
-			<img :src="PATH + intro['Image']" alt="">
+			<video autoplay="true" playsinline muted loop :src="PATH + intro['Image']" alt=""></video>
 		</div>
 	</div>
 </template>
@@ -22,14 +22,14 @@ export default {
 			}
 		},
 		definition: {
-			default: true,
-			displayed: false
+			default: true
 		}
 	},
 	data() {
 		return {
 			PATH: process.env.PATH,
-			lineScale: 0
+			lineScale: 0,
+			displayed: false
 		};
 	},
 	watch: {
@@ -59,8 +59,10 @@ export default {
 .pageIntro {
 	display: flex;
 	width: 100%;
-	padding: 0 var(--spacingHorizontalLarge) var(--spacingHorizontal);
+	padding: 2rem var(--spacingHorizontalLarge) var(--spacingHorizontal);
+	max-width: 90rem;
 	box-sizing: border-box;
+	margin: auto;
 	.left, .right {
 		flex-shrink: 0;
 		flex-grow: 0;
@@ -69,12 +71,17 @@ export default {
 	.left {
 		width: 60%;
 		padding-right: var(--spacingHorizontal);
+		.emphasedText {
+			max-width: 80%;
+		}
 	}
 	.right {
 		width: 40%;
 	}
-	img {
+	img, video {
 		width: 80%;
+		border-radius: 1rem;
+		object-fit: cover;
 	}
 }
 </style>

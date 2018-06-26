@@ -158,6 +158,8 @@ export default {
 	--spacing: 3rem;
 	--menuTransitionSpeed: 0.2s;
 	--ease: cubic-bezier(0.165, 0.84, 0.44, 1);
+	width: 100%;
+	overflow-x: hidden;
 }
 main {
 	--titleTopOffset: 5rem;

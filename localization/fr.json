@@ -255,8 +255,8 @@
                 "page": {
                     "Intro": {
                         "Text": "C’est créer ou recréer mentalement la représentation d’un objet, d’un événement, ou d’une activité.",
-                        "Long text": "Épelez maintenant votre nom à l’envers… Si vous l’avez fait, vous avez du le visualiser.\nPouvez  décrire la disposition des pièces de votre appartement, pour ce faire, vous devez le visualiser. Lorsque vous voyez mentalement un objet, un événement, ou une activité, vous faites de la visualisation.  Pour la rendre plus efficace, selon votre objectif, vous y ajoutez  l'ouïe, le toucher et autres ressentis, l'odorat et le goût.<br>La visualisation est l'une des compétences mentales les plus utilisées par les athlètes, et ce à tous les niveaux sportifs.",
-                        "Image": "/images/visualize/visualize.png"
+                        "Long text": "Épelez maintenant votre nom à l’envers… Si vous l’avez fait, vous avez du le visualiser.<br>Pouvez  décrire la disposition des pièces de votre appartement, pour ce faire, vous devez le visualiser. Lorsque vous voyez mentalement un objet, un événement, ou une activité, vous faites de la visualisation.  Pour la rendre plus efficace, selon votre objectif, vous y ajoutez  l'ouïe, le toucher et autres ressentis, l'odorat et le goût.<br>La visualisation est l'une des compétences mentales les plus utilisées par les athlètes, et ce à tous les niveaux sportifs.",
+                        "Image": "/images/visualize/visualize.mp4"
                     },
                     "Main quote": {
                         "Athlete": "Michael Phelps",
@@ -398,6 +398,14 @@
                     },
                     "Sections": [
                         {
+                            "Title": "Comment_ça fonctionne",
+                            "Intro": {
+                                "Text": "Le cerveau ne fait pas la différence entre ce qui est réel et ce qui est imaginé.",
+                                "Long text": "La représentation mentale produit des effets similaires aux mouvements réels.\nLa répétition de cette représentation développe les liens neuromusculaires participant à l’apprentissage du mouvement si ceux-ci sont imaginés intensément.",
+                                "Image": "/images/visualize/explanation.mp4"
+                            }
+                        },
+                        {
                             "Title": "Les différents_points de vue",
                             "Intro": {
                                 "Text": "Il y a deux façons de voir l'image dans votre esprit :",
@@ -420,8 +428,46 @@
                             "Title": "Comment_pratiquer ?",
                             "Intro": {
                                 "Text": "L’important est de cibler les exercices qui vous aideront à progresser.",
-                                "Long text": "Il existe de très bons tutoriels vidéo sur internet. Il faut en choisir un en fonction de ce que l’on veut apprendre à faire, de la même manière le type de visualisation va dépendre de notre besoin. L’important est de cibler les exercices qui vous aideront à progresser, et de visualiser les situations les plus proches de la réalité."
-                            }
+                                "Long text": "Il existe de très bons tutoriels vidéo sur internet. Il est possible d'en choisir un en fonction de ce que l’on veut apprendre à faire, de la même manière le type de visualisation va dépendre de notre besoin. L’important est de cibler les exercices qui vous aideront à progresser, et de visualiser les situations les plus proches de la réalité."
+                            },
+                            "Types": [
+                                {
+                                    "Name": "Motivation",
+                                    "Description": "Visualiser son objectif pour se motiver quand on a un coup de mou.",
+                                    "Example": "Se visualiser dans une grande école pour se motiver quand on est paresseuse.",
+                                    "Illustration": "/images/visualize/types/Motivation1000.mp4"
+                                },
+                                {
+                                    "Name": "Gestion du stress",
+                                    "Description": "S’imaginer dans une situation où l’on est naturellement détendu aide à se détendre.",
+                                    "Example": "S’imaginer être dans son lieu de vacances favori pour à s'endormir paisiblement la veille de l'examen.",
+                                    "Illustration": "/images/visualize/types/gestiondustress1000.mp4"
+                                },
+                                {
+                                    "Name": "Mémoriser",
+                                    "Description": "Visualiser ce que l’on veut retenir en le positionnant mentalement dans un espace.",
+                                    "Example": "Visualiser le contenu de ses fiches de révisions déployées dans l’espace pour mieux les apprendre.",
+                                    "Illustration": "/images/visualize/types/memoriser1000.mp4"
+                                },
+                                {
+                                    "Name": "Anticipation",
+                                    "Description": "Visualiser une situation pour anticiper ses réactions.",
+                                    "Example": "S’imaginer avoir un blanc lors de son oral et choisir une manière de rebondir.",
+                                    "Illustration": "/images/visualize/types/anticipation1000.mp4"
+                                },
+                                {
+                                    "Name": "Motivation par l’évitement",
+                                    "Description": "Imaginer une situation négative pour se motiver par la pression,le dégoût ou la honte.",
+                                    "Example": "S’imaginer lire le tableau des résultats annonçant qu’on doit passer les épreuves rattrapage pour se forcer à travailler.",
+                                    "Illustration": "/images/visualize/types/gestiondustress1000.mp4"
+                                },
+                                {
+                                    "Name": "De familiarisation",
+                                    "Description": "Se visualiser dans un environnement inconnu pour mieux appréhender l’espace ou la situation",
+                                    "Example": "S’imaginer dans la salle d’examen avec 100 autres personnes.",
+                                    "Illustration": "/images/visualize/types/familiarisation1000.mp4"
+                                }
+                            ]
                         }
                     ],
                     "Quotes": [
