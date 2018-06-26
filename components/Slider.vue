@@ -1,7 +1,7 @@
 <template>
 	<div class="slider">
 		<ul class="items" v-hammer:pan.horizontal="pan" ref="items" @mousedown="grabCursor" @mouseup="defaultCursor" :style="{'cursor': cursor ? '-webkit-grabbing' : '-webkit-grab'}">
-			<li class="item" v-for="(item, i) in items" :key="i" ref="item">
+			<li class="item" v-for="(item, i) in items" :key="i" ref="item" :style="{'--velocity': velocity > 0 ? velocity * (items.length - i) : velocity * i }">
 				<component :is="componentType" :item="item"></component>
 			</li>
 		</ul>
@@ -27,22 +27,60 @@ export default {
 			x: 0,
 			cursor: false,
 			sliderPercentage: 0,
-			currentX: 0
+			currentX: 0,
+			itemWidth: 0,
+			fullWidth: 0,
+			velocity: 0,
+			displayed: false
 		};
+	},
+	computed: {
+		vw: function() {
+			return this.$store.getters.viewportSize.width;
+		},
+		vh: function() {
+			return this.$store.getters.viewportSize.height;
+		}
 	},
 	watch: {
 		'currentX': function(x) {
-			const itemWidth = this.$refs.item[0].getBoundingClientRect().width;
-			const fullWidth = (itemWidth * this.items.length) - itemWidth;
-			this.sliderPercentage = (x * 100 / fullWidth).toFixed(2) * -1;
+			this.sliderPercentage = (x * 100 / this.fullWidth).toFixed(2) * -1;
+		},
+		'$store.getters.viewportSize': function() {
+			this.sizeItems();
+		},
+		'$store.getters.scrollPosition': function() {
+			this.showItems();
 		}
 	},
+	mounted() {
+		this.sizeItems();
+		this.showItems();
+	},
 	methods: {
+		showItems() {
+			if (!this.displayed && this.$refs.items.getBoundingClientRect().top < this.vh * 0.8) {
+				TweenMax.fromTo(this.$refs.items, 1, {
+					opacity: 0,
+					x: this.vw * 0.2
+				}, {
+					opacity: 1,
+					x: 0,
+					ease: Power3.easeOut
+				});
+				this.displayed = true;
+			}
+		},
+		sizeItems() {
+			this.itemWidth = this.$refs.item[0].getBoundingClientRect().width;
+			this.fullWidth = (this.itemWidth * this.items.length) - this.itemWidth;
+		},
 		pan(event) {
 			const computedX = this.x + event.deltaX;
-			const itemWidth = this.$refs.item[0].getBoundingClientRect().width;
-			const fullWidth = (itemWidth * this.items.length) - itemWidth;
 			let newX = computedX;
+			TweenMax.to(this, 0.2, {
+				velocity: event.velocity
+			});
 			TweenMax.set(this.$refs.items, {
 				x: newX
 			});
@@ -51,11 +89,14 @@ export default {
 			});
 			if (event.isFinal) {
 				newX = computedX + event.velocityX * 50;
+				TweenMax.to(this, 0.5, {
+					velocity: 0
+				});
 				let backX = null;
 				if (newX > 0) {
 					backX = 0;
-				} else if (newX < fullWidth * -1) {
-					backX = fullWidth * -1;
+				} else if (newX < this.fullWidth * -1) {
+					backX = this.fullWidth * -1;
 				}
 				const tl = new TimelineMax({ paused: true });
 
@@ -90,10 +131,8 @@ export default {
 			this.cursor = false;
 		},
 		next() {
-			const itemWidth = this.$refs.item[0].getBoundingClientRect().width;
-			const computedX = this.x - itemWidth;
-			const fullWidth = (itemWidth * this.items.length) - itemWidth;
-			if (computedX >= fullWidth * -1) {
+			const computedX = this.x - this.itemWidth;
+			if (computedX >= this.fullWidth * -1) {
 				const tl = new TimelineMax({ paused: true });
 				tl
 				.to(this.$refs.items, 0.5, {
@@ -109,8 +148,7 @@ export default {
 			}
 		},
 		prev() {
-			const itemWidth = this.$refs.item[0].getBoundingClientRect().width;
-			const computedX = this.x + itemWidth;
+			const computedX = this.x + this.itemWidth;
 			if (computedX <= 0) {
 				const tl = new TimelineMax({ paused: true });
 				tl
@@ -142,7 +180,9 @@ export default {
 		margin-top:4rem;
 		display: flex;
 		flex-wrap: nowrap;
+		opacity: 0;
 		.item {
+			// transform: translateX(calc(var(--velocity) * -2rem));
 			&:not(:last-child) {
 				padding-right: 2rem;
 			}

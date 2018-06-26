@@ -107,7 +107,7 @@ export default {
 		}
 		.text {
 			width: 66%;
-			padding-bottom: 3rem;
+			padding-bottom: 12rem;
 			svg {
 				* {
 					fill: var(--current-color);
