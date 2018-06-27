@@ -319,6 +319,7 @@ export default {
 						if (span !== null) {
 							const result = {value: 0};
 							const to = span.getAttribute('data-value');
+							span.innerHTML = 0;
 							tl
 							.to(result, to / 9, {
 								value: to,
@@ -414,6 +415,7 @@ export default {
 			if (span !== null) {
 				const result = {value: 0};
 				const to = span.getAttribute('data-value');
+				span.innerHTML = 0;
 				tl
 				.to(result, to / 9, {
 					value: to,
