@@ -43,7 +43,7 @@
         },
         "step4": {
             "text1": "Pour vous aider dans votre projet, nous vous présentons 3 grandes étapes clés pour réussir à atteindre votre objectif.",
-            "img1": "/images/slides.svg",
+            "img1": "/images/slides.gif",
             "text2": "En remplissant les champs indiqués :edit-icon:, ils seront enregistrés :save-icon: sur votre fiche récapitulative, que vous pourrez ensuite télécharger à la fin de chaque page."
         }
     },
@@ -120,9 +120,7 @@
                                             "Physique-chimie": [10, 8],
                                             "SVT": [8, 2],
                                             "Anglais": [10, 9],
-                                            "Histoire": [10, 4],
-                                            "Français": [10, 9],
-                                            "Éducation physique": [8, 8]
+                                            "Histoire": [10, 4]
                                         },
                                         "Input Store identifier": "Progress table"
                                     },
@@ -430,7 +428,7 @@
                             "Title": "Comment_pratiquer ?",
                             "Intro": {
                                 "Text": "L’important est de cibler les exercices qui vous aideront à progresser.",
-                                "Long text": "Il existe de très bons tutoriels vidéo sur internet. Il est possible d'en choisir un en fonction de ce que l’on veut apprendre à faire, de la même manière le type de visualisation va dépendre de notre besoin. L’important est de cibler les exercices qui vous aideront à progresser, et de visualiser les situations les plus proches de la réalité."
+                                "Long text": "Lorsque l'on souhaite apprendre quelque chose par nous même, on peut par exemple chercher sur internet une vidéo qui correspond exactement à notre besoin.<br> Et bien de la même façon, il est important de cibler le type de visualisation qui répond le mieux à nos besoin, afin de progresser en visualisant les situations les plus proches de la réalité."
                             },
                             "Types": [
                                 {
@@ -461,7 +459,7 @@
                                     "Name": "Motivation par l’évitement",
                                     "Description": "Imaginer une situation négative pour se motiver par la pression,le dégoût ou la honte.",
                                     "Example": "S’imaginer lire le tableau des résultats annonçant qu’on doit passer les épreuves rattrapage pour se forcer à travailler.",
-                                    "Illustration": "/images/visualize/types/gestiondustress1000.mp4"
+                                    "Illustration": "/images/visualize/types/evitement1000.mp4.mp4"
                                 },
                                 {
                                     "Name": "De familiarisation",

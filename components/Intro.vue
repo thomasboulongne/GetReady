@@ -730,6 +730,7 @@ export default {
 				h2 {
 					margin-top: 0;
 					margin-bottom: 0;
+					color: white !important;
 				}
 				p {
 					display: inline-block;

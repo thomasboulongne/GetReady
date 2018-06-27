@@ -3,9 +3,9 @@
 		<div :class="['canvasWrapper']" ref="canvasWrapper"></div>
 		<div class="step">
 			<div class="stepWrapper" ref="step1">
-				<h2 class="sectionTitle" v-t="'Study'" ref="step1_sectionTitle"></h2>
-				<h3 class="title" v-html="study.Title" ref="step1_title"></h3>
-				<span class="subTitle" v-html="study.Title" ref="step1_subtitle"></span>
+				<span class="sectionTitle" v-t="'Study'" ref="step1_sectionTitle"></span>
+				<span class="title" v-html="study.Title" ref="step1_title"></span>
+				<span class="subTitle" v-html="study.Subtitle" ref="step1_subtitle"></span>
 			</div>
 		</div>
 		<div class="step">
@@ -434,7 +434,7 @@ export default {
 					this.court = object;
 					this.court.children[0].material = new THREE.MeshBasicMaterial({
 						side: THREE.BackSide,
-						color: new THREE.Color(0xc1cbe0)
+						color: new THREE.Color(0x81a0f8)
 					});
 					this.court.children[0].material.side = THREE.BackSide;
 
@@ -492,7 +492,7 @@ export default {
 				text-transform: uppercase;
 				font-family: 'Antonio';
 				font-weight: 600;
-				font-size: 1.11rem;
+				font-size: 1.5rem;
 				transform-origin: right;
 			}
 			.title {
@@ -507,7 +507,8 @@ export default {
 			}
 			.subTitle {
 				display: inline-block;
-				max-width: 20em;
+				max-width: 25em;
+				line-height: 2;
 				transform-origin: right;
 			}
 			p {

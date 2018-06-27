@@ -131,7 +131,7 @@ export default {
 			this.$store.dispatch('updateEasedMousePosition', this.easedMousePosition);
 		},
 		'$route': function(to, from) {
-			if (from.name === 'index' || to.name === 'page') {
+			if (to.name === 'index' || to.name === 'page') {
 				this.selector = true;
 			} else {
 				this.selector = false;
