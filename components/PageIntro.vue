@@ -110,7 +110,7 @@ export default {
 		checkDisplay() {
 			if (!this.displayed) {
 				const rect = this.$el.getBoundingClientRect();
-				if (rect.top < this.$store.getters.viewportSize.height) {
+				if (rect.top < this.$store.getters.viewportSize.height * 0.9) {
 					if (this.$store.getters.scrollPosition.y < this.$store.getters.viewportSize.height) {
 						setTimeout(() => {
 							this.show();

@@ -71,7 +71,7 @@ export default {
 		showTitles() {
 			const titles = Array.from(this.$el.querySelectorAll('h2:not(.show)'));
 			titles.forEach(title => {
-				if (title.getBoundingClientRect().top < this.$store.getters.viewportSize.height) {
+				if (title.getBoundingClientRect().top < this.$store.getters.viewportSize.height * 0.9) {
 					title.classList.add('show');
 				}
 			});
@@ -115,33 +115,6 @@ export default {
 	}
 	p {
 		line-height: 1.82;
-	}
-	h2 {
-		text-transform: uppercase;
-		color: var(--grey);
-		font-weight: bold;
-		display: block;
-		margin: auto;
-		font-size: 2.6rem;
-		box-sizing: border-box;
-		max-width: 80rem;
-		width: 100%;
-		span {
-			display: block;
-			opacity: 0;
-			transform-origin: right;
-			transform: translateY(0.5rem) rotate(-3deg);
-			transition: opacity 0.7s, transform 0.7s var(--ease);
-			&:last-child {
-				font-size: 1.7em;
-				line-height: 1.1;
-				transition-delay: 0.3s;
-			}
-		}
-		&.show span {
-			transform: none;
-			opacity: 1;
-		}
 	}
 	h3 {
 		font-size: 2.05rem;

@@ -6,11 +6,11 @@
 		'--centeredOffsetY': centered ? '-59%' : '0%'
 	}" :class="centered ? 'centered' : ''">
 		<slot></slot>
-		<h2 class="MTKnox">
+		<div class="MTKnox bigTitle">
 			<div v-for="(letter, i) in title" :key="letter + i">
 				<span class="letter">{{ letter }}</span>
 			</div>
-		</h2>
+		</div>
 	</div>
 </template>
 <script>
@@ -51,7 +51,7 @@ export default {
 		top: 50%;
 		left: 50%;
 	}
-	h2 {
+	.bigTitle {
 		font-size: 16vmax;
 		margin: 0;
 		white-space: nowrap;

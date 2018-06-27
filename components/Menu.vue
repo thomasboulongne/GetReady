@@ -59,9 +59,19 @@ export default {
 		}
 	},
 
+	mounted() {
+		if (this.$route.name === 'mes-fiches') {
+			this.blackBurger = true;
+		}
+	},
+
 	watch: {
 		'$route': function() {
 			this.$store.dispatch('closeMenu');
+			if (this.$route.name === 'mes-fiches') {
+				this.blackBurger = true;
+				this.showHeader = false;
+			}
 		},
 		'$store.getters.scrollPosition.y': function(y, prevY) {
 			if (this.$route.name === 'page') {
@@ -83,7 +93,7 @@ export default {
 					this.showHeader = false;
 					this.blackBurger = false;
 				}
-			} else {
+			} else if (this.$route.name === 'intro') {
 				this.showHeader = false;
 			}
 		}

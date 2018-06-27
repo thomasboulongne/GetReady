@@ -86,7 +86,7 @@ export default {
 		checkDisplay() {
 			if (!this.displayed) {
 				const rect = this.$el.getBoundingClientRect();
-				if (rect.top < this.$store.getters.viewportSize.height) {
+				if (rect.top < this.$store.getters.viewportSize.height * 0.9) {
 					this.show();
 					this.displayed = true;
 				}

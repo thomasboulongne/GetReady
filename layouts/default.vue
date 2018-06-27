@@ -5,7 +5,7 @@
 		'--current-color': $store.getters.currentColor
 	}">
 		<menu-comp :items="menuItems"></menu-comp>
-		<main :class="[menuIsOpen ? 'menuOpen' : '', $route.name === 'intro' ? 'introLayout' : 'selectorLayout']">
+		<main :class="[menuIsOpen ? 'menuOpen' : '']">
 			<intro-comp ref="intro" v-if="intro" :lastColor="items[items.length - 2].color"></intro-comp>
 			<selector-comp ref="selector" :items="items" v-if="selector"></selector-comp>
 			<nuxt/>
@@ -64,7 +64,7 @@ export default {
 		return {
 			items: this.$t('categories').items,
 			intro: this.$route.name === 'intro',
-			selector: this.$route.name !== 'intro',
+			selector: this.$route.name === 'index' || this.$route.name === 'page',
 			menuItems: [
 				{
 					title: this.$t('Gallery'),
@@ -131,8 +131,12 @@ export default {
 			this.$store.dispatch('updateEasedMousePosition', this.easedMousePosition);
 		},
 		'$route': function(to, from) {
-			if (from.name === 'intro' && to.name === 'index') {
+			if (from.name === 'index' || to.name === 'page') {
 				this.selector = true;
+			} else {
+				this.selector = false;
+			}
+			if (from.name === 'intro' && to.name === 'index') {
 				const fadeDuration = 0.6;
 				let unwatch = () => {};
 				const tl = new TimelineMax({
@@ -161,7 +165,6 @@ export default {
 					}
 				});
 			} else if (to.name === 'intro') {
-				this.selector = false;
 				this.intro = true;
 			}
 		},
@@ -276,9 +279,35 @@ export default {
 	width: 100%;
 	overflow-x: hidden;
 	overflow: hidden;
+	h2 {
+		text-transform: uppercase;
+		color: var(--grey);
+		font-weight: bold;
+		display: block;
+		margin: auto;
+		font-size: 2.6rem;
+		box-sizing: border-box;
+		max-width: 80rem;
+		width: 100%;
+		span {
+			display: block;
+			opacity: 0;
+			transform-origin: right;
+			transform: translateY(0.5rem) rotate(-3deg);
+			transition: opacity 0.7s, transform 0.7s var(--ease);
+			&:last-child {
+				font-size: 1.7em;
+				line-height: 1.1;
+				transition-delay: 0.3s;
+			}
+		}
+		&.show span {
+			transform: none;
+			opacity: 1;
+		}
+	}
 }
 main {
-
 	text-line {
 		transform-origin: top right;
 	}

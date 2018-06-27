@@ -43,9 +43,9 @@
 					<div class="group" v-for="(group, i) in study.step5.Groups" :key="i" ref="step5groups">
 						<span class="groupName" v-html="group.Name"></span>
 						<div class="groupValue">
-							<span v-html="group.Value.split('_')[0]"></span>
-							<span v-html="group.Value.split('_')[1]"></span>
-							<span v-html="group.Value.split('_')[2]"></span>
+							<span :data-value="group.Value.split('_')[0]"></span>
+							<span :data-value="group.Value.split('_')[1]"></span>
+							<span :data-value="group.Value.split('_')[2]"></span>
 						</div>
 						<p class="groupDescription" v-html="group.Description"></p>
 					</div>
@@ -306,7 +306,8 @@ export default {
 							rotation: 0,
 							ease: Power4.easeOut,
 							overwrite: 'all'
-						}, 0.1, '-=' + this.duration * 0.8);
+						}, 0.1, '-=' + this.duration * 0.8)
+						.staggerTo;
 					});
 					break;
 				case 5:
@@ -449,7 +450,7 @@ export default {
 		animate() {
 			requestAnimationFrame(this.animate);
 			const rect = this.$el.getBoundingClientRect();
-			if (rect.top < this.vh && rect.bottom > 0) {
+			if (rect.top < this.vh * 1.1 && rect.bottom > 0) {
 				this.render();
 			}
 		},
