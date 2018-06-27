@@ -1,47 +1,7 @@
 <template>
-	<div v-show="isPage">
-		<section :class="['page', 'container']" :style="{'--lineScale': lineScale}">
-			<component :is="component" :content="page.page" v-if="isPage && page"></component>
-		</section>
-		<footer>
-			<div class="summaryCards">
-				<div class="coloredBackground">
-				</div>
-				<nuxt-link :to="'/' + $t('my-cards')">
-					<summary-card-indicator-comp></summary-card-indicator-comp>
-				</nuxt-link>
-			</div>
-			<div class="footerNavWrapper coloredBackground">
-				<nav>
-					<ul>
-						<li class="menuItem">
-							<div class="background" :style="{backgroundColor: prevPage.color}"></div>
-							<nuxt-link :to="{name:'page', params: {slug: prevPage.slug}}" class="navTitleWrapper MTKnox">
-								<div v-for="(letter, j) in prevPage.title" :key="letter + j" class="letterWrapper">
-									<span class="letter">{{ letter }}</span>
-								</div>
-							</nuxt-link>
-						</li>
-						<li class="menuItem">
-							<nuxt-link :to="{name:'index'}" class="navTitleWrapper MTKnox">
-								<div v-for="(letter, j) in $t('Back to homepage')" :key="letter + j" class="letterWrapper">
-									<span class="letter">{{ letter }}</span>
-								</div>
-							</nuxt-link>
-						</li>
-						<li class="menuItem">
-							<div class="background" :style="{backgroundColor: nextPage.color}"></div>
-							<nuxt-link :to="{name:'page', params: {slug: nextPage.slug}}" class="navTitleWrapper MTKnox">
-								<div v-for="(letter, j) in nextPage.title" :key="letter + j" class="letterWrapper">
-									<span class="letter">{{ letter }}</span>
-								</div>
-							</nuxt-link>
-						</li>
-					</ul>
-				</nav>
-			</div>
-		</footer>
-	</div>
+	<section v-show="isPage" :class="['page', 'container']" :style="{'--lineScale': lineScale}">
+		<component :is="component" :content="page.page" v-if="isPage && page"></component>
+	</section>
 </template>
 
 <script>
@@ -49,7 +9,6 @@
 import CookiesClient from 'js-cookie';
 import OrganizeComp from '~/components/Organize';
 import VisualizeComp from '~/components/Visualize';
-import SummaryCardIndicatorComp from '~/components/SummaryCardIndicator';
 
 export default {
 	// fetch({ store, redirect, req }) {
@@ -99,17 +58,6 @@ export default {
 		page: function() {
 			return this.$t('categories.items').find(cat => cat.slug === this.$route.params.slug);
 		},
-		pageIndex: function() {
-			return this.$t('categories.items').findIndex(cat => cat.slug === this.$route.params.slug);
-		},
-		prevPage: function() {
-			const index = this.pageIndex - 1 < 0 ? this.$t('categories.items').length - 1 : this.pageIndex - 1;
-			return this.$t('categories.items')[index];
-		},
-		nextPage: function() {
-			const index = this.pageIndex + 1 === this.$t('categories.items').length ? 0 : this.pageIndex + 1;
-			return this.$t('categories.items')[index];
-		},
 		component: function() {
 			switch (this.$t('categories.items').findIndex(cat => cat.slug === this.$route.params.slug)) {
 				case 0:
@@ -136,9 +84,6 @@ export default {
 	beforeRouteUpdate(to, from, next) {
 		this.$store.dispatch('pageNotMounted');
 		next();
-	},
-	components: {
-		SummaryCardIndicatorComp
 	}
 };
 
@@ -385,142 +330,6 @@ export default {
 				transform: rotate(0deg);
 				path {
 					fill: var(--current-color);
-				}
-			}
-		}
-	}
-}
-footer {
-	position: relative;
-	margin-top: 4rem;
-	.summaryCards {
-		position: relative;
-		height: 11.2rem;
-		margin-bottom: -2.7rem;
-		.summaryCardIndicator {
-			position: absolute;
-			left: 50%;
-			transform: translate(-50%, -50%);
-			top: 1.5rem;
-		}
-	}
-	.footerNavWrapper {
-		position: relative;
-		padding: 10rem 0;
-		background-color: var(--current-color);
-		nav {
-			--menuLetterTransitionSpeed: 0.5s;
-			ul {
-				width: 100%;
-				display: flex;
-				justify-content: space-between;
-				list-style-type: none;
-				margin: 0;
-				padding: 0;
-				.menuItem {
-					width: 33%;
-					box-sizing: border-box;
-					display: flex;
-					justify-content: center;
-					.background {
-						position: absolute;
-						top: 0;
-						left: 0;
-						bottom: 0;
-						width: 100%;
-						transform: scaleX(0);
-						transform-origin: left;
-					}
-					&:last-child {
-						left: auto;
-						right: 0;
-						transform-origin: right;
-					}
-					.navTitleWrapper {
-						font-weight: bold;
-						font-size: 2rem;
-						color: white;
-						cursor: pointer;
-						position: relative;
-						display: flex;
-						&:hover {
-							.letterWrapper {
-								opacity: 1;
-							}
-						}
-						.letterWrapper {
-							text-transform: uppercase;
-							display: inline-block;
-							backface-visibility: hidden;
-							transform: translateY(20%);
-						}
-					}
-					&:nth-child(1), &:nth-child(3) {
-						.navTitleWrapper{
-							--footerNavLineScale: 5.5vw;
-							&:after, &:before {
-								content: '';
-								position: absolute;
-								top: 50%;
-								height: 0.1em;
-								width: var(--footerNavLineScale);
-								background: white;
-								right: calc(100% + 2rem);
-								transform-origin: right;
-								transition: width 0.2s;
-								transform: translateY(-50%);
-							}
-							&:after {
-								width: 11vw;
-								height: 1px;
-								transform: translateY(-50%);
-							}
-							&:hover {
-								--footerNavLineScale: 11vw;
-							}
-						}
-					}
-					&:nth-child(3) {
-						.navTitleWrapper{
-							&:after, &:before {
-								right: auto;
-								left: calc(100% + 2rem);
-							}
-						}
-					}
-					&:nth-child(2) {
-						.navTitleWrapper:after {
-							content: '';
-							transition: all 0.4s var(--ease);
-							position: absolute;
-							top: 110%;
-							height: 0.1em;
-							width: 0;
-							background: white;
-							left: 50%;
-							transform: translateX(-50%) rotate(-3deg);
-						}
-						.navTitleWrapper:hover {
-							&:after {
-								width: 93%;
-								transform: translateX(-50%) rotate(-3deg);
-							}
-						}
-					}
-					a {
-						color: white;
-						font-family: 'Antonio';
-						text-transform: uppercase;
-						font-weight: 600;
-						text-decoration: none;
-					}
-					@for $j from 1 to 30 {
-						.letterWrapper:nth-child(#{$j}) {
-							transition: transform var(--menuLetterTransitionSpeed) var(--ease) calc((#{$j} - 1) * 0.01s), opacity var(--menuLetterTransitionSpeed) var(--ease) calc((#{$j} - 1) * 0.02s);
-							opacity: 0.65;
-							transform: translateY(0);
-						}
-					}
 				}
 			}
 		}

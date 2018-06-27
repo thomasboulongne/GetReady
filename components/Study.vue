@@ -340,7 +340,9 @@ export default {
 						overwrite: 'all'
 					}, 0.05)
 					.add(() => {
-						this.$refs.step6_moreButton.show = true;
+						if (this.$refs.step6_moreButton) {
+							this.$refs.step6_moreButton.show = true;
+						}
 					})
 					;
 					break;
