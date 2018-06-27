@@ -43,9 +43,9 @@
 					<div class="group" v-for="(group, i) in study.step5.Groups" :key="i" ref="step5groups">
 						<span class="groupName" v-html="group.Name"></span>
 						<div class="groupValue">
-							<span :data-value="group.Value.split('_')[0]"></span>
-							<span :data-value="group.Value.split('_')[1]"></span>
-							<span :data-value="group.Value.split('_')[2]"></span>
+							<span :data-value="group.Value.split('_')[0]">0</span>
+							<span v-html="group.Value.split('_')[1]"></span>
+							<span v-html="group.Value.split('_')[2]"></span>
 						</div>
 						<p class="groupDescription" v-html="group.Description"></p>
 					</div>
@@ -294,7 +294,14 @@ export default {
 						pointerEvents: 'all',
 						overwrite: 'all'
 					}, 'startStepContentAnimation');
-					Array.from(this.stepsElm[4].querySelectorAll('.group:not(:nth-child(3))')).forEach(group => {
+
+					let elts = [];
+					if (!this.questionIsAnswered) {
+						elts = this.stepsElm[4].querySelectorAll('.group:not(:nth-child(3))');
+					} else {
+						elts = this.stepsElm[4].querySelectorAll('.group:not(:nth-child(4))');
+					}
+					Array.from(elts).forEach(group => {
 						tl
 						.staggerFromTo(group.querySelectorAll('span, p'), this.duration, {
 							opacity: 0,
@@ -306,8 +313,21 @@ export default {
 							rotation: 0,
 							ease: Power4.easeOut,
 							overwrite: 'all'
-						}, 0.1, '-=' + this.duration * 0.8)
-						.staggerTo;
+						}, 0.1, '-=' + this.duration * 0.8);
+
+						const span = group.querySelector('.groupValue span:first-child');
+						if (span !== null) {
+							const result = {value: 0};
+							const to = span.getAttribute('data-value');
+							tl
+							.to(result, to / 9, {
+								value: to,
+								ease: Power2.easeOut,
+								onUpdate: () => {
+									span.innerHTML = result.value.toFixed(0);
+								}
+							}, '-=0.8');
+						}
 					});
 					break;
 				case 5:
@@ -359,6 +379,7 @@ export default {
 			tl.play();
 		},
 		revealStep5Answer() {
+			this.questionIsAnswered = true;
 			const tl = new TimelineMax({ paused: true });
 			tl.staggerFromTo([this.$refs.step5question.querySelector('.groupOptions'), this.$refs.step5question.querySelector('.groupQuestion'), this.$refs.step5question.querySelector('.groupName')], this.duration * 0.7, {
 				opacity: 1,
@@ -387,8 +408,21 @@ export default {
 				rotation: 0,
 				ease: Power4.easeOut,
 				overwrite: 'all'
-			}, 0.1)
-			;
+			}, 0.1);
+
+			const span = this.$refs.step5groups[2].querySelector('.groupValue span:first-child');
+			if (span !== null) {
+				const result = {value: 0};
+				const to = span.getAttribute('data-value');
+				tl
+				.to(result, to / 9, {
+					value: to,
+					ease: Power2.easeOut,
+					onUpdate: () => {
+						span.innerHTML = result.value.toFixed(0);
+					}
+				}, '-=0.8');
+			}
 			tl.play();
 		},
 		updateCanvasPosition() {
