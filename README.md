@@ -1,22 +1,9 @@
-# website
+# Get ready!
 
-> Spill.net Nuxt starter 2017
+Final project for Gobelins (5th year of interactive design)
 
-## Build Setup
+## WIP
 
-``` bash
-# install dependencies
-$ npm install # Or yarn install
+More information on [Behance](https://www.behance.net/gallery/66930163/Get-Ready-Website)
 
-# serve with hot reload at localhost:3000
-$ npm run dev
-
-# build for production and launch server
-$ npm run build
-$ npm start
-
-# generate static project
-$ npm run generate
-```
-
-For detailed explanation on how things work, checkout the [Nuxt.js docs](https://github.com/nuxt/nuxt.js).
+Techno used: VueJS, Nuxt, GSAP, ThreeJS (CSS3DRenderer + WebglRenderer)
