@@ -5,25 +5,10 @@
 </template>
 
 <script>
-// import CookiesServ from 'cookie';
-import CookiesClient from 'js-cookie';
 import OrganizeComp from '~/components/Organize';
 import VisualizeComp from '~/components/Visualize';
 
 export default {
-	// fetch({ store, redirect, req }) {
-	// 	let goal;
-	// 	if (process.server && req.headers.cookie) {
-	// 		goal = CookiesServ.parse(req.headers.cookie)['reachyourgoal_goal'];
-	// 	} else {
-	// 		goal = CookiesClient.get('reachyourgoal_goal');
-	// 	}
-	// 	if (goal) {
-	// 		store.dispatch('setGoal', goal);
-	// 	} else if (store.getters.goal === null) {
-	// 		return redirect('/intro');
-	// 	}
-	// },
 	data() {
 		return {
 			isPage: this.$route.name === 'page',
@@ -36,13 +21,6 @@ export default {
 		}
 	},
 	created() {
-		const goal = CookiesClient.get('reachyourgoal_goal');
-		if (goal !== undefined) {
-			this.$store.dispatch('setGoal', goal);
-		}
-		if (this.$store.getters.goal === null) {
-			this.$router.push('/intro');
-		}
 		this.$store.dispatch('updateCurrentColor', this.page ? this.page.color : '#acbee4');
 	},
 	mounted() {

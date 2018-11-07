@@ -6,18 +6,10 @@
 	}">
 		<menu-comp :items="menuItems"></menu-comp>
 		<main :class="[menuIsOpen ? 'menuOpen' : '']">
-			<intro-comp ref="intro" v-if="intro" :lastColor="items[items.length - 2].color"></intro-comp>
 			<selector-comp ref="selector" :items="items" v-if="selector"></selector-comp>
 			<nuxt/>
 		</main>
 		<footer v-if="$route.name === 'page'">
-			<div class="summaryCards">
-				<div class="coloredBackground">
-				</div>
-				<nuxt-link :to="'/' + $t('my-cards')">
-					<summary-card-indicator-comp></summary-card-indicator-comp>
-				</nuxt-link>
-			</div>
 			<div class="footerNavWrapper coloredBackground">
 				<nav>
 					<ul>
@@ -55,15 +47,12 @@
 <script>
 import throttle from 'lodash/throttle';
 import selectorComp from '~/components/Selector';
-import introComp from '~/components/Intro';
 import MenuComp from '~/components/Menu';
-import SummaryCardIndicatorComp from '~/components/SummaryCardIndicator';
 
 export default {
 	data() {
 		return {
 			items: this.$t('categories').items,
-			intro: this.$route.name === 'intro',
 			selector: this.$route.name === 'index' || this.$route.name === 'page',
 			menuItems: [
 				{
@@ -249,10 +238,8 @@ export default {
 	},
 
 	components: {
-		introComp,
 		selectorComp,
-		MenuComp,
-		SummaryCardIndicatorComp
+		MenuComp
 	}
 };
 </script>
