@@ -10,7 +10,7 @@
 				'--transform-origin': transformOrigin,
 				'--slide-index': index,
 				'--element-index': elementIndex,
-				'--rotation': rotation * 25 + 'deg'
+				'--rotation': rotation * 32 + 'deg'
 			}" :data-index="index">
 			<div class="itemWrapper">
 				<div class="img">
@@ -114,18 +114,21 @@ export default {
 					this.titleStatus = 'ANIMATED';
 				}
 			});
-			tl
-			.to(this.$el.querySelector('.bigTitle'), duration, {
-				'--y-offset': -0.035,
-				ease: Power4.easeOut,
-				overwrite: 'all'
-			}, 0.04);
+			const letters = Array.from(this.$el.querySelectorAll('.bigTitle .letter'));
+			letters.forEach((letter, i) => {
+				tl
+				.to(letter, duration, {
+					'--y-offset': -0.035,
+					ease: Power4.easeOut,
+					overwrite: 'all'
+				}, i * 0.04);
+			});
 		},
 		hideTitle(duration = 0.7) {
 			this.titleStatus = 'NOT_ANIMATED';
 			const tl = new TimelineMax();
 			tl
-			.to(this.$el.querySelector('.bigTitle'), duration, {
+			.to(this.$el.querySelectorAll('.bigTitle .letter'), duration, {
 				'--y-offset': 0,
 				ease: Power4.easeOut,
 				overwrite: 'all'
@@ -187,7 +190,7 @@ export default {
 			.pagination {
 				position: absolute;
 				left: 0;
-				top: calc(5%);
+				top: 25%;
 				font-size: 1.2rem;
 				transform-style: preserve-3d;
 				font-weight: normal;

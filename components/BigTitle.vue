@@ -39,7 +39,7 @@ export default {
 	align-items: flex-end;
 	flex-direction: column;
 	color: white;
-	height: 50%;
+	// height: 50%;
 	pointer-events: none;
 	padding-top: var(--title-top-offset);
 	--titleWrapperDelay: 2s;
@@ -61,12 +61,12 @@ export default {
 			display: inline-block;
 			position: relative;
 			z-index: 2;
-			span {
+			.letter {
 				display: inline-block;
 			}
 			@for $i from 1 to 30 {
 				&:nth-child(#{$i}) {
-					span {
+					.letter {
 						transform: translateY(calc(#{$i} * var(--y-offset) * 1em));
 					}
 				}

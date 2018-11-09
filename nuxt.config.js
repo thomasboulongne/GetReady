@@ -16,17 +16,12 @@ process.on('unhandledRejection', (reason, p) => {
 	console.log('Unhandled Rejection at: Promise', p, 'reason:', reason);
 });
 
-const routerBase = process.env.DEPLOY_ENV === 'GH_PAGES' ? '/taack/' : '/';
+const routerBase = process.env.DEPLOY_ENV === 'GH_PAGES' ? '/GetReady/' : '/';
 
 module.exports = {
 	router: {
 		base: routerBase,
 		extendRoutes(routes, resolve) {
-			routes.push({
-				name: 'intro',
-				path: '/intro',
-				component: resolve(__dirname, 'pages/index.vue')
-			});
 			routes.push({
 				name: 'page',
 				path: '/:slug',
