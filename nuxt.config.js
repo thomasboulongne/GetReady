@@ -33,7 +33,7 @@ module.exports = {
 		routes: [
 			'/s-organiser',
 			'/visualiser',
-			's-organiser'
+			'/se-concentrer'
 		]
 	},
 	/*
