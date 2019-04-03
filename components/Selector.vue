@@ -616,7 +616,7 @@ export default {
 				.pagination {
 					position: absolute;
 					left: 0;
-					top: calc(5%);
+					top: -15%;
 					font-size: 1.2rem;
 					transform-style: preserve-3d;
 					font-weight: normal;
